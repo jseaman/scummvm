@@ -55,6 +55,7 @@
 #ifdef ENABLE_SCI32
 #include "sci/graphics/text32.h"
 #endif
+#include "sci/llm.h"
 
 namespace Sci {
 
@@ -934,6 +935,10 @@ void _k_GenericDrawControl(EngineState *s, reg_t controlObject, bool hilite) {
 	case SCI_CONTROLS_TYPE_TEXT:
 		alignment = readSelectorValue(s->_segMan, controlObject, SELECTOR(mode));
 		debugC(kDebugLevelGraphics, "drawing text %04x:%04x ('%s') to %d,%d, mode=%d", PRINT_REG(controlObject), text.c_str(), x, y, alignment);
+		if (g_sci->_llm && g_sci->_llm->isEnabled() && splitText.size() >= 8) {
+			Common::String llmText = g_sci->_llm->query(splitText, 0, "");
+			if (!llmText.empty()) splitText = llmText;
+		}
 		g_sci->_gfxControls16->kernelDrawText(rect, controlObject, splitText.c_str(), languageSplitter, fontId, alignment, style, hilite);
 		s->r_acc = g_sci->_gfxText16->allocAndFillReferenceRectArray();
 		return;
@@ -1277,6 +1282,12 @@ reg_t kDisplay(EngineState *s, int argc, reg_t *argv) {
 
 	uint16 languageSplitter = 0;
 	Common::String splitText = g_sci->strSplitLanguage(text.c_str(), &languageSplitter, g_sci->getGameId() == GID_PQ2 ? "\r" : "\r----------\r");
+
+	if (g_sci->_llm && g_sci->_llm->isEnabled() && splitText.size() >= 8) {
+		Common::String llmText = g_sci->_llm->query(splitText, 0, "");
+		if (!llmText.empty())
+			splitText = llmText;
+	}
 
 	return g_sci->_gfxPaint16->kernelDisplay(splitText.c_str(), languageSplitter, argc, argv);
 }

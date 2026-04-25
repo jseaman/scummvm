@@ -28,6 +28,7 @@
 #include "engines/util.h"
 
 #include "sci/sci.h"
+#include "sci/llm.h"
 #include "sci/debug.h"
 #include "sci/console.h"
 #include "sci/event.h"
@@ -135,6 +136,7 @@ SciEngine::SciEngine(OSystem *syst, const ADGameDescription *desc, SciGameId gam
 	_gameObjectAddress(),
 	_console(nullptr),
 	_tts(nullptr),
+	_llm(nullptr),
 	_rng("sci"),
 	_useHiresGraphics(false),
 	_inErrorString(false) {
@@ -215,6 +217,16 @@ SciEngine::SciEngine(OSystem *syst, const ADGameDescription *desc, SciGameId gam
 	default:
 		break;
 	}
+
+	// Initialize LLM client. SearchMan already has the game directory at this
+	// point, so the personality file can be loaded immediately.
+	LlmConfig llmCfg = loadLlmConfig();
+	if (llmCfg.provider != kLlmProviderNone) {
+		_llm = new LlmClient();
+		_llm->configure(llmCfg);
+		_llm->applyPersonalityFile();
+		warning("LLM integration enabled for SCI (provider=%d)", (int)llmCfg.provider);
+	}
 }
 
 SciEngine::~SciEngine() {
@@ -267,6 +279,7 @@ SciEngine::~SciEngine() {
 
 	delete _scriptPatcher;
 	delete _tts;
+	delete _llm;
 	delete _resMan;	// should be deleted last
 	g_sci = nullptr;
 }

@@ -33,7 +33,7 @@
 namespace Common {
 
 template<>
-Networking::ConnectionManager *Singleton<Networking::ConnectionManager>::makeInstance() {
+__declspec(noinline) Networking::ConnectionManager *Singleton<Networking::ConnectionManager>::makeInstance() {
 	return new Networking::ConnectionManagerCurl();
 }
 

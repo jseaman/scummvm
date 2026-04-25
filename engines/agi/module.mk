@@ -3,6 +3,7 @@ MODULE := engines/agi
 MODULE_OBJS := \
 	agi.o \
 	checks.o \
+	llm.o \
 	console.o \
 	cycle.o \
 	disk_image.o \

@@ -52,6 +52,7 @@ class GameFeatures;
 class GuestAdditions;
 class Console;
 class AudioPlayer;
+class LlmClient;
 class SoundCommandParser;
 class EventManager;
 class SegManager;
@@ -314,6 +315,7 @@ public:
 	GfxMacIconBar *_gfxMacIconBar; // Mac Icon Bar manager
 	GfxMacFontManager *_gfxMacFontManager; // null when not applicable
 	SciTTS *_tts;
+	LlmClient *_llm;
 
 #ifdef ENABLE_SCI32
 	GfxControls32 *_gfxControls32; // Controls for 32-bit gfx

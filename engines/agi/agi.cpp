@@ -49,6 +49,7 @@
 #include "agi/menu.h"
 #include "agi/systemui.h"
 #include "agi/words.h"
+#include "agi/llm.h"
 
 #include "gui/predictivedialog.h"
 
@@ -465,6 +466,16 @@ AgiEngine::AgiEngine(OSystem *syst, const AGIGameDescription *gameDesc) : AgiBas
 	_inventory = nullptr;
 	_logFile = nullptr;
 
+	// Initialize LLM client from config (disabled if llm_provider is absent/none).
+	LlmConfig llmCfg = loadLlmConfig();
+	if (llmCfg.provider != kLlmProviderNone) {
+		_llm = new LlmClient();
+		_llm->configure(llmCfg);
+		warning("LLM integration enabled (provider=%d)", (int)llmCfg.provider);
+	} else {
+		_llm = nullptr;
+	}
+
 	_keyHoldMode = false;
 	_keyHoldModeLastKey = Common::KEYCODE_INVALID;
 
@@ -551,7 +562,11 @@ void AgiEngine::initialize() {
 		_loader = new AgiLoader_v3(this);
 	}
 	_loader->init();
-	
+
+	// SearchMan now has the game directory — safe to read the personality file.
+	if (_llm)
+		_llm->applyPersonalityFile();
+
 	// finally set up actual VM opcodes, because we should now have figured out the right AGI version
 	setupOpCodes(getVersion());
 
@@ -610,6 +625,7 @@ AgiEngine::~AgiEngine() {
 	delete _gfx;
 	delete _font;
 	delete _words;
+	delete _llm;
 }
 
 Common::Error AgiBase::init() {

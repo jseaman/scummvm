@@ -551,6 +551,7 @@ class TextMgr;
 class GfxMenu;
 class SystemUI;
 class Words;
+class LlmClient;
 struct AGIGameDescription;
 
 // Image stack support
@@ -751,6 +752,7 @@ public:
 	AgiLoader *_loader;
 	GfxMenu *_menu;
 	SystemUI *_systemUI;
+	LlmClient *_llm;
 	Common::DumpFile *_logFile; // File used for the log() agi command.
 
 	Common::Stack<ImageStackElement> _imageStack;

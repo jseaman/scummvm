@@ -5,6 +5,7 @@ MODULE_OBJS := \
 	detection_internal.o \
 	dialogs.o \
 	event.o \
+	llm.o \
 	metaengine.o \
 	sci.o \
 	util.o \

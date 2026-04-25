@@ -28,6 +28,7 @@
 #include "agi/text.h"
 #include "agi/systemui.h"
 #include "agi/words.h"
+#include "agi/llm.h"
 
 namespace Agi {
 
@@ -403,6 +404,33 @@ void TextMgr::print(int16 textNr) {
 	const char *logicTextPtr = nullptr;
 	if (textNr >= 1 && textNr <= _vm->_game._curLogic->numTexts) {
 		logicTextPtr = _vm->_game._curLogic->texts[textNr - 1];
+
+		// LLM intercept: rewrite every scripted message box through the model.
+		// Skip very short strings (single words, error codes) that don't benefit.
+		if (_vm->_llm && _vm->_llm->isEnabled() && strlen(logicTextPtr) >= 8) {
+			// Reconstruct the player's input when a said() test matched.
+			// For automated messages (room descriptions, cutscenes, NPC lines)
+			// the flag is clear and playerInput stays empty.
+			Common::String playerInput;
+			if (_vm->getFlag(VM_FLAG_SAID_ACCEPTED_INPUT)) {
+				uint16 wordCount = _vm->_words->getEgoWordCount();
+				for (int16 i = 0; i < (int16)wordCount; i++) {
+					if (i > 0) playerInput += ' ';
+					playerInput += _vm->_words->getEgoWord(i);
+				}
+			}
+
+			int roomNumber = _vm->getVar(VM_VAR_CURRENT_ROOM);
+			Common::String llmText = _vm->_llm->query(
+				Common::String(logicTextPtr), roomNumber, playerInput);
+
+			if (!llmText.empty()) {
+				messageBox(llmText.c_str());
+				return;
+			}
+			// Fall through to original message on LLM failure/timeout.
+		}
+
 		messageBox(logicTextPtr);
 	}
 }

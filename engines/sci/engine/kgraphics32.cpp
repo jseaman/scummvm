@@ -57,6 +57,7 @@
 #include "sci/graphics/remap32.h"
 #include "sci/graphics/text32.h"
 #include "sci/graphics/transitions32.h"
+#include "sci/llm.h"
 #endif
 
 namespace Sci {
@@ -371,7 +372,17 @@ reg_t kWinHelp(EngineState *s, int argc, reg_t *argv) {
 }
 
 reg_t kMessageBox(EngineState *s, int argc, reg_t *argv) {
-	return g_sci->_gfxControls32->kernelMessageBox(s->_segMan->getString(argv[0]), s->_segMan->getString(argv[1]), argv[2].toUint16());
+	Common::String text  = s->_segMan->getString(argv[0]);
+	Common::String title = s->_segMan->getString(argv[1]);
+	uint16 style = argv[2].toUint16();
+
+	if (g_sci->_llm && g_sci->_llm->isEnabled() && text.size() >= 8) {
+		Common::String llmText = g_sci->_llm->query(text, 0, "");
+		if (!llmText.empty())
+			text = llmText;
+	}
+
+	return g_sci->_gfxControls32->kernelMessageBox(text, title, style);
 }
 
 /**
