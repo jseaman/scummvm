@@ -19,35 +19,28 @@
  *
  */
 
+#ifndef AUDIO_SOFTSYNTH_YM2149_H
+#define AUDIO_SOFTSYNTH_YM2149_H
+
 #include "audio/ym2149.h"
-#ifdef ATARI
-#include "audio/atari_ym2149.h"
-#else
-#include "audio/softsynth/ym2149.h"
+
+namespace Audio {
+
+class YM2149Atari : public YM2149::YM2149, public Audio::RealChip {
+public:
+	YM2149Atari();
+	~YM2149Atari() override;
+
+	bool init() override;
+
+	void reset() override;
+
+	void writeReg(int r, uint8 v) override;
+
+private:
+	uint8 _savedRegs[14];
+};
+
+} // End of namespace Audio
+
 #endif
-
-#include "common/textconsole.h"
-
-namespace YM2149 {
-
-YM2149 *Config::create() {
-#ifdef ATARI
-	return new Audio::YM2149Atari();
-#else
-	return new Audio::YM2149Emu();
-#endif
-}
-
-bool YM2149::_hasInstance = false;
-
-YM2149::YM2149() {
-	if (_hasInstance)
-		error("There are multiple YM2149 output instances running.");
-	_hasInstance = true;
-}
-
-YM2149::~YM2149() {
-	_hasInstance = false;
-}
-
-} // End of namespace YM2149

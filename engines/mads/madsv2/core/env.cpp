@@ -738,22 +738,5 @@ done:
 	return error_flag;
 }
 
-char *env_level_path(char *string, int first_level, int second_level) {
-	int env_mode;
-	int env_sect;
-	int env_room = 0;
-
-	if (second_level >= 0) {
-		env_mode = ROOM;
-		env_sect = first_level;
-		env_room = second_level;
-	} else {
-		env_mode = SECTION;
-		env_sect = first_level;
-	}
-
-	return env_fill_path(string, env_mode, env_room);
-}
-
 } // namespace MADSV2
 } // namespace MADS

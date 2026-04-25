@@ -613,10 +613,8 @@ static void matte_special_effect(int special_effect, int full_screen) {
 			if (mem_get_avail() < 3600) special_effect = MATTE_FX_FAST_AND_FANCY;
 		}
 
-		if (special_effect == MATTE_FX_FAST_AND_FANCY) {
-			if (viewing_at_y || (mem_get_avail() < sizeof(Palette))) {
-				special_effect = MATTE_FX_FAST_THRU_BLACK;
-			}
+		if (special_effect == MATTE_FX_FAST_AND_FANCY && viewing_at_y) {
+			special_effect = MATTE_FX_FAST_THRU_BLACK;
 		}
 	}
 

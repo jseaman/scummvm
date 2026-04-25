@@ -137,10 +137,10 @@ enum {
 #define GAME_MAX_SAVE_WIDTH   255     /* Max pixel width of save name*/
 #define GAME_MAX_SAVES_ON_SCREEN 7    /* Max saves on screen at once */
 
-#define GAME_SAVE_SLOT_MEMORY   (GAME_MAX_SAVE_SLOTS * (GAME_MAX_SAVE_LENGTH + 1))
-#define GAME_DIALOG_HEAP        4096
+#define GAME_SAVE_SLOT_MEMORY   (long)(GAME_MAX_SAVE_SLOTS * (GAME_MAX_SAVE_LENGTH + 1))
+#define GAME_DIALOG_HEAP        (long)(4096 + sizeof(PopupItem) * GAME_MENU_MAX_ITEMS)
 #define GAME_FUDGE_FACTOR       256
-#define GAME_MENU_HEAP          (GAME_SAVE_SLOT_MEMORY + GAME_DIALOG_HEAP + GAME_FUDGE_FACTOR)
+#define GAME_MENU_HEAP          (long)(GAME_SAVE_SLOT_MEMORY + GAME_DIALOG_HEAP + GAME_FUDGE_FACTOR)
 
 
 #define GAME_MENU_SCROLL_FIRST  20    /* Scrolling delays            */
@@ -243,11 +243,6 @@ extern void game_exec_function(void (*(target))());
 
 extern void game_debugger_reset(void);
 extern void game_debugger(void);
-
-/**
- * Writes the list of save files.
- */
-extern void game_write_save_directory(void);
 
 /**
  * Sets up for the main menu routines to run--this mainly involves

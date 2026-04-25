@@ -457,36 +457,6 @@ void problem() {
 	debug("\nA slight problem . . .\n\n");
 }
 
-static void show_walk() {
-	int y, x;
-	int xx, yy;
-	int ox, oy;
-	byte *scan;
-	int walk;
-
-	for (y = 0; y < display_y; y++) {
-		ox = picture_map.pan_base_x;
-		oy = y + picture_map.pan_base_y;
-		scan = buffer_pointer(&scr_orig, ox, oy);
-		for (x = 0; x < video_x; x++) {
-			xx = x + picture_view_x;
-			yy = y + picture_view_y;
-			walk = attr_walk(&scr_walk, xx, yy);
-
-			if (walk) {
-				*scan = 2;
-			} else if (*scan == 2) {
-				*scan = 0;
-			}
-
-			scan++;
-		}
-	}
-
-	matte_refresh_work();
-}
-
-
 static void game_fix_save_name() {
 	char *mark;
 
@@ -508,34 +478,16 @@ void game_save_name(int id) {
 
 
 static void game_player_status() {
-	int image, flags, count;
 	char work_buf[80];
 	char temp_buf_3[80];
 
-	image = -1;
-	flags = -9;
-	for (count = 0; count < (int)image_marker; count++) {
-		if (image_list[count].segment_id == KERNEL_SEGMENT_PLAYER) {
-			if (image_list[count].flags >= flags) {
-				image = count;
-				flags = image_list[count].flags;
-			}
-		}
-	}
 	Common::strcpy_s(temp_buf_3, "Room: ");
 	Common::strcat_s(temp_buf_3, mads_itoa(room_id, work_buf, 10));
 	Common::strcat_s(temp_buf_3, " (From: ");
 	Common::strcat_s(temp_buf_3, mads_itoa(previous_room, work_buf, 10));
 	Common::strcat_s(temp_buf_3, ")");
 
-	popup_alert(20, "PLAYER GRAPHICS STATUS",
-		"  ",
-		temp_buf_3,
-		// temp_buf,
-		// temp_buf_2,
-		// temp_buf_4,
-		// temp_buf_5,
-		NULL);
+	popup_alert(20, "PLAYER GRAPHICS STATUS", "  ", temp_buf_3, NULL);
 }
 
 
@@ -1089,7 +1041,13 @@ int game_parse_keystroke(int mykey) {
 
 	case f5_key:
 		if (room_id != 199 && section_id != 9) {
-			kernel.activate_menu = GAME_OPTIONS_MENU;
+			kernel.activate_menu = GAME_SAVE_MENU;
+		}
+		break;
+
+	case f7_key:
+		if (room_id != 199 && section_id != 9) {
+			kernel.activate_menu = GAME_RESTORE_MENU;
 		}
 		break;
 
@@ -1549,7 +1507,7 @@ void game_control() {
 				buffer_rect_fill(scr_main, 0, viewing_at_y + scr_work.y, video_x, video_y, 0);
 			}
 
-			// pl conv_restore_running = -1;
+			conv_restore_running = -1;
 			player.target_x = player.x;
 			player.target_y = player.y;
 			player.target_facing = player.turn_to_facing = player.facing;
@@ -1975,14 +1933,14 @@ static void game_main_loop() {
 	int temp_message_4 = 0;
 	long one_clock, two_clock;
 	static char temp_buf[20];
+
+#if 0
 	static char temp_buf_2[20];
 	static char temp_buf_3[20];
 	static char temp_buf_4[20];
-
-#if 0
-	// these 3 are for the background efx
 	int yy;
 	long dif;
+
 	if (global[10]) {  // please play the damn targets
 
 		// this is for the background sound efx
@@ -2233,14 +2191,18 @@ static void game_main_loop() {
 	if ((inter_awaiting == AWAITING_COMMAND) && !mouse_button) {
 		if (inter_spot_class == STROKE_INTERFACE) {
 			id = inter_spot_index - spot_base[STROKE_INTERFACE - 1];
-			if (id < room_num_spots) {
-				id = room_num_spots - (id + 1);
-				cursor_id = room_spots[id].cursor_number;
-			} else {
-				id -= room_num_spots;
-				cursor_id = kernel_dynamic_hot[id].cursor;
+
+			// WORKAROUND: In ROTP entering underground from pillar
+			if (id >= 0) {
+				if (id < room_num_spots) {
+					id = room_num_spots - (id + 1);
+					cursor_id = room_spots[id].cursor_number;
+				} else {
+					id -= room_num_spots;
+					cursor_id = kernel_dynamic_hot[id].cursor;
+				}
+				if (!cursor_id) cursor_id = 1;
 			}
-			if (!cursor_id) cursor_id = 1;
 		}
 	}
 	if (!player.commands_allowed && ((conv_control.running < 0) || conv_control.status == CONV_STATUS_HOLDING))
@@ -2392,50 +2354,15 @@ void chain_execute() {
  * Reads the list of save files.
  */
 static void game_read_save_directory() {
-	int error_flag = true;
-	int mem_to_read;
-	Common::SeekableReadStream *handle = NULL;
+	SaveStateList list = g_engine->listSaves();
+	memset(game_save_directory, 0, GAME_MAX_SAVE_SLOTS * (GAME_MAX_SAVE_LENGTH + 1));
 
-	mem_to_read = GAME_SAVE_SLOT_MEMORY;
-
-	handle = env_open(game_save_file, "rb");
-	if (handle == NULL) goto done;
-
-	if (!fileio_fread_f(game_save_directory, mem_to_read, 1, handle)) goto done;
-
-	error_flag = false;
-
-done:
-	delete handle;
-	if (error_flag) {
-		memset(game_save_directory, 0, mem_to_read);
+	for (auto it = list.begin(); it != list.end(); ++it) {
+		if (it->getSaveSlot() > 0) {
+			char *slot = game_save_directory + (it->getSaveSlot() - 1) * (GAME_MAX_SAVE_LENGTH + 1);
+			Common::strcpy_s(slot, GAME_MAX_SAVE_LENGTH + 1, it->getDescription().c_str());
+		}
 	}
-}
-
-void game_write_save_directory() {
-#ifdef TODO
-	int error_flag = true;
-	int mem_to_write;
-	Common::SeekableReadStream *handle = NULL;
-
-	mem_to_write = GAME_SAVE_SLOT_MEMORY;
-
-	handle = env_open(game_save_file, "wb");
-	if (handle == NULL) goto done;
-
-	if (!fileio_fwrite_f(game_save_directory, mem_to_write, 1, handle)) goto done;
-
-	error_flag = false;
-
-done:
-	if (handle != NULL) fclose(handle);
-
-	if (error_flag) {
-		error_report(ERROR_WRITE_SAVE_DIRECTORY, WARNING, MODULE_GAME_MENU, mem_to_write, 0);
-	}
-#else
-	error("TODO: game_write_save_directory");
-#endif
 }
 
 void game_menu_setup() {
@@ -2780,7 +2707,6 @@ static void game_conversation() {
 	int my_status;
 	char temp_buf[80];
 	Conv *my_conv;
-	ConvData *my_data;
 
 	if (conv_control.running != previous_running) {
 		game_debugger_reset();
@@ -2798,7 +2724,6 @@ static void game_conversation() {
 	}
 
 	my_conv = conv[conv_control.index];
-	my_data = conv_data[conv_control.index];
 
 	temp_buf[0] = 0;
 	if (conv_control.status == CONV_STATUS_HOLDING) {

@@ -36,7 +36,9 @@ ConfigFile config_file = { 0, 0x220,
 			   0, true,
 			   0, 0,
 			   false, 'D',
-			   false };
+			   false,
+			   false,
+			   7, 0, 0, 0, 0 };
 
 void read_config_file() {
 	ConfMan.registerDefault("music_mute", false);
@@ -62,6 +64,8 @@ void read_config_file() {
 	config_file.panning_speed = ConfMan.getBool("panning_speed");
 
 	config_file.show_speech_boxes = ConfMan.getBool("show_speech_boxes");
+	config_file.original_save_load = ConfMan.getBool("original_menus");
+
 	game.difficulty = ConfMan.getInt("difficulty");
 }
 

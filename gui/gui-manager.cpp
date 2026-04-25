@@ -718,10 +718,10 @@ void GuiManager::restoreState() {
 }
 
 void GuiManager::openDialog(Dialog *dialog) {
-	giveFocusToDialog(dialog);
-
 	if (!_dialogStack.empty())
 		getTopDialog()->lostFocus();
+
+	giveFocusToDialog(dialog);
 
 	_dialogStack.push(dialog);
 	// We were already ready to redraw a new dialog

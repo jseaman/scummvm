@@ -514,7 +514,7 @@ int tile_buffer(Buffer *target, TileResource *tile_resource,
 	int map_y_offset;
 	int map_value;
 	Buffer tile_buffer;
-	int max_x;
+	int max_x, max_y;
 
 	default_value = (map->tile_type == TILE_PICTURE) ? 0 : 0xff;
 
@@ -529,11 +529,12 @@ int tile_buffer(Buffer *target, TileResource *tile_resource,
 
 	// WORKAROUND: For tile panning reading beyond end of buffer
 	max_x = MIN<int>(map->orig_x_tiles, map->num_x_tiles - tile_x);
+	max_y = MIN<int>(map->orig_y_tiles, map->num_y_tiles - tile_y);
 
-	for (y = 0; y < map->orig_y_tiles; y++) {
-
+	for (y = 0; y < max_y; y++) {
 		picture_y = y * map->tile_y_size;
 		map_y_offset = (y + tile_y) * map->num_x_tiles;
+
 		for (x = 0; x < max_x; x++) {
 			picture_x = x * size_x;
 			map_value = *(map->map + map_y_offset + tile_x + x);
@@ -619,13 +620,6 @@ int tile_fake_map(int tile_type,
 	int           x,
 	int           y) {
 	int error_flag = true;
-	int x_buffer;
-
-	if (tile_type == TILE_PICTURE) {
-		x_buffer = x;
-	} else {
-		x_buffer = x >> 1;
-	}
 
 	tile_map->tile_type = tile_type;
 	tile_map->one_to_one = true;

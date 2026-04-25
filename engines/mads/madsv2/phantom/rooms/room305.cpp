@@ -103,22 +103,23 @@ static void handle_animation_unmask() {
 		unmask_reset_frame = -1;
 
 		switch (local->unmask_frame) {
-		case 25:  /* end of struggle with phantom masked */
+		case 25:
+			// End of struggle with phantom masked
 			if (!local->unmask) {
 				unmask_reset_frame = 0;
 			}
 			break;
 
-		case 60:  /* somewhere when we can see phantom's face */
-			global_speech(10);
-
+		case 55:
+			// Somewhere when we can see phantom's face
 			kernel_message_add(quote_string(kernel.quotes, quote_305a0),
 				176, 53, MESSAGE_COLOR, SIX_SECONDS, 0, 0);
 			kernel_message_add(quote_string(kernel.quotes, quote_305a1),
 				176, 68, MESSAGE_COLOR, SIX_SECONDS, 0, 0);
 			break;
 
-		case 95:  /* end of unmasking */
+		case 67:
+			// End of unmasking
 			new_room = 306;
 			break;
 		}

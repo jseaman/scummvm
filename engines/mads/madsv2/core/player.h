@@ -155,9 +155,7 @@ struct Player2 {
 extern Player  player;
 extern Player2 player2;
 
-extern byte player_facing_to_series[10];
-extern byte player_clockwise[10];
-extern byte player_counter_clockwise[10];
+extern const byte player_clockwise[10];
 
 
 /* player.h */
@@ -165,6 +163,7 @@ extern byte player_counter_clockwise[10];
 #define player_said_2(aa, bb)     (player_parse (words_##aa, words_##bb, 0) )
 #define player_said_3(aa, bb, cc) (player_parse (words_##aa, words_##bb, words_##cc, 0) )
 
+extern void init_player();
 
 /**
  * Loads up the next designated sprite for the active stop walker sequence.

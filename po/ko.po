@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 2.3.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2026-04-20 21:33+0000\n"
+"POT-Creation-Date: 2026-04-25 16:34+0000\n"
 "PO-Revision-Date: 2026-04-21 16:22+0000\n"
 "Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://translations.scummvm.org/projects/scummvm/"
@@ -3013,7 +3013,7 @@ msgstr ""
 "이 설정은 나중에 옵션 대화 상자의 기타 탭에서 \n"
 "변경할 수 있습니다."
 
-#: gui/widget.cpp:467 gui/widget.cpp:469 gui/widget.cpp:474 gui/widget.cpp:476
+#: gui/widget.cpp:465 gui/widget.cpp:467 gui/widget.cpp:472 gui/widget.cpp:474
 msgid "Clear value"
 msgstr "값 지우기"
 
@@ -3836,7 +3836,7 @@ msgstr "기본 게임 키설정"
 #: engines/hugo/metaengine.cpp:134 engines/illusions/metaengine.cpp:94
 #: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:505
 #: engines/lure/metaengine.cpp:177 engines/made/metaengine.cpp:137
-#: engines/mads/metaengine.cpp:300 engines/mm/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:312 engines/mm/metaengine.cpp:186
 #: engines/mtropolis/metaengine.cpp:161 engines/nancy/input.cpp:181
 #: engines/parallaction/metaengine.cpp:138 engines/saga/metaengine.cpp:278
 #: engines/sludge/keymapper_tables.h:561 engines/sludge/keymapper_tables.h:580
@@ -3869,7 +3869,7 @@ msgstr "중간 클릭"
 #: engines/hopkins/metaengine.cpp:217 engines/hugo/metaengine.cpp:141
 #: engines/illusions/metaengine.cpp:101 engines/kyra/engine/eobcommon.cpp:370
 #: engines/kyra/engine/lol.cpp:506 engines/lure/metaengine.cpp:183
-#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:306
+#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:318
 #: engines/mm/metaengine.cpp:192 engines/mtropolis/metaengine.cpp:167
 #: engines/nancy/input.cpp:188 engines/parallaction/metaengine.cpp:144
 #: engines/saga/metaengine.cpp:289 engines/sludge/keymapper_tables.h:567
@@ -3970,31 +3970,31 @@ msgstr "셰이더를 사용한 OpenGL"
 msgid "AdLib emulator"
 msgstr "애드립 에뮬레이터"
 
-#: audio/fmopl.cpp:84
+#: audio/fmopl.cpp:85
 msgid "MAME OPL emulator"
 msgstr "마메 OPL 에뮬레이터"
 
-#: audio/fmopl.cpp:86
+#: audio/fmopl.cpp:88
 msgid "DOSBox OPL emulator"
 msgstr "도스박스 OPL 에뮬레이터"
 
-#: audio/fmopl.cpp:89
+#: audio/fmopl.cpp:91
 msgid "Nuked OPL emulator"
 msgstr "누크드 OPL 에뮬레이터"
 
-#: audio/fmopl.cpp:92
+#: audio/fmopl.cpp:94
 msgid "ALSA Direct FM"
 msgstr "ALSA 다이렉트 FM"
 
-#: audio/fmopl.cpp:95
+#: audio/fmopl.cpp:97
 msgid "OPL2LPT"
 msgstr "OPL2LPT"
 
-#: audio/fmopl.cpp:96
+#: audio/fmopl.cpp:98
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/fmopl.cpp:99
+#: audio/fmopl.cpp:101
 msgid "RetroWave OPL3"
 msgstr "레트로웨이브 OPL3"
 
@@ -6200,7 +6200,7 @@ msgstr "업데이트 확인 중..."
 #: engines/hugo/metaengine.cpp:129 engines/hypno/metaengine.cpp:128
 #: engines/illusions/metaengine.cpp:89 engines/lab/metaengine.cpp:149
 #: engines/lure/metaengine.cpp:168 engines/made/metaengine.cpp:132
-#: engines/mads/metaengine.cpp:294 engines/neverhood/metaengine.cpp:185
+#: engines/mads/metaengine.cpp:306 engines/neverhood/metaengine.cpp:185
 #: engines/ngi/metaengine.cpp:115 engines/petka/metaengine.cpp:113
 #: engines/prince/metaengine.cpp:227 engines/private/metaengine.cpp:127
 #: engines/queen/metaengine.cpp:146 engines/sherlock/metaengine.cpp:313
@@ -6516,12 +6516,12 @@ msgstr ""
 #: engines/crab/metaengine.cpp:34 engines/darkseed/dialogs.cpp:95
 #: engines/drascula/metaengine.cpp:42 engines/dreamweb/metaengine.cpp:48
 #: engines/got/metaengine.cpp:35 engines/groovie/metaengine.cpp:53
-#: engines/m4/metaengine.cpp:37 engines/nancy/metaengine.cpp:104
-#: engines/neverhood/dialogs.cpp:47 engines/phoenixvr/metaengine.cpp:38
-#: engines/sci/detection_options.h:105 engines/sherlock/metaengine.cpp:47
-#: engines/toltecs/metaengine.cpp:44 engines/trecision/metaengine.cpp:41
-#: engines/ultima/metaengine.cpp:56 engines/waynesworld/metaengine.cpp:37
-#: engines/zvision/metaengine.cpp:42
+#: engines/m4/metaengine.cpp:37 engines/mads/metaengine.cpp:114
+#: engines/nancy/metaengine.cpp:104 engines/neverhood/dialogs.cpp:47
+#: engines/phoenixvr/metaengine.cpp:38 engines/sci/detection_options.h:105
+#: engines/sherlock/metaengine.cpp:47 engines/toltecs/metaengine.cpp:44
+#: engines/trecision/metaengine.cpp:41 engines/ultima/metaengine.cpp:56
+#: engines/waynesworld/metaengine.cpp:37 engines/zvision/metaengine.cpp:42
 msgid "Use original save/load screens"
 msgstr "원본 저장/불러오기 화면 사용"
 
@@ -6530,12 +6530,12 @@ msgstr "원본 저장/불러오기 화면 사용"
 #: engines/crab/metaengine.cpp:35 engines/darkseed/dialogs.cpp:96
 #: engines/drascula/metaengine.cpp:43 engines/dreamweb/metaengine.cpp:49
 #: engines/got/metaengine.cpp:36 engines/groovie/metaengine.cpp:54
-#: engines/m4/metaengine.cpp:38 engines/nancy/metaengine.cpp:105
-#: engines/neverhood/dialogs.cpp:48 engines/phoenixvr/metaengine.cpp:39
-#: engines/sci/detection_options.h:106 engines/sherlock/metaengine.cpp:48
-#: engines/toltecs/metaengine.cpp:45 engines/trecision/metaengine.cpp:42
-#: engines/ultima/metaengine.cpp:57 engines/waynesworld/metaengine.cpp:38
-#: engines/zvision/metaengine.cpp:43
+#: engines/m4/metaengine.cpp:38 engines/mads/metaengine.cpp:115
+#: engines/nancy/metaengine.cpp:105 engines/neverhood/dialogs.cpp:48
+#: engines/phoenixvr/metaengine.cpp:39 engines/sci/detection_options.h:106
+#: engines/sherlock/metaengine.cpp:48 engines/toltecs/metaengine.cpp:45
+#: engines/trecision/metaengine.cpp:42 engines/ultima/metaengine.cpp:57
+#: engines/waynesworld/metaengine.cpp:38 engines/zvision/metaengine.cpp:43
 msgid "Use the original save/load screens instead of the ScummVM ones"
 msgstr "ScummVM의 화면 대신 원본 저장/불러오기 화면을 사용"
 
@@ -6748,7 +6748,7 @@ msgstr "AGOS 메인"
 #: engines/hypno/metaengine.cpp:267 engines/hypno/metaengine.cpp:311
 #: engines/illusions/metaengine.cpp:90 engines/lab/metaengine.cpp:152
 #: engines/lure/metaengine.cpp:169 engines/made/metaengine.cpp:133
-#: engines/mads/metaengine.cpp:295 engines/neverhood/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:307 engines/neverhood/metaengine.cpp:186
 #: engines/queen/metaengine.cpp:147 engines/saga/metaengine.cpp:268
 #: engines/sludge/keymapper_tables.h:33 engines/stark/metaengine.cpp:185
 #: engines/sword1/metaengine.cpp:267 engines/tinsel/metaengine.cpp:241
@@ -7235,7 +7235,7 @@ msgstr "Soldier 714 Eye 치트"
 #: engines/bbvs/metaengine.cpp:111 engines/cruise/metaengine.cpp:223
 #: engines/freescape/movement.cpp:107 engines/got/metaengine.cpp:78
 #: engines/hugo/metaengine.cpp:197 engines/lure/metaengine.cpp:209
-#: engines/mads/metaengine.cpp:312 engines/mm/mm1/metaengine.cpp:42
+#: engines/mads/metaengine.cpp:324 engines/mm/mm1/metaengine.cpp:42
 #: engines/mm/mm1/metaengine.cpp:48 engines/saga/metaengine.cpp:328
 #: engines/tinsel/metaengine.cpp:258 engines/tsage/metaengine.cpp:190
 #: engines/tucker/metaengine.cpp:221 engines/twine/metaengine.cpp:388
@@ -7532,7 +7532,7 @@ msgstr "단서 개인 정보 보호 전환"
 #: engines/freescape/games/eclipse/eclipse.cpp:351
 #: engines/hopkins/metaengine.cpp:236 engines/hugo/metaengine.cpp:165
 #: engines/lure/metaengine.cpp:191 engines/made/metaengine.cpp:192
-#: engines/mads/metaengine.cpp:325 engines/mohawk/myst.cpp:583
+#: engines/mads/metaengine.cpp:337 engines/mohawk/myst.cpp:583
 #: engines/mohawk/riven.cpp:864 engines/pegasus/pegasus.cpp:2825
 #: engines/petka/metaengine.cpp:198 engines/prince/metaengine.cpp:243
 #: engines/saga/metaengine.cpp:442 engines/sherlock/metaengine.cpp:462
@@ -7608,7 +7608,7 @@ msgstr "단서 데이터베이스"
 #: engines/freescape/games/dark/dark.cpp:236
 #: engines/freescape/games/driller/driller.cpp:135
 #: engines/freescape/games/eclipse/eclipse.cpp:361
-#: engines/mads/metaengine.cpp:381 engines/phoenixvr/metaengine.cpp:80
+#: engines/mads/metaengine.cpp:393 engines/phoenixvr/metaengine.cpp:80
 #: engines/saga/metaengine.cpp:437 engines/sherlock/metaengine.cpp:359
 #: engines/sherlock/metaengine.cpp:618 engines/sherlock/metaengine.cpp:852
 #: engines/stark/metaengine.cpp:280 engines/sword1/metaengine.cpp:295
@@ -7878,7 +7878,7 @@ msgstr "개체 및 옵션에 대한 TTS 활성화"
 
 #: engines/cge2/metaengine.cpp:60 engines/draci/metaengine.cpp:45
 #: engines/dreamweb/metaengine.cpp:74 engines/griffon/metaengine.cpp:41
-#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:128
+#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:140
 #: engines/parallaction/metaengine.cpp:53 engines/prince/metaengine.cpp:41
 #: engines/sci/detection_options.h:222 engines/sherlock/metaengine.cpp:121
 #: engines/supernova/metaengine.cpp:54 engines/teenagent/metaengine.cpp:50
@@ -9945,7 +9945,7 @@ msgid "Repeat last line"
 msgstr "마지막 줄 반복"
 
 #: engines/hugo/metaengine.cpp:172 engines/lure/metaengine.cpp:197
-#: engines/mads/metaengine.cpp:331 engines/tsage/metaengine.cpp:247
+#: engines/mads/metaengine.cpp:343 engines/tsage/metaengine.cpp:247
 msgid "Restore game"
 msgstr "게임 복원"
 
@@ -10126,7 +10126,7 @@ msgstr "일시 정지 키맵핑"
 msgid "Direction keymappings"
 msgstr "방향 키맵핑"
 
-#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:369
+#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:381
 #: engines/tsage/metaengine.cpp:259
 msgid "Show credits"
 msgstr "크레딧 표시"
@@ -10640,7 +10640,7 @@ msgstr ""
 msgid "This puzzle is not available in the trial version of the game"
 msgstr "이 퍼즐은 체험판 게임에서 사용할 수 없음"
 
-#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:127
+#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:139
 #: engines/sherlock/metaengine.cpp:120 engines/twine/metaengine.cpp:144
 msgid "TTS Narrator"
 msgstr "TTS 나레이터"
@@ -10764,39 +10764,39 @@ msgstr "애니메이션 게임 인터페이스"
 msgid "Naughty game mode"
 msgstr "꾸러기 게임 모드"
 
-#: engines/mads/metaengine.cpp:296
+#: engines/mads/metaengine.cpp:308
 msgid "Start menu keymappings"
 msgstr "시작 메뉴 키맵핑"
 
-#: engines/mads/metaengine.cpp:319
+#: engines/mads/metaengine.cpp:331
 msgid "Open game menu"
 msgstr "게임 메뉴 열기"
 
-#: engines/mads/metaengine.cpp:337
+#: engines/mads/metaengine.cpp:349
 msgid "Scroll bar up"
 msgstr "스크롤바를 위로"
 
-#: engines/mads/metaengine.cpp:343
+#: engines/mads/metaengine.cpp:355
 msgid "Scroll bar down"
 msgstr "스크롤바를 아래로"
 
-#: engines/mads/metaengine.cpp:351
+#: engines/mads/metaengine.cpp:363
 msgid "Start game"
 msgstr "게임 시작"
 
-#: engines/mads/metaengine.cpp:357
+#: engines/mads/metaengine.cpp:369
 msgid "Resume game"
 msgstr "게임 재개"
 
-#: engines/mads/metaengine.cpp:363
+#: engines/mads/metaengine.cpp:375
 msgid "Show intro"
 msgstr "인트로 표시"
 
-#: engines/mads/metaengine.cpp:375
+#: engines/mads/metaengine.cpp:387
 msgid "Show quotes"
 msgstr "인용문 표시"
 
-#: engines/mads/metaengine.cpp:388
+#: engines/mads/metaengine.cpp:400
 msgid "Restart animation"
 msgstr "애니메이션 재시작"
 
@@ -12142,11 +12142,11 @@ msgid "Game does not contain menu resources"
 msgstr "게임에는 메뉴 리소스가 포함되어 있지 않음"
 
 #. I18N: 'Robot' is a video format name (as in 'MP4 video')
-#: engines/sci/detection_tables.h:4834
+#: engines/sci/detection_tables.h:4854
 msgid "This demo uses an unimplemented version of Robot videos"
 msgstr "이 데모에서는 구현되지 않은 버전의 로봇 비디오를 사용"
 
-#: engines/sci/detection_tables.h:4889
+#: engines/sci/detection_tables.h:4909
 msgid "Incomplete game detected. You have to copy data from all the CDs."
 msgstr ""
 "완료되지 않은 게임이 감지되었습니다. 모든 CD에서 데이터를 복사해야 합니다."
@@ -14392,7 +14392,7 @@ msgstr "저장 / 로드 메뉴 시작으로 이동"
 msgid "Go to end of save / load menu"
 msgstr "저장 / 로드 메뉴 끝으로 이동"
 
-#: engines/tinsel/tinsel.cpp:1058
+#: engines/tinsel/tinsel.cpp:1061
 msgid "Discworld Noir needs ScummVM with TinyGL enabled"
 msgstr "Discworld Noir는 TinyGL이 활성화된 ScummVM이 필요함"
 

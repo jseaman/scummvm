@@ -53,8 +53,6 @@ namespace MADSV2 {
 
 #define disable_error_check
 
-int extra_display_object;
-
 int stroke_type = STROKE_NONE;          /* Current stroke type           */
 
 int inter_auxiliary_click;              /* Clicks during downtime        */
@@ -208,10 +206,6 @@ int paul_object_showing = -1;
 
 #define OUAF_OBJECT_X    140
 #define OUAF_OBJECT_Y    5
-
-
-void inter_spin_object(int object_id);
-void inter_turn_off_object(void);
 
 
 void VerbBuf::synchronize(Common::Serializer &s) {
@@ -471,11 +465,12 @@ static void inter_show_all_inven(void) {
  */
 static void inter_show_all_actions(void) {
 	int count;
-	int id;
 
 	if (active_inven >= 0) {
 		for (count = 0; count < (int)object[inven[active_inven]].num_verbs; count++) {
-			id = object[inven[active_inven]].vocab_id;
+			inter_show_word(STROKE_ACTION, count);
+#if 0
+			int id = object[inven[active_inven]].vocab_id;
 			id = object_named(id);
 			// id = object[inven[active_inven]].verb[count].count;
 			if (id == 8) {  // pid doll
@@ -488,6 +483,7 @@ static void inter_show_all_actions(void) {
 			} else {
 				inter_show_word(STROKE_ACTION, count);
 			}
+#endif
 		}
 	}
 }
@@ -732,40 +728,32 @@ void inter_set_active_inven(int new_active) {
 				xs = action_delta_x;
 				ys = (inter_delta_y * max_verbs);
 
-
-
-				if (extra_display_object) {
-					if (image_inter_marker < IMAGE_INTER_LIST_SIZE) {
-						image_inter_list[image_inter_marker].flags = IMAGE_OVERPRINT;
-						image_inter_list[image_inter_marker].x = x1;
-						image_inter_list[image_inter_marker].y = (byte)y1;
-						image_inter_list[image_inter_marker].sprite_id = (byte)xs;
-						image_inter_list[image_inter_marker].series_id = (byte)ys;
-						image_inter_marker++;
-					}
+				if (image_inter_marker < IMAGE_INTER_LIST_SIZE) {
+					image_inter_list[image_inter_marker].flags = IMAGE_OVERPRINT;
+					image_inter_list[image_inter_marker].x = x1;
+					image_inter_list[image_inter_marker].y = (byte)y1;
+					image_inter_list[image_inter_marker].sprite_id = (byte)xs;
+					image_inter_list[image_inter_marker].series_id = (byte)ys;
+					image_inter_marker++;
+				}
 #ifndef disable_error_check
-					else {
-						error_report(ERROR_IMAGE_INTER_LIST_FULL, WARNING, MODULE_INTER, IMAGE_INTER_LIST_SIZE, 2);
-					}
+				else {
+					error_report(ERROR_IMAGE_INTER_LIST_FULL, WARNING, MODULE_INTER, IMAGE_INTER_LIST_SIZE, 2);
+				}
 #endif
 
-					matte_inter_frame(false, false);
+				matte_inter_frame(false, false);
 
-					inter_show_all_actions();
-					inter_update(x1, y1, xs, ys);
-				}
+				inter_show_all_actions();
+				inter_update(x1, y1, xs, ys);
 			}
 		}
 	}
 
-
-
 	if (new_active != -1) {
-		if (extra_display_object) {
-			inter_spin_object(inven[new_active]);
-			mcga_setpal_range(&master_palette, 7, 1);
-			mcga_setpal_range(&master_palette, 246, 2);
-		}
+		inter_spin_object(inven[new_active]);
+		mcga_setpal_range(&master_palette, 7, 1);
+		mcga_setpal_range(&master_palette, 246, 2);
 	} else {
 		inter_turn_off_object();
 	}
@@ -882,8 +870,6 @@ void inter_move_object(int object_id, int location) {
 	// extra_blank_knothole();
 done:
 	;
-
-	extra_display_object = false;
 }
 
 /**
@@ -1932,7 +1918,6 @@ static void inter_exec_function(void (*(target))()) {
 }
 
 void inter_spin_object(int object_id) {
-	int error_flag = true;
 	char temp_buf[80];
 
 	inter_turn_off_object();
@@ -1982,8 +1967,6 @@ void inter_spin_object(int object_id) {
 	mcga_setpal_range(&master_palette, 246, 6);
 
 	inter_object_sprite = 1;
-
-	error_flag = false;
 
 done:
 	sprite_force_memory = NULL;

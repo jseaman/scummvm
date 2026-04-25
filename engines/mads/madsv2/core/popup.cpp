@@ -43,10 +43,19 @@
 namespace MADS {
 namespace MADSV2 {
 
-
 #define popup_padding_width     3       /* Extra space on each side */
 
-Box text_box = { false };
+byte popup_colors[24] = {
+	18, 19, 20, 21, 22, 23, 24, 25,
+	25, 24,  0,  0,  0,  3,  0,  0,
+	0,   0,  0,  0,  3,  0,  0,  0
+};
+
+int popup_preserve_initiator[3] = {
+	BUFFER_PRESERVE, BUFFER_PRESERVE, BUFFER_PRESERVE
+};
+
+Box text_box;
 Box *box = &text_box;
 
 int popup_key = 0;
@@ -55,20 +64,33 @@ int popup_asking_number = false;
 
 int popup_available = false;
 
-int popup_preserve_initiator[3] = { BUFFER_PRESERVE,
-								   BUFFER_PRESERVE,
-								   BUFFER_PRESERVE };
-
-byte popup_colors[24] = { 18, 19, 20, 21, 22, 23, 24, 25,
-						 25, 24,  0,  0,  0,  3,  0,  0,
-						 0,   0,  0,  0,  3,  0,  0,  0 };
-
-BoxParam box_param = { NULL };
+BoxParam box_param;
 Popup *popup = NULL;
 word popup_default_status = POPUP_STATUS_BAR;
 
 static char *popup_savelist_string(PopupItem *item, int element);
 
+
+void init_popup() {
+	memset(&box_param, 0, sizeof(BoxParam));
+	memset(&text_box, 0, sizeof(Box));
+	box = &text_box;
+
+	popup_key = 0;
+	popup_esc_key = false;
+	popup_asking_number = false;
+	popup_available = false;
+	popup = NULL;
+	popup_default_status = POPUP_STATUS_BAR;
+
+	static const byte POPUP_COLORS[24] = {
+		18, 19, 20, 21, 22, 23, 24, 25,
+		25, 24,  0,  0,  0,  3,  0,  0,
+		0,   0,  0,  0,  3,  0,  0,  0
+	};
+	Common::copy(POPUP_COLORS, POPUP_COLORS + 24, popup_colors);
+	memset(&popup_preserve_initiator[0], BUFFER_PRESERVE, 3);
+}
 
 int popup_create(int horiz_pieces, int x, int y) {
 	int error_flag = true;
@@ -207,8 +229,8 @@ void popup_add_string(const char *string) {
 
 
 void popup_write_string(const char *string) {
-	char word[80];
-	char word2[80];
+	char wordStr[80];
+	char word2Str[80];
 	const char *marker;
 	char *word_ptr;
 	int any_space;
@@ -223,7 +245,7 @@ void popup_write_string(const char *string) {
 
 	while (*marker != 0) {
 
-		word_ptr = word;
+		word_ptr = wordStr;
 		any_space = false;
 		any_hyphen = false;
 		cr = false;
@@ -278,30 +300,30 @@ void popup_write_string(const char *string) {
 
 		*word_ptr = 0;
 
-		len = strlen(word);
+		len = strlen(wordStr);
 		if (len > 0) {
-			if (word[len - 1] == 0x20) {
-				word[len - 1] = 0;
+			if (wordStr[len - 1] == 0x20) {
+				wordStr[len - 1] = 0;
 			}
 		}
 
-		word2[0] = 0;
+		word2Str[0] = 0;
 
 		if ((box->text_x > 0) && !box->dont_add_space) {
-			Common::strcat_s(word2, " ");
+			Common::strcat_s(word2Str, " ");
 		}
-		Common::strcat_s(word2, word);
+		Common::strcat_s(word2Str, wordStr);
 
 		box->dont_add_space = stop_on_hyphen;
 
-		len = strlen(word2);
-		width = font_string_width(box_param.font, word2, POPUP_SPACING);	 // - POPUP_SPACING
+		len = strlen(word2Str);
+		width = font_string_width(box_param.font, word2Str, POPUP_SPACING);	 // - POPUP_SPACING
 
 		if (((box->text_x + len) > box->text_width) || ((box->cursor_x + width) > box->text_xs)) {
 			popup_next_line();
-			popup_add_string(word);
+			popup_add_string(wordStr);
 		} else {
-			popup_add_string(word2);
+			popup_add_string(word2Str);
 		}
 		if (cr) popup_next_line();
 	}
@@ -866,7 +888,7 @@ done:
 
 
 void popup_update_ask(char *string, int maxlen) {
-	int x1, y1, x2, x3, xs, ys, xs2, xs3;
+	int x1, y1, x2, x3, xs, ys, xs2;
 
 	xs = box->text_xs;
 	ys = (box_param.font->max_y_size + 1);
@@ -886,7 +908,6 @@ void popup_update_ask(char *string, int maxlen) {
 	xs2 = (font_string_width(box_param.font, "W", box_param.font_spacing) * maxlen) + 4;
 
 	x3 = x2 + 2;
-	xs3 = font_string_width(box_param.font, string, box_param.font_spacing) + 2;
 
 	buffer_rect_fill(scr_main, x2 - 1, y1 - 3, xs2, 1, 0);
 	buffer_rect_fill(scr_main, x2 - 1, y1 + ys, xs2, 1, 0);
@@ -1321,10 +1342,7 @@ Popup *popup_dialog_create(void *memory, long heap_size, int max_items) {
 	if ((heap_size == 0) && (memory == NULL)) heap_size = 2048;
 	if (!max_items) max_items = 10;
 
-	if (heap_size < (sizeof(Popup) + 400)) goto done;
-
 	if (memory == NULL) {
-
 		status |= POPUP_STATUS_DYNAMIC;
 		block = (byte *)mem_get_name(heap_size, "$popheap");
 		if (block == NULL) goto done;
@@ -1333,9 +1351,7 @@ Popup *popup_dialog_create(void *memory, long heap_size, int max_items) {
 		memory = block;
 
 	} else {
-
 		dlg = (Popup *)memory;
-
 	}
 
 	heap_declare(&dlg->heap, MODULE_POPUP, (char *)memory + sizeof(Popup),
@@ -1857,7 +1873,6 @@ static int popup_button_x_size(PopupItem *item) {
 
 
 static int popup_button_y_size(PopupItem *item) {
-	item = NULL;  // delete if this routine is to be used
 	return (box_param.font->max_y_size + 4 + 2);
 }
 
@@ -2056,7 +2071,6 @@ static int popup_menu_x_size(PopupItem *item) {
 
 
 static int popup_menu_y_size(PopupItem *item) {
-	item = NULL;  // delete if this routine is to be used
 	return(box_param.menu->index[0].ys);
 }
 
@@ -2414,7 +2428,7 @@ static void popup_savelist_element_draw(PopupItem *item, int element) {
 		Common::strcpy_s(temp_buf, item->buffer->data);
 	} else {
 		text_locator = popup_savelist_string(item, element);
-		Common::strcpy_s(temp_buf, text_locator);
+		Common::strcpy_s(temp_buf, text_locator ? text_locator : "");
 		if (!strlen(temp_buf) && (item->prompt != NULL) && (element != list->picked_element)) {
 			Common::strcpy_s(temp_buf, item->prompt);
 		}
@@ -2662,7 +2676,6 @@ static int popup_savelist_mouse(PopupItem *item) {
 	bool in_up_arrow;
 	bool in_down_arrow;
 	bool in_main_box;
-	bool in_main_range;
 	int update_sign;
 	int force_update;
 	int old_status;
@@ -2742,8 +2755,7 @@ static int popup_savelist_mouse(PopupItem *item) {
 			}
 
 		} else {
-
-			if (in_main_range) {
+			if (in_main_box) {
 				y = mouse_y - (item->y + 2);
 				relative = y / list->list_ys;
 				if (relative < 0) relative = 0;
@@ -3184,15 +3196,9 @@ PopupItem *popup_sprite(SeriesPtr series, int sprite, int x, int y) {
 
 
 
-PopupItem *popup_savelist(const char *data,
-	const char *empty_string,
-	int elements,
-	int element_offset,
-	int element_max_length,
-	int pixel_width,
-	int rows,
-	int accept_input,
-	int default_element) {
+PopupItem *popup_savelist(char *data, char *empty_string,
+		int elements, int element_offset, int element_max_length,
+		int pixel_width, int rows, int accept_input, int default_element) {
 	PopupItem *item;
 	PopupList *list;
 	PopupBuffer *buffer;
@@ -3211,8 +3217,8 @@ PopupItem *popup_savelist(const char *data,
 
 	item->list = list = list_allocate();
 
-	item->prompt = (char *)empty_string;
-	list->data = (char *)data;
+	item->prompt = empty_string;
+	list->data = data;
 
 	list->elements = elements;
 	list->element_offset = element_offset;

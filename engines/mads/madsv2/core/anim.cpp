@@ -40,7 +40,7 @@
 namespace MADS {
 namespace MADSV2 {
 
-ShadowList anim_shadow = { 0 };
+ShadowList anim_shadow = { 0, { 0, 0, 0 } };
 int anim_error;
 
 void AnimFile::load(Common::SeekableReadStream *src) {

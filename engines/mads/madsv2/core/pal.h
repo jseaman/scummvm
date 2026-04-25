@@ -156,9 +156,9 @@ extern void pal_init_shadow(ShadowListPtr shadow, ColorListPtr new_list);
 extern void pal_activate_shadow(ShadowListPtr shadow);
 extern int pal_get_flags(void);
 extern int pal_get_colors(void);
-extern void pal_interface(Palette fixpal);
-extern void pal_white(Palette fixpal);
-extern void pal_grey(Palette fixpal, int base_color, int num_colors,
+extern void pal_interface(Palette &fixpal);
+extern void pal_white(Palette &fixpal);
+extern void pal_grey(Palette &fixpal, int base_color, int num_colors,
 	int low_grey, int high_grey);
 extern int pal_get_color(RGBcolor color, int color_handle,
 	int override_reserved, int *color_number);

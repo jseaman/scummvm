@@ -95,7 +95,6 @@ int vocab_load(int allocation_flag) {
 	int mylen;
 	int more_words;
 	int vocab_space;
-	int vocab_exist;
 	int vocab_address;
 
 	result = 0;
@@ -121,15 +120,11 @@ int vocab_load(int allocation_flag) {
 					delete handle;
 
 					if (more_words >= 0) {
-
 						vocab_words += more_words;
-						vocab_exist = true;
 
 					} else {
 						result = VC_ERR_READMAINFILE;
 					}
-				} else {
-					vocab_exist = false;
 				}
 			} else {
 				result = VC_ERR_READHARDFILE;

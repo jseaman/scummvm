@@ -43,9 +43,9 @@ typedef struct {        /* Room local variables */
 	word message_1;       /* Raoul's message color */
 	word message_2;       /* Christine's color     */
 
-	int multiplane_base[4];       /* Multiplanar scrolling bases */
+	int16 multiplane_base[4];       /* Multiplanar scrolling bases */
 
-	int lake_frame;
+	int16 lake_frame;
 
 } Scratch;
 

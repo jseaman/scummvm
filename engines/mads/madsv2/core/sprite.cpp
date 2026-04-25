@@ -348,7 +348,6 @@ void FileSprite::load(Common::SeekableReadStream *src) {
 
 SeriesPtr sprite_series_load(const char *filename, int load_flags) {
 	register int count;
-	int len;
 	int len2;
 	int found, low_color, color_pointer;
 	byte *base_pointer;
@@ -402,7 +401,6 @@ SeriesPtr sprite_series_load(const char *filename, int load_flags) {
 
 	/* Determine length of header, and read it */
 
-	len = sizeof(FileSeries) - sizeof(FileSprite);
 	if (!header.loadHeader(load_handle))
 		goto done;
 
@@ -772,9 +770,15 @@ word sprite_pack_line_irle(byte *target, Buffer *source, byte *palette_map, byte
 		/* if no more real pixels */
 		if (a == lastpel) {
 			switch (run_len) {
-			case 3: *(unto++) = run_byte;
-			case 2: *(unto++) = run_byte;
-			case 1: *(unto++) = run_byte;    break;
+			case 3:
+				*(unto++) = run_byte;
+				// Fall through
+			case 2:
+				*(unto++) = run_byte;
+				// Fall through
+			case 1:
+				*(unto++) = run_byte;
+				break;
 			default:
 				*(unto++) = SS_RUN;      /* mark as a run */
 				*(unto++) = run_len;
@@ -826,9 +830,15 @@ word sprite_pack_line_irle(byte *target, Buffer *source, byte *palette_map, byte
 	}
 
 	switch (run_len) {
-	case 3: *(unto++) = run_byte;  /* intentional fall-through */
-	case 2: *(unto++) = run_byte;
-	case 1: *(unto++) = run_byte;    break;
+	case 3:
+		*(unto++) = run_byte;
+		// Fall through
+	case 2:
+		*(unto++) = run_byte;
+		// Fall through
+	case 1:
+		*(unto++) = run_byte;
+		break;
 	default:
 		*(unto++) = SS_RUN;      /* mark as a run */
 		*(unto++) = run_len;
@@ -1174,16 +1184,9 @@ void sprite_free(SeriesPtr *series, int free_memory) {
 		}
 	}
 
-	if (kidney) {
-		/* release the flag - dont deallocate the colors from the list */
-		if ((*series)->color_handle)
-			pal_deallocate((*series)->color_handle);
-		/* flag_used[(*series)->color_handle] = false; */
-	} else {
-		/* deallocate the colors from the list */
-		if ((*series)->color_handle)
-			pal_deallocate((*series)->color_handle);
-	}
+	// Deallocate the colors from the list
+	if ((*series)->color_handle)
+		pal_deallocate((*series)->color_handle);
 
 	if (free_memory)
 		mem_free(*series);

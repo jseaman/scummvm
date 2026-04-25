@@ -65,9 +65,14 @@ void ScrollContainerWidget::handleMouseDown(int x, int y, int button, int clickC
 	_fluidScroller->stopAnimation();
 	Widget *child = _childUnderMouse;
 	if (child) {
-		int childX = (x + _scrolledX) - child->getRelX();
-		int childY = (y + _scrolledY) - child->getRelY();
+		int childX = (x + _scrolledX) - (child->getAbsX() - getAbsX());
+		int childY = (y + _scrolledY) - (child->getAbsY() - getAbsY());
 		child->handleMouseDown(childX, childY, button, clickCount);
+
+		if (child->getFlags() & WIDGET_IGNORE_DRAG) {
+			_isMouseDown = false;
+			_isDragging = false;
+		}
 	}
 }
 
@@ -120,8 +125,8 @@ void ScrollContainerWidget::handleMouseUp(int x, int y, int button, int clickCou
 	_childUnderMouse = nullptr;
 
 	if (!isDragging && child) {
-		int childX = (x + _scrolledX) - child->getRelX();
-		int childY = (y + _scrolledY) - child->getRelY();
+		int childX = (x + _scrolledX) - (child->getAbsX() - getAbsX());
+		int childY = (y + _scrolledY) - (child->getAbsY() - getAbsY());
 		child->handleMouseUp(childX, childY, button, clickCount);
 	}
 }
@@ -257,6 +262,10 @@ Widget *ScrollContainerWidget::findWidget(int x, int y) {
 	_childUnderMouse = Widget::findWidgetInChain(_firstWidget, x + _scrolledX, y + _scrolledY);
 	if (_childUnderMouse == _verticalScroll) 
 		_childUnderMouse = nullptr;
+
+	if (_childUnderMouse && _childUnderMouse->wantsFocus())
+		return _childUnderMouse;
+
 	return this;
 }
 

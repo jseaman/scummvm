@@ -19,35 +19,23 @@
  *
  */
 
-#include "audio/ym2149.h"
-#ifdef ATARI
-#include "audio/atari_ym2149.h"
-#else
-#include "audio/softsynth/ym2149.h"
+#ifndef TINSEL_PSX_JAPAN_FONT_H
+#define TINSEL_PSX_JAPAN_FONT_H
+
+#include "tinsel/dw.h"
+
+namespace Tinsel {
+
+struct IMAGE;
+struct DRAWOBJECT;
+
+void OpenPsxJapanFont();
+void ClosePsxJapanFont();
+SCNHANDLE GetPsxJapanFontCharHandle(uint32 charIndex);
+bool IsPsxJapanFontChar(SCNHANDLE offset);
+const IMAGE *GetPsxJapanFontCharImage(SCNHANDLE offset);
+void DrawPsxJapanFontChar(DRAWOBJECT *pObj, uint8 *destP);
+
+} // End of namespace Tinsel
+
 #endif
-
-#include "common/textconsole.h"
-
-namespace YM2149 {
-
-YM2149 *Config::create() {
-#ifdef ATARI
-	return new Audio::YM2149Atari();
-#else
-	return new Audio::YM2149Emu();
-#endif
-}
-
-bool YM2149::_hasInstance = false;
-
-YM2149::YM2149() {
-	if (_hasInstance)
-		error("There are multiple YM2149 output instances running.");
-	_hasInstance = true;
-}
-
-YM2149::~YM2149() {
-	_hasInstance = false;
-}
-
-} // End of namespace YM2149

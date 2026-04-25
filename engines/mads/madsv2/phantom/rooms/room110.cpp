@@ -177,8 +177,8 @@ void room_110_parser() {
 
 	if (player_said_2(walk_through, right_door) || player_said_2(open, right_door) ||
 	    player_said_2(unlock, right_door) || player_said_2(lock, right_door)) {
-		if ((global[current_year] == 1881) || (global[done_brie_conv_203] >= YES) &&
-		     !player_said_2(unlock, right_door) && !player_said_2(lock, right_door)) {
+		if (((global[current_year] == 1881) || (global[done_brie_conv_203] >= YES)) &&
+				!player_said_2(unlock, right_door) && !player_said_2(lock, right_door)) {
 			switch (kernel.trigger) {
 			case 0:
 				player.commands_allowed = false;

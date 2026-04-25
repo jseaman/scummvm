@@ -96,14 +96,6 @@ static char say_dialog_work[SAY_DIALOG_SIZE];
 #define abort_option    0x02
 #define fail_option     0x03
 
-Dialog crit_dialog;
-char crit_work[256];
-
-extern void dialog_24_server(void);
-
-static int   dialog_server_installed = false;
-static dword dialog_old_24_server;
-
 
 int dialog_read_dir_to_list(ListPtr target, const char *wild, int dirflag) {
 	warning("TODO: dialog_read_dir_to_list");
@@ -1209,13 +1201,17 @@ static void dialog_update_window(DialogPtr dialog, ItemPtr item) {
 			} else {
 				my_color = dialog->select_color;
 			}
-			*screenptr++;
+
+			screenptr++;
+
 			if (*screenptr != (char)dialog->select_color) {
 				*(screenptr++) = (char)my_color;
 			} else {
 				screenptr++;
 			}
+
 			out_count = 0;
+
 			if (id < list->elements) {
 				while ((out_count < list->entry_width) && (*textptr != 0)) {
 					*(screenptr++) = *(textptr++);
@@ -1228,7 +1224,9 @@ static void dialog_update_window(DialogPtr dialog, ItemPtr item) {
 				*(screenptr++) = (char)my_color;
 				out_count++;
 			}
-			*screenptr++;
+
+			screenptr++;
+
 			if (*screenptr != (char)dialog->select_color) {
 				*(screenptr++) = (char)my_color;
 			}
@@ -2197,14 +2195,14 @@ static void dialog_do_search(DialogPtr dialog, ItemPtr item) {
 static void dialog_set_new_directory(DialogPtr dialog, ItemPtr item) {
 	int buf;
 	//int newdrive;
-	ItemPtr baseitem, fileitem, pathitem;
+	ItemPtr baseitem; //, fileitem, pathitem;
 
 	baseitem = &dialog->item[item->status];
-	fileitem = &dialog->item[baseitem->status];
+	//fileitem = &dialog->item[baseitem->status];
 	buf = baseitem->buf_id;
 
 	Common::strcpy_s(temp_buf, dialog->buffer[buf]);
-	pathitem = dialog->path_item;
+	//pathitem = dialog->path_item;
 #ifdef TODO
 	if (temp_buf[1] == ':') {
 		// Change to a new drive, if requested
@@ -2955,7 +2953,7 @@ ItemPtr dialog_execute(DialogPtr dialog, ItemPtr active_item, ItemPtr default_bu
 	int mykey;
 	int count;
 	int buf;
-	int savedpath;
+	//int savedpath;
 	int savedrive = 0;
 	int return_code;
 	char savepath[80];
@@ -2977,7 +2975,7 @@ ItemPtr dialog_execute(DialogPtr dialog, ItemPtr active_item, ItemPtr default_bu
 	}
 
 	if (dialog->status & DD_FILEMENU) {
-		savedpath = (mads_getcwd(savepath, 80) != NULL);
+		//savedpath = (mads_getcwd(savepath, 80) != NULL);
 		savedrive = mads_getdrive();
 
 		if (dialog->path_item != NULL) {
@@ -3705,16 +3703,10 @@ int dialog_get_number(DialogPtr dialog, ItemPtr item) {
 	return atoi(buf);
 }
 
-static void dialog_critical_error_handler() {
-	// No implementation in ScummVM
-}
-
 void dialog_trap_critical() {
-	dialog_server_installed = true;
 }
 
 void dialog_restore_critical(void) {
-	dialog_server_installed = false;
 }
 
 } // namespace MADSV2

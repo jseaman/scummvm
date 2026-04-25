@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.8.0svn\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2026-04-20 21:33+0000\n"
-"PO-Revision-Date: 2026-04-15 22:03+0000\n"
+"POT-Creation-Date: 2026-04-25 16:34+0000\n"
+"PO-Revision-Date: 2026-04-21 22:05+0000\n"
 "Last-Translator: Eugene Sandulenko <sev@scummvm.org>\n"
 "Language-Team: Russian <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/ru/>\n"
@@ -3055,7 +3055,7 @@ msgstr ""
 "Вы можете изменить эту настройку\n"
 "во вкладке \"Разное\" в окне \"Настройки\"."
 
-#: gui/widget.cpp:467 gui/widget.cpp:469 gui/widget.cpp:474 gui/widget.cpp:476
+#: gui/widget.cpp:465 gui/widget.cpp:467 gui/widget.cpp:472 gui/widget.cpp:474
 msgid "Clear value"
 msgstr "Очистить значение"
 
@@ -3899,7 +3899,7 @@ msgstr "Раскладка клавиш игры по умолчанию"
 #: engines/hugo/metaengine.cpp:134 engines/illusions/metaengine.cpp:94
 #: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:505
 #: engines/lure/metaengine.cpp:177 engines/made/metaengine.cpp:137
-#: engines/mads/metaengine.cpp:300 engines/mm/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:312 engines/mm/metaengine.cpp:186
 #: engines/mtropolis/metaengine.cpp:161 engines/nancy/input.cpp:181
 #: engines/parallaction/metaengine.cpp:138 engines/saga/metaengine.cpp:278
 #: engines/sludge/keymapper_tables.h:561 engines/sludge/keymapper_tables.h:580
@@ -3932,7 +3932,7 @@ msgstr "Средний щелчок"
 #: engines/hopkins/metaengine.cpp:217 engines/hugo/metaengine.cpp:141
 #: engines/illusions/metaengine.cpp:101 engines/kyra/engine/eobcommon.cpp:370
 #: engines/kyra/engine/lol.cpp:506 engines/lure/metaengine.cpp:183
-#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:306
+#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:318
 #: engines/mm/metaengine.cpp:192 engines/mtropolis/metaengine.cpp:167
 #: engines/nancy/input.cpp:188 engines/parallaction/metaengine.cpp:144
 #: engines/saga/metaengine.cpp:289 engines/sludge/keymapper_tables.h:567
@@ -4033,31 +4033,31 @@ msgstr "OpenGL с шейдерами"
 msgid "AdLib emulator"
 msgstr "Эмулятор AdLib"
 
-#: audio/fmopl.cpp:84
+#: audio/fmopl.cpp:85
 msgid "MAME OPL emulator"
 msgstr "Эмулятор MAME OPL"
 
-#: audio/fmopl.cpp:86
+#: audio/fmopl.cpp:88
 msgid "DOSBox OPL emulator"
 msgstr "Эмулятор DOSBox OPL"
 
-#: audio/fmopl.cpp:89
+#: audio/fmopl.cpp:91
 msgid "Nuked OPL emulator"
 msgstr "Эмулятор Nuked OPL"
 
-#: audio/fmopl.cpp:92
+#: audio/fmopl.cpp:94
 msgid "ALSA Direct FM"
 msgstr "Прямой FM ALSA"
 
-#: audio/fmopl.cpp:95
+#: audio/fmopl.cpp:97
 msgid "OPL2LPT"
 msgstr "OPL2LPT"
 
-#: audio/fmopl.cpp:96
+#: audio/fmopl.cpp:98
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/fmopl.cpp:99
+#: audio/fmopl.cpp:101
 msgid "RetroWave OPL3"
 msgstr "RetroWave OPL3"
 
@@ -6298,7 +6298,7 @@ msgstr "Проверить обновления..."
 #: engines/hugo/metaengine.cpp:129 engines/hypno/metaengine.cpp:128
 #: engines/illusions/metaengine.cpp:89 engines/lab/metaengine.cpp:149
 #: engines/lure/metaengine.cpp:168 engines/made/metaengine.cpp:132
-#: engines/mads/metaengine.cpp:294 engines/neverhood/metaengine.cpp:185
+#: engines/mads/metaengine.cpp:306 engines/neverhood/metaengine.cpp:185
 #: engines/ngi/metaengine.cpp:115 engines/petka/metaengine.cpp:113
 #: engines/prince/metaengine.cpp:227 engines/private/metaengine.cpp:127
 #: engines/queen/metaengine.cpp:146 engines/sherlock/metaengine.cpp:313
@@ -6613,12 +6613,12 @@ msgstr ""
 #: engines/crab/metaengine.cpp:34 engines/darkseed/dialogs.cpp:95
 #: engines/drascula/metaengine.cpp:42 engines/dreamweb/metaengine.cpp:48
 #: engines/got/metaengine.cpp:35 engines/groovie/metaengine.cpp:53
-#: engines/m4/metaengine.cpp:37 engines/nancy/metaengine.cpp:104
-#: engines/neverhood/dialogs.cpp:47 engines/phoenixvr/metaengine.cpp:38
-#: engines/sci/detection_options.h:105 engines/sherlock/metaengine.cpp:47
-#: engines/toltecs/metaengine.cpp:44 engines/trecision/metaengine.cpp:41
-#: engines/ultima/metaengine.cpp:56 engines/waynesworld/metaengine.cpp:37
-#: engines/zvision/metaengine.cpp:42
+#: engines/m4/metaengine.cpp:37 engines/mads/metaengine.cpp:114
+#: engines/nancy/metaengine.cpp:104 engines/neverhood/dialogs.cpp:47
+#: engines/phoenixvr/metaengine.cpp:38 engines/sci/detection_options.h:105
+#: engines/sherlock/metaengine.cpp:47 engines/toltecs/metaengine.cpp:44
+#: engines/trecision/metaengine.cpp:41 engines/ultima/metaengine.cpp:56
+#: engines/waynesworld/metaengine.cpp:37 engines/zvision/metaengine.cpp:42
 msgid "Use original save/load screens"
 msgstr "Использовать оригинальные экраны записи/чтения игры"
 
@@ -6627,12 +6627,12 @@ msgstr "Использовать оригинальные экраны запи�
 #: engines/crab/metaengine.cpp:35 engines/darkseed/dialogs.cpp:96
 #: engines/drascula/metaengine.cpp:43 engines/dreamweb/metaengine.cpp:49
 #: engines/got/metaengine.cpp:36 engines/groovie/metaengine.cpp:54
-#: engines/m4/metaengine.cpp:38 engines/nancy/metaengine.cpp:105
-#: engines/neverhood/dialogs.cpp:48 engines/phoenixvr/metaengine.cpp:39
-#: engines/sci/detection_options.h:106 engines/sherlock/metaengine.cpp:48
-#: engines/toltecs/metaengine.cpp:45 engines/trecision/metaengine.cpp:42
-#: engines/ultima/metaengine.cpp:57 engines/waynesworld/metaengine.cpp:38
-#: engines/zvision/metaengine.cpp:43
+#: engines/m4/metaengine.cpp:38 engines/mads/metaengine.cpp:115
+#: engines/nancy/metaengine.cpp:105 engines/neverhood/dialogs.cpp:48
+#: engines/phoenixvr/metaengine.cpp:39 engines/sci/detection_options.h:106
+#: engines/sherlock/metaengine.cpp:48 engines/toltecs/metaengine.cpp:45
+#: engines/trecision/metaengine.cpp:42 engines/ultima/metaengine.cpp:57
+#: engines/waynesworld/metaengine.cpp:38 engines/zvision/metaengine.cpp:43
 msgid "Use the original save/load screens instead of the ScummVM ones"
 msgstr ""
 "Использовать оригинальные экраны чтения и сохранения игры вместо сделанных в "
@@ -6853,7 +6853,7 @@ msgstr "Главная AGOS"
 #: engines/hypno/metaengine.cpp:267 engines/hypno/metaengine.cpp:311
 #: engines/illusions/metaengine.cpp:90 engines/lab/metaengine.cpp:152
 #: engines/lure/metaengine.cpp:169 engines/made/metaengine.cpp:133
-#: engines/mads/metaengine.cpp:295 engines/neverhood/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:307 engines/neverhood/metaengine.cpp:186
 #: engines/queen/metaengine.cpp:147 engines/saga/metaengine.cpp:268
 #: engines/sludge/keymapper_tables.h:33 engines/stark/metaengine.cpp:185
 #: engines/sword1/metaengine.cpp:267 engines/tinsel/metaengine.cpp:241
@@ -7353,7 +7353,7 @@ msgstr "Чит Глаз Солдата 714"
 #: engines/bbvs/metaengine.cpp:111 engines/cruise/metaengine.cpp:223
 #: engines/freescape/movement.cpp:107 engines/got/metaengine.cpp:78
 #: engines/hugo/metaengine.cpp:197 engines/lure/metaengine.cpp:209
-#: engines/mads/metaengine.cpp:312 engines/mm/mm1/metaengine.cpp:42
+#: engines/mads/metaengine.cpp:324 engines/mm/mm1/metaengine.cpp:42
 #: engines/mm/mm1/metaengine.cpp:48 engines/saga/metaengine.cpp:328
 #: engines/tinsel/metaengine.cpp:258 engines/tsage/metaengine.cpp:190
 #: engines/tucker/metaengine.cpp:221 engines/twine/metaengine.cpp:388
@@ -7656,7 +7656,7 @@ msgstr "Переключить приватность для улик"
 #: engines/freescape/games/eclipse/eclipse.cpp:351
 #: engines/hopkins/metaengine.cpp:236 engines/hugo/metaengine.cpp:165
 #: engines/lure/metaengine.cpp:191 engines/made/metaengine.cpp:192
-#: engines/mads/metaengine.cpp:325 engines/mohawk/myst.cpp:583
+#: engines/mads/metaengine.cpp:337 engines/mohawk/myst.cpp:583
 #: engines/mohawk/riven.cpp:864 engines/pegasus/pegasus.cpp:2825
 #: engines/petka/metaengine.cpp:198 engines/prince/metaengine.cpp:243
 #: engines/saga/metaengine.cpp:442 engines/sherlock/metaengine.cpp:462
@@ -7732,7 +7732,7 @@ msgstr "База улик"
 #: engines/freescape/games/dark/dark.cpp:236
 #: engines/freescape/games/driller/driller.cpp:135
 #: engines/freescape/games/eclipse/eclipse.cpp:361
-#: engines/mads/metaengine.cpp:381 engines/phoenixvr/metaengine.cpp:80
+#: engines/mads/metaengine.cpp:393 engines/phoenixvr/metaengine.cpp:80
 #: engines/saga/metaengine.cpp:437 engines/sherlock/metaengine.cpp:359
 #: engines/sherlock/metaengine.cpp:618 engines/sherlock/metaengine.cpp:852
 #: engines/stark/metaengine.cpp:280 engines/sword1/metaengine.cpp:295
@@ -8003,7 +8003,7 @@ msgstr "Включить озвучку текста для объектов и 
 
 #: engines/cge2/metaengine.cpp:60 engines/draci/metaengine.cpp:45
 #: engines/dreamweb/metaengine.cpp:74 engines/griffon/metaengine.cpp:41
-#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:128
+#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:140
 #: engines/parallaction/metaengine.cpp:53 engines/prince/metaengine.cpp:41
 #: engines/sci/detection_options.h:222 engines/sherlock/metaengine.cpp:121
 #: engines/supernova/metaengine.cpp:54 engines/teenagent/metaengine.cpp:50
@@ -8200,11 +8200,11 @@ msgstr "Выстрелить из оружия"
 
 #: engines/colony/savegame.cpp:290
 msgid "Saving is only available in first-person view."
-msgstr ""
+msgstr "Сохранение игры доступно только в режиме от первого лица."
 
 #: engines/colony/savegame.cpp:299
 msgid "Loading is only available in first-person view."
-msgstr ""
+msgstr "Загрузка доступна только в режиме от первого лица."
 
 #: engines/crab/input/input.cpp:119
 msgid "Talk / Interact"
@@ -9006,21 +9006,23 @@ msgstr "Использовать клавиши WASD для движения, а
 #. I18N: Enable background music using AdLib/OPL2 FM synthesis
 #: engines/freescape/metaengine.cpp:164
 msgid "Backported music from C64 releases (AdLib)"
-msgstr ""
+msgstr "Музыка, перенесенная из релизов для C64 (AdLib)"
 
 #: engines/freescape/metaengine.cpp:165
 msgid ""
 "Enable background music ported from the C64 version using AdLib FM synthesis"
 msgstr ""
+"Включить фоновую музыку, перенесенную из версии для C64, с использованием "
+"синтезатора AdLib FM"
 
 #. I18N: Enable background music using AY chip emulation
 #: engines/freescape/metaengine.cpp:176
 msgid "Backported music from C64 releases"
-msgstr ""
+msgstr "Музыка, перенесенная из релизов для C64"
 
 #: engines/freescape/metaengine.cpp:177
 msgid "Enable background music ported from the C64 version"
-msgstr ""
+msgstr "Включить фоновую музыку, перенесенную из версии для C64"
 
 #. I18N: Combat command in Might & Magic 1
 #: engines/freescape/movement.cpp:69 engines/mm/mm1/metaengine.cpp:80
@@ -9233,11 +9235,11 @@ msgstr "Окно и с иллюстрацией переключено\n"
 
 #: engines/glk/dialogs.cpp:141
 msgid "white"
-msgstr ""
+msgstr "белый"
 
 #: engines/glk/dialogs.cpp:142
 msgid "green"
-msgstr ""
+msgstr "зелёный"
 
 #: engines/glk/dialogs.cpp:143
 msgid "red"
@@ -9245,47 +9247,47 @@ msgstr "красный"
 
 #: engines/glk/dialogs.cpp:144
 msgid "blue"
-msgstr ""
+msgstr "синий"
 
 #: engines/glk/dialogs.cpp:145
 msgid "black"
-msgstr ""
+msgstr "чёрный"
 
 #: engines/glk/dialogs.cpp:146
 msgid "grey"
-msgstr ""
+msgstr "серый"
 
 #: engines/glk/dialogs.cpp:195
 msgid "Monospace Regular"
-msgstr ""
+msgstr "Моноширинный стандартный"
 
 #: engines/glk/dialogs.cpp:196
 msgid "Monospace Bold"
-msgstr ""
+msgstr "Моноширинный жирный"
 
 #: engines/glk/dialogs.cpp:197
 msgid "Monospace Italic"
-msgstr ""
+msgstr "Моноширинный курсив"
 
 #: engines/glk/dialogs.cpp:198
 msgid "Monospace Bold Italic"
-msgstr ""
+msgstr "Моноширинный жирный курсив"
 
 #: engines/glk/dialogs.cpp:199
 msgid "Proportional Regular"
-msgstr ""
+msgstr "Пропорциональный нормальный"
 
 #: engines/glk/dialogs.cpp:200
 msgid "Proportional Bold"
-msgstr ""
+msgstr "Пропорциональный жирный"
 
 #: engines/glk/dialogs.cpp:201
 msgid "Proportional Italic"
-msgstr ""
+msgstr "Пропорциональный курсив"
 
 #: engines/glk/dialogs.cpp:202
 msgid "Proportional Bold Italic"
-msgstr ""
+msgstr "Пропорциональный жирный курсив"
 
 #: engines/glk/dialogs.cpp:210
 msgid "Font"
@@ -9297,19 +9299,21 @@ msgstr "Текст:"
 
 #: engines/glk/dialogs.cpp:212
 msgid "Font for the text"
-msgstr ""
+msgstr "Шрифт текста"
 
 #: engines/glk/dialogs.cpp:216 engines/glk/dialogs.cpp:227
 msgid "Grid:"
-msgstr ""
+msgstr "Сетка:"
 
 #: engines/glk/dialogs.cpp:216
 msgid "Font for drawn graphics like maps, diagrams, puzzles, etc"
 msgstr ""
+"Шрифт для графических изображений, таких как карты, диаграммы, головоломки и "
+"т. д."
 
 #: engines/glk/dialogs.cpp:220
 msgid "Color"
-msgstr ""
+msgstr "Цвет"
 
 #: engines/glk/dialogs.cpp:222
 msgid "Color of the interactive text"
@@ -9320,11 +9324,13 @@ msgstr "Цвет интерактивного текста"
 #: engines/glk/dialogs.cpp:254 engines/glk/dialogs.cpp:260
 #: engines/glk/dialogs.cpp:269
 msgid "<custom>"
-msgstr ""
+msgstr "<пользовательский>"
 
 #: engines/glk/dialogs.cpp:227
 msgid "Color for drawn graphics such as maps, diagrams, puzzles, etc"
 msgstr ""
+"Цвет для графических изображений, таких как карты, диаграммы, головоломки и "
+"т. д."
 
 #: engines/glk/dialogs.cpp:232
 msgid "Window:"
@@ -9367,7 +9373,7 @@ msgstr "Размер рамки по-вертикали"
 
 #: engines/glk/dialogs.cpp:250
 msgid "Caret:"
-msgstr ""
+msgstr "Курсор:"
 
 #: engines/glk/dialogs.cpp:250
 msgid "Color of the cursor"
@@ -9375,20 +9381,20 @@ msgstr "Цвета курсора"
 
 #: engines/glk/dialogs.cpp:256
 msgid "Link:"
-msgstr ""
+msgstr "Ссылка:"
 
 #: engines/glk/dialogs.cpp:256
 msgid "Color for URLs if they appear in-game"
-msgstr ""
+msgstr "Цвет URL-адресов, как они отображаются в игре"
 
 #. I18N: "More..." is a prompt in text windows, which appears when the text exceeds the window size
 #: engines/glk/dialogs.cpp:264
 msgid "More:"
-msgstr ""
+msgstr "Дальше:"
 
 #: engines/glk/dialogs.cpp:265
 msgid "Color for the \"More...\" markers in the text"
-msgstr ""
+msgstr "Цвет для маркеров «Дальше...» в тексте"
 
 #: engines/glk/dialogs.cpp:272
 msgid "Typography"
@@ -9396,11 +9402,11 @@ msgstr "Типографика"
 
 #: engines/glk/dialogs.cpp:274
 msgid "Link style:"
-msgstr ""
+msgstr "Стиль ссылок:"
 
 #: engines/glk/dialogs.cpp:274
 msgid "Style for URLs if they appear in-game"
-msgstr ""
+msgstr "Стиль URL-адресов, если они отображаются в игре"
 
 #: engines/glk/dialogs.cpp:279
 msgid "Caret shape:"
@@ -10075,7 +10081,7 @@ msgid "Repeat last line"
 msgstr "Повторить последнюю фразу"
 
 #: engines/hugo/metaengine.cpp:172 engines/lure/metaengine.cpp:197
-#: engines/mads/metaengine.cpp:331 engines/tsage/metaengine.cpp:247
+#: engines/mads/metaengine.cpp:343 engines/tsage/metaengine.cpp:247
 msgid "Restore game"
 msgstr "Восстановить игру"
 
@@ -10257,7 +10263,7 @@ msgstr "Раскладка клавиш паузы"
 msgid "Direction keymappings"
 msgstr "Раскладка клавиш направления"
 
-#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:369
+#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:381
 #: engines/tsage/metaengine.cpp:259
 msgid "Show credits"
 msgstr "Показать авторов"
@@ -10780,7 +10786,7 @@ msgstr ""
 msgid "This puzzle is not available in the trial version of the game"
 msgstr "Эта головоломка недоступна в пробной версии игры"
 
-#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:127
+#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:139
 #: engines/sherlock/metaengine.cpp:120 engines/twine/metaengine.cpp:144
 msgid "TTS Narrator"
 msgstr "Комментатор TTS"
@@ -10905,39 +10911,39 @@ msgstr "Анимированный интерфейс игры"
 msgid "Naughty game mode"
 msgstr "Откровенный режим игры"
 
-#: engines/mads/metaengine.cpp:296
+#: engines/mads/metaengine.cpp:308
 msgid "Start menu keymappings"
 msgstr "Раскладка клавиш стартового меню"
 
-#: engines/mads/metaengine.cpp:319
+#: engines/mads/metaengine.cpp:331
 msgid "Open game menu"
 msgstr "Открыть игровое меню"
 
-#: engines/mads/metaengine.cpp:337
+#: engines/mads/metaengine.cpp:349
 msgid "Scroll bar up"
 msgstr "Прокрутка вверх"
 
-#: engines/mads/metaengine.cpp:343
+#: engines/mads/metaengine.cpp:355
 msgid "Scroll bar down"
 msgstr "Прокрутка вниз"
 
-#: engines/mads/metaengine.cpp:351
+#: engines/mads/metaengine.cpp:363
 msgid "Start game"
 msgstr "Начать игру"
 
-#: engines/mads/metaengine.cpp:357
+#: engines/mads/metaengine.cpp:369
 msgid "Resume game"
 msgstr "Продолжить игру"
 
-#: engines/mads/metaengine.cpp:363
+#: engines/mads/metaengine.cpp:375
 msgid "Show intro"
 msgstr "Показать вступление"
 
-#: engines/mads/metaengine.cpp:375
+#: engines/mads/metaengine.cpp:387
 msgid "Show quotes"
 msgstr "Показать цитаты"
 
-#: engines/mads/metaengine.cpp:388
+#: engines/mads/metaengine.cpp:400
 msgid "Restart animation"
 msgstr "Перезапустить анимацию"
 
@@ -12315,11 +12321,11 @@ msgid "Game does not contain menu resources"
 msgstr "Игра не содержит ресурсов меню"
 
 #. I18N: 'Robot' is a video format name (as in 'MP4 video')
-#: engines/sci/detection_tables.h:4834
+#: engines/sci/detection_tables.h:4854
 msgid "This demo uses an unimplemented version of Robot videos"
 msgstr "В этой демо используется нереализованная версия видео в формате Robot"
 
-#: engines/sci/detection_tables.h:4889
+#: engines/sci/detection_tables.h:4909
 msgid "Incomplete game detected. You have to copy data from all the CDs."
 msgstr ""
 "Обнаружена неполная игра. Вам необходимо скопировать данные со всех CD."
@@ -12361,12 +12367,10 @@ msgstr ""
 "Этот файл сохранения был создан другой версией игры, не могу загрузить его"
 
 #: engines/sci/graphics/video32.cpp:70
-#, fuzzy, c-format
-#| msgid ""
-#| "Cannot play back %dbpp video on a system with maximum color depth of 8bpp"
+#, c-format
 msgid "Cannot play back %s video on a system with maximum color depth of 8bpp"
 msgstr ""
-"Не могу проигрывать %dbpp видео на системе с максимальной глубиной цвета 8bpp"
+"Не могу проигрывать %s видео на системе с максимальной глубиной цвета 8bpp"
 
 #: engines/sci/metaengine.cpp:212
 msgid "SCI32 support not compiled in"
@@ -14612,7 +14616,7 @@ msgstr "Перейти в начало меню сохр / загр"
 msgid "Go to end of save / load menu"
 msgstr "Перейти в конец меню сохр / загр"
 
-#: engines/tinsel/tinsel.cpp:1058
+#: engines/tinsel/tinsel.cpp:1061
 msgid "Discworld Noir needs ScummVM with TinyGL enabled"
 msgstr "Для работы игры Discworld Noir требуется ScummVM с TinyGL"
 

@@ -47,7 +47,6 @@ typedef struct {        /* Room local variables */
 	int16 frame_here_for_taking; /* T if a specific frame is here */
 	int16 anim_0_running;
 
-
 } Scratch;
 
 

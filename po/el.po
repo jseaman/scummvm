@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.10.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2026-04-20 21:33+0000\n"
-"PO-Revision-Date: 2026-04-21 16:22+0000\n"
+"POT-Creation-Date: 2026-04-25 16:34+0000\n"
+"PO-Revision-Date: 2026-04-23 00:22+0000\n"
 "Last-Translator: Antoniou Athanasios <a.antoniou79@gmail.com>\n"
 "Language-Team: Greek <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/el/>\n"
@@ -3122,7 +3122,7 @@ msgstr ""
 "Μπορείτε να αλλάξετε αυτή τη ρύθμιση αργότερα\n"
 "από την καρτέλα Διάφορα στις Καθολικές Επιλογές."
 
-#: gui/widget.cpp:467 gui/widget.cpp:469 gui/widget.cpp:474 gui/widget.cpp:476
+#: gui/widget.cpp:465 gui/widget.cpp:467 gui/widget.cpp:472 gui/widget.cpp:474
 msgid "Clear value"
 msgstr "Σβήσιμο τιμής"
 
@@ -4001,7 +4001,7 @@ msgstr "Αρχικές αντιστοιχίσεις πλήκτρων παιχν�
 #: engines/hugo/metaengine.cpp:134 engines/illusions/metaengine.cpp:94
 #: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:505
 #: engines/lure/metaengine.cpp:177 engines/made/metaengine.cpp:137
-#: engines/mads/metaengine.cpp:300 engines/mm/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:312 engines/mm/metaengine.cpp:186
 #: engines/mtropolis/metaengine.cpp:161 engines/nancy/input.cpp:181
 #: engines/parallaction/metaengine.cpp:138 engines/saga/metaengine.cpp:278
 #: engines/sludge/keymapper_tables.h:561 engines/sludge/keymapper_tables.h:580
@@ -4034,7 +4034,7 @@ msgstr "Μεσαίο κλικ"
 #: engines/hopkins/metaengine.cpp:217 engines/hugo/metaengine.cpp:141
 #: engines/illusions/metaengine.cpp:101 engines/kyra/engine/eobcommon.cpp:370
 #: engines/kyra/engine/lol.cpp:506 engines/lure/metaengine.cpp:183
-#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:306
+#: engines/made/metaengine.cpp:144 engines/mads/metaengine.cpp:318
 #: engines/mm/metaengine.cpp:192 engines/mtropolis/metaengine.cpp:167
 #: engines/nancy/input.cpp:188 engines/parallaction/metaengine.cpp:144
 #: engines/saga/metaengine.cpp:289 engines/sludge/keymapper_tables.h:567
@@ -4135,31 +4135,31 @@ msgstr "OpenGL με σκιαστές"
 msgid "AdLib emulator"
 msgstr "Εξομοιωτής Adlib"
 
-#: audio/fmopl.cpp:84
+#: audio/fmopl.cpp:85
 msgid "MAME OPL emulator"
 msgstr "Εξομοιωτής MAME OPL"
 
-#: audio/fmopl.cpp:86
+#: audio/fmopl.cpp:88
 msgid "DOSBox OPL emulator"
 msgstr "Εξομοιωτής DOSBox OPL"
 
-#: audio/fmopl.cpp:89
+#: audio/fmopl.cpp:91
 msgid "Nuked OPL emulator"
 msgstr "Εξομοιωτής Nuked OPL"
 
-#: audio/fmopl.cpp:92
+#: audio/fmopl.cpp:94
 msgid "ALSA Direct FM"
 msgstr "ALSA Direct FM"
 
-#: audio/fmopl.cpp:95
+#: audio/fmopl.cpp:97
 msgid "OPL2LPT"
 msgstr "OPL2LPT"
 
-#: audio/fmopl.cpp:96
+#: audio/fmopl.cpp:98
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/fmopl.cpp:99
+#: audio/fmopl.cpp:101
 msgid "RetroWave OPL3"
 msgstr "RetroWave OPL3"
 
@@ -6455,7 +6455,7 @@ msgstr "Έλεγχος Ενημερώσεων..."
 #: engines/hugo/metaengine.cpp:129 engines/hypno/metaengine.cpp:128
 #: engines/illusions/metaengine.cpp:89 engines/lab/metaengine.cpp:149
 #: engines/lure/metaengine.cpp:168 engines/made/metaengine.cpp:132
-#: engines/mads/metaengine.cpp:294 engines/neverhood/metaengine.cpp:185
+#: engines/mads/metaengine.cpp:306 engines/neverhood/metaengine.cpp:185
 #: engines/ngi/metaengine.cpp:115 engines/petka/metaengine.cpp:113
 #: engines/prince/metaengine.cpp:227 engines/private/metaengine.cpp:127
 #: engines/queen/metaengine.cpp:146 engines/sherlock/metaengine.cpp:313
@@ -6775,12 +6775,12 @@ msgstr ""
 #: engines/crab/metaengine.cpp:34 engines/darkseed/dialogs.cpp:95
 #: engines/drascula/metaengine.cpp:42 engines/dreamweb/metaengine.cpp:48
 #: engines/got/metaengine.cpp:35 engines/groovie/metaengine.cpp:53
-#: engines/m4/metaengine.cpp:37 engines/nancy/metaengine.cpp:104
-#: engines/neverhood/dialogs.cpp:47 engines/phoenixvr/metaengine.cpp:38
-#: engines/sci/detection_options.h:105 engines/sherlock/metaengine.cpp:47
-#: engines/toltecs/metaengine.cpp:44 engines/trecision/metaengine.cpp:41
-#: engines/ultima/metaengine.cpp:56 engines/waynesworld/metaengine.cpp:37
-#: engines/zvision/metaengine.cpp:42
+#: engines/m4/metaengine.cpp:37 engines/mads/metaengine.cpp:114
+#: engines/nancy/metaengine.cpp:104 engines/neverhood/dialogs.cpp:47
+#: engines/phoenixvr/metaengine.cpp:38 engines/sci/detection_options.h:105
+#: engines/sherlock/metaengine.cpp:47 engines/toltecs/metaengine.cpp:44
+#: engines/trecision/metaengine.cpp:41 engines/ultima/metaengine.cpp:56
+#: engines/waynesworld/metaengine.cpp:37 engines/zvision/metaengine.cpp:42
 msgid "Use original save/load screens"
 msgstr "Χρήση αρχικών οθονών αποθήκευσης/φόρτωσης"
 
@@ -6789,12 +6789,12 @@ msgstr "Χρήση αρχικών οθονών αποθήκευσης/φόρτω
 #: engines/crab/metaengine.cpp:35 engines/darkseed/dialogs.cpp:96
 #: engines/drascula/metaengine.cpp:43 engines/dreamweb/metaengine.cpp:49
 #: engines/got/metaengine.cpp:36 engines/groovie/metaengine.cpp:54
-#: engines/m4/metaengine.cpp:38 engines/nancy/metaengine.cpp:105
-#: engines/neverhood/dialogs.cpp:48 engines/phoenixvr/metaengine.cpp:39
-#: engines/sci/detection_options.h:106 engines/sherlock/metaengine.cpp:48
-#: engines/toltecs/metaengine.cpp:45 engines/trecision/metaengine.cpp:42
-#: engines/ultima/metaengine.cpp:57 engines/waynesworld/metaengine.cpp:38
-#: engines/zvision/metaengine.cpp:43
+#: engines/m4/metaengine.cpp:38 engines/mads/metaengine.cpp:115
+#: engines/nancy/metaengine.cpp:105 engines/neverhood/dialogs.cpp:48
+#: engines/phoenixvr/metaengine.cpp:39 engines/sci/detection_options.h:106
+#: engines/sherlock/metaengine.cpp:48 engines/toltecs/metaengine.cpp:45
+#: engines/trecision/metaengine.cpp:42 engines/ultima/metaengine.cpp:57
+#: engines/waynesworld/metaengine.cpp:38 engines/zvision/metaengine.cpp:43
 msgid "Use the original save/load screens instead of the ScummVM ones"
 msgstr ""
 "Χρήση των αρχικών οθονών αποθήκευσης/φόρτωσης αντί για αυτές του ScummVM"
@@ -7023,7 +7023,7 @@ msgstr "AGOS - Κύρια"
 #: engines/hypno/metaengine.cpp:267 engines/hypno/metaengine.cpp:311
 #: engines/illusions/metaengine.cpp:90 engines/lab/metaengine.cpp:152
 #: engines/lure/metaengine.cpp:169 engines/made/metaengine.cpp:133
-#: engines/mads/metaengine.cpp:295 engines/neverhood/metaengine.cpp:186
+#: engines/mads/metaengine.cpp:307 engines/neverhood/metaengine.cpp:186
 #: engines/queen/metaengine.cpp:147 engines/saga/metaengine.cpp:268
 #: engines/sludge/keymapper_tables.h:33 engines/stark/metaengine.cpp:185
 #: engines/sword1/metaengine.cpp:267 engines/tinsel/metaengine.cpp:241
@@ -7529,7 +7529,7 @@ msgstr "Κόλπο 'Μάτι του Στρατιώτη 714'"
 #: engines/bbvs/metaengine.cpp:111 engines/cruise/metaengine.cpp:223
 #: engines/freescape/movement.cpp:107 engines/got/metaengine.cpp:78
 #: engines/hugo/metaengine.cpp:197 engines/lure/metaengine.cpp:209
-#: engines/mads/metaengine.cpp:312 engines/mm/mm1/metaengine.cpp:42
+#: engines/mads/metaengine.cpp:324 engines/mm/mm1/metaengine.cpp:42
 #: engines/mm/mm1/metaengine.cpp:48 engines/saga/metaengine.cpp:328
 #: engines/tinsel/metaengine.cpp:258 engines/tsage/metaengine.cpp:190
 #: engines/tucker/metaengine.cpp:221 engines/twine/metaengine.cpp:388
@@ -7843,7 +7843,7 @@ msgstr "Εναλλαγή ιδιωτικότητας ευρημάτων"
 #: engines/freescape/games/eclipse/eclipse.cpp:351
 #: engines/hopkins/metaengine.cpp:236 engines/hugo/metaengine.cpp:165
 #: engines/lure/metaengine.cpp:191 engines/made/metaengine.cpp:192
-#: engines/mads/metaengine.cpp:325 engines/mohawk/myst.cpp:583
+#: engines/mads/metaengine.cpp:337 engines/mohawk/myst.cpp:583
 #: engines/mohawk/riven.cpp:864 engines/pegasus/pegasus.cpp:2825
 #: engines/petka/metaengine.cpp:198 engines/prince/metaengine.cpp:243
 #: engines/saga/metaengine.cpp:442 engines/sherlock/metaengine.cpp:462
@@ -7919,7 +7919,7 @@ msgstr "Βάση δεδομένων στοιχείων έρευνας"
 #: engines/freescape/games/dark/dark.cpp:236
 #: engines/freescape/games/driller/driller.cpp:135
 #: engines/freescape/games/eclipse/eclipse.cpp:361
-#: engines/mads/metaengine.cpp:381 engines/phoenixvr/metaengine.cpp:80
+#: engines/mads/metaengine.cpp:393 engines/phoenixvr/metaengine.cpp:80
 #: engines/saga/metaengine.cpp:437 engines/sherlock/metaengine.cpp:359
 #: engines/sherlock/metaengine.cpp:618 engines/sherlock/metaengine.cpp:852
 #: engines/stark/metaengine.cpp:280 engines/sword1/metaengine.cpp:295
@@ -8190,7 +8190,7 @@ msgstr "Αφήγηση κειμένου για Αντικείμενα και Ε�
 
 #: engines/cge2/metaengine.cpp:60 engines/draci/metaengine.cpp:45
 #: engines/dreamweb/metaengine.cpp:74 engines/griffon/metaengine.cpp:41
-#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:128
+#: engines/lure/metaengine.cpp:54 engines/mads/metaengine.cpp:140
 #: engines/parallaction/metaengine.cpp:53 engines/prince/metaengine.cpp:41
 #: engines/sci/detection_options.h:222 engines/sherlock/metaengine.cpp:121
 #: engines/supernova/metaengine.cpp:54 engines/teenagent/metaengine.cpp:50
@@ -9655,7 +9655,7 @@ msgstr "Πλήθος στηλών:"
 
 #: engines/glk/dialogs.cpp:292
 msgid "Number of columns"
-msgstr "Ο αριθμός των στηλών κεμένου"
+msgstr "Ο αριθμός των στηλών κειμένου"
 
 #. I18N: This is setting for number of text rows
 #: engines/glk/dialogs.cpp:294
@@ -10310,7 +10310,7 @@ msgid "Repeat last line"
 msgstr "Επανάληψη πρόσφατης γραμμής"
 
 #: engines/hugo/metaengine.cpp:172 engines/lure/metaengine.cpp:197
-#: engines/mads/metaengine.cpp:331 engines/tsage/metaengine.cpp:247
+#: engines/mads/metaengine.cpp:343 engines/tsage/metaengine.cpp:247
 msgid "Restore game"
 msgstr "Επαναφορά παιχνιδιού"
 
@@ -10495,7 +10495,7 @@ msgstr "Πλήκτρα διακοπής"
 msgid "Direction keymappings"
 msgstr "Πλήκτρα κατεύθυνσης"
 
-#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:369
+#: engines/hypno/metaengine.cpp:316 engines/mads/metaengine.cpp:381
 #: engines/tsage/metaengine.cpp:259
 msgid "Show credits"
 msgstr "Προβολή συντελεστών"
@@ -11024,7 +11024,7 @@ msgid "This puzzle is not available in the trial version of the game"
 msgstr ""
 "Αυτός ο γρίφος δεν είναι διαθέσιμος στη δοκιμαστική έκδοση του παιχνιδιού"
 
-#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:127
+#: engines/lure/metaengine.cpp:53 engines/mads/metaengine.cpp:139
 #: engines/sherlock/metaengine.cpp:120 engines/twine/metaengine.cpp:144
 msgid "TTS Narrator"
 msgstr "Αφηγητής Κειμένου"
@@ -11150,39 +11150,39 @@ msgstr "Κινούμενη διεπαφή παιχνιδιού"
 msgid "Naughty game mode"
 msgstr "Λειτουργία παιχνιδιού για άτακτους"
 
-#: engines/mads/metaengine.cpp:296
+#: engines/mads/metaengine.cpp:308
 msgid "Start menu keymappings"
 msgstr "Πλήκτρα για μενού έναρξης"
 
-#: engines/mads/metaengine.cpp:319
+#: engines/mads/metaengine.cpp:331
 msgid "Open game menu"
 msgstr "Άνοιγμα μενού παιχνιδιού"
 
-#: engines/mads/metaengine.cpp:337
+#: engines/mads/metaengine.cpp:349
 msgid "Scroll bar up"
 msgstr "Κύλιση μπάρας πάνω"
 
-#: engines/mads/metaengine.cpp:343
+#: engines/mads/metaengine.cpp:355
 msgid "Scroll bar down"
 msgstr "Κύλιση κάτω"
 
-#: engines/mads/metaengine.cpp:351
+#: engines/mads/metaengine.cpp:363
 msgid "Start game"
 msgstr "Έναρξη παιχνιδιού"
 
-#: engines/mads/metaengine.cpp:357
+#: engines/mads/metaengine.cpp:369
 msgid "Resume game"
 msgstr "Συνέχιση παιχνιδιού"
 
-#: engines/mads/metaengine.cpp:363
+#: engines/mads/metaengine.cpp:375
 msgid "Show intro"
 msgstr "Προβολή εισαγωγής"
 
-#: engines/mads/metaengine.cpp:375
+#: engines/mads/metaengine.cpp:387
 msgid "Show quotes"
 msgstr "Προβολή διαλόγων"
 
-#: engines/mads/metaengine.cpp:388
+#: engines/mads/metaengine.cpp:400
 msgid "Restart animation"
 msgstr "Επανέναρξη κίνησης"
 
@@ -12592,13 +12592,13 @@ msgid "Game does not contain menu resources"
 msgstr "Το παιχνίδι δεν περιέχει πόρους για μενού"
 
 #. I18N: 'Robot' is a video format name (as in 'MP4 video')
-#: engines/sci/detection_tables.h:4834
+#: engines/sci/detection_tables.h:4854
 msgid "This demo uses an unimplemented version of Robot videos"
 msgstr ""
 "Το demo αυτό χρησιμοποιεί μια έκδοση των βίντεο Robot που δεν έχει "
 "υλοποιηθει ακόμα"
 
-#: engines/sci/detection_tables.h:4889
+#: engines/sci/detection_tables.h:4909
 msgid "Incomplete game detected. You have to copy data from all the CDs."
 msgstr ""
 "Εντοπίστηκε ελλιπές παιχνίδι. Χρειάζεται να αντιγράψετε τα δεδομένα από όλα "
@@ -14211,10 +14211,8 @@ msgid "Movie keymappings"
 msgstr "Πλήκτρα παιχνιδιού"
 
 #: engines/sherlock/metaengine.cpp:349
-#, fuzzy
-#| msgid "Use Selected Object"
 msgid "Skip / Deselect verb"
-msgstr "Χρήση Επιλεγμένου Αντικειμένου"
+msgstr "Παράκαμψη / Απεπιλογή ενέργειας"
 
 #: engines/sherlock/metaengine.cpp:450
 #: engines/wintermute/keymapper_tables.h:1614
@@ -14224,10 +14222,8 @@ msgid "Settings"
 msgstr "Ρυθμίσεις"
 
 #: engines/sherlock/metaengine.cpp:472
-#, fuzzy
-#| msgid "Tileset"
 msgid "Files"
-msgstr "Διάταξη πλακιδίων"
+msgstr "Αρχεία"
 
 #. I18N: (Game: The Lost Files of Sherlock Holmes: The Case of the Serrated Scalpel) The game has a journal, this action is used to go back 10 pages in the journal
 #. I18N: (Game name: The Lost Files of Sherlock Holmes: The Case of the Rose Tattoo) The game has a journal, this action is used to go back 10 pages in the journal
@@ -14254,22 +14250,16 @@ msgid "Last page"
 msgstr "Τελευταία σελίδα"
 
 #: engines/sherlock/metaengine.cpp:578
-#, fuzzy
-#| msgid "Roll left"
 msgid "Scroll left"
-msgstr "Κύληση αριστερά"
+msgstr "Κύλιση αριστερά"
 
 #: engines/sherlock/metaengine.cpp:584
-#, fuzzy
-#| msgid "Move right"
 msgid "Scroll right"
-msgstr "Κίνηση δεξιά"
+msgstr "Κύλιση δεξιά"
 
 #: engines/sherlock/metaengine.cpp:649 engines/sherlock/metaengine.cpp:938
-#, fuzzy
-#| msgid "Select Actor 1"
 msgid "Select option"
-msgstr "Επιλογή Ηθοποιού 1"
+msgstr "Αποδοχή επιλογής"
 
 #: engines/sherlock/metaengine.cpp:692
 msgid "Toggle portraits"
@@ -14280,23 +14270,17 @@ msgid "Change font style"
 msgstr "Αλλαγή στυλ γραμματοσειράς"
 
 #: engines/sherlock/metaengine.cpp:707
-#, fuzzy
-#| msgid "Toggle fight mode"
 msgid "Toggle windows mode"
-msgstr "Εναλλαγή κατάστασης μάχης"
+msgstr "Εναλλαγή κατάστασης παραθύρων"
 
 #. I18N: (Game: The Lost Files of Sherlock Holmes: The Case of the Serrated Scalpel) The game has an auto-help feature, this action is used to change the auto-help location between left and right
 #: engines/sherlock/metaengine.cpp:713
-#, fuzzy
-#| msgid "Change game options"
 msgid "Change auto-help location"
-msgstr "Αλλαγή επιλογών παιχνιδιού"
+msgstr "Αλλαγή θέσης αυτόματης βοήθειας"
 
 #: engines/sherlock/metaengine.cpp:718
-#, fuzzy
-#| msgid "Enable cheats"
 msgid "Toggle voices"
-msgstr "Ενεργοποίηση cheats"
+msgstr "Εναλλαγή φωνών"
 
 #. I18N: (Game: The Lost Files of Sherlock Holmes: The Case of the Serrated Scalpel) The game has a fade animation when switching scenes, this action is used to change the fade mode to "Fade by pixel"
 #: engines/sherlock/metaengine.cpp:726
@@ -14312,22 +14296,16 @@ msgstr "Δημιουργία φακέλου"
 
 #. I18N: (Game: The Lost Files of Sherlock Holmes: The Case of the Serrated Scalpel) The game has a fade animation when switching scenes, this action is used to change the fade mode
 #: engines/sherlock/metaengine.cpp:738
-#, fuzzy
-#| msgid "Change mode"
 msgid "Change fade mode"
-msgstr "Αλλαγή λειτουργίας"
+msgstr "Αλλαγή τρόπου μετάβασης μεταξύ σκηνών"
 
 #: engines/sherlock/metaengine.cpp:780
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Journal search keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα αναζήτησης στο ημερολόγιο"
 
 #: engines/sherlock/metaengine.cpp:783
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Menu scrolling keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα κύλισης στο μενού"
 
 #: engines/sherlock/metaengine.cpp:784
 msgid "Save / load menu keymappings"
@@ -14378,11 +14356,11 @@ msgstr "Έξοδος / κλείσιμο παραθύρου"
 
 #: engines/sherlock/metaengine.cpp:882 engines/sherlock/metaengine.cpp:949
 msgid "Change selected option to the left"
-msgstr ""
+msgstr "Αλλαγή στην επιλογή στα αριστερά"
 
 #: engines/sherlock/metaengine.cpp:888 engines/sherlock/metaengine.cpp:955
 msgid "Change selected option to the right"
-msgstr ""
+msgstr "Αλλαγή στην επιλογή στα δεξιά"
 
 #: engines/sherlock/metaengine.cpp:972
 msgid "Skip darts minigame"
@@ -14390,31 +14368,23 @@ msgstr "Παράλειψη του μίνι παιχνιδιού βελάκια"
 
 #. I18N: (Game name: The Lost Files of Sherlock Holmes: The Case of the Rose Tattoo) The game has a map, this action is used to scroll to the top left of the map
 #: engines/sherlock/metaengine.cpp:983
-#, fuzzy
-#| msgid "Scroll list up"
 msgid "Scroll to top left"
-msgstr "Κύλιση λίστας πάνω"
+msgstr "Κύλιση ως πάνω αριστερά"
 
 #. I18N: (Game name: The Lost Files of Sherlock Holmes: The Case of the Rose Tattoo) The game has a map, this action is used to scroll to the bottom right of the map
 #: engines/sherlock/metaengine.cpp:991
-#, fuzzy
-#| msgid "Move to bottom"
 msgid "Scroll to bottom right"
-msgstr "Κίνηση προς τον πάτο"
+msgstr "Κύλιση ως κάτω δεξιά"
 
 #. I18N: (Game name: The Lost Files of Sherlock Holmes: The Case of the Rose Tattoo) The game has multiple widgets for various purposes (eg. inventory, save files, etc.), this action is used to scroll to the end of the widget
 #: engines/sherlock/metaengine.cpp:1055
-#, fuzzy
-#| msgid "Scroll list up"
 msgid "Scroll to end"
-msgstr "Κύλιση λίστας πάνω"
+msgstr "Κύλιση ως το τέλος"
 
 #. I18N: (Game name: The Lost Files of Sherlock Holmes: The Case of the Rose Tattoo) The game has multiple widgets for various purposes (eg. inventory, save files, etc.), this action is used to scroll to the start of the widget
 #: engines/sherlock/metaengine.cpp:1062
-#, fuzzy
-#| msgid "Scroll list up"
 msgid "Scroll to start"
-msgstr "Κύλιση λίστας πάνω"
+msgstr "Κύλιση στην αρχή"
 
 #: engines/sherlock/metaengine.cpp:1072
 msgid "Go to next save file slot"
@@ -14648,38 +14618,26 @@ msgid "Display all exits on current location"
 msgstr "Προβολή όλων των εξόδων από την τρέχουσα τοποθεσία"
 
 #: engines/stark/metaengine.cpp:306
-#, fuzzy
-#| msgid "Scroll list up"
 msgid "Scroll dialogs up"
-msgstr "Κύλιση λίστας πάνω"
+msgstr "Κύλιση διαλόγων πάνω"
 
 #: engines/stark/metaengine.cpp:312
-#, fuzzy
-#| msgid "Scroll list down"
 msgid "Scroll dialogs down"
-msgstr "Κύλιση λίστας κάτω"
+msgstr "Κύλιση διαλόγων κάτω"
 
 #: engines/stark/metaengine.cpp:318
-#, fuzzy
-#| msgid "Go to next dialogue"
 msgid "Go to next dialog"
-msgstr "Πήγαινε στον επόμενο διάλογο"
+msgstr "Στον επόμενο διάλογο"
 
 #: engines/stark/metaengine.cpp:323
-#, fuzzy
-#| msgid "Go to previous dialogues"
 msgid "Go to previous dialogs"
-msgstr "Πήγαινε στον προηγούμενο διάλογο"
+msgstr "Στον προηγούμενο διάλογο"
 
 #: engines/stark/metaengine.cpp:328
-#, fuzzy
-#| msgid "Select dialogue"
 msgid "Select dialog"
 msgstr "Επιλογή διαλόγου"
 
 #: engines/stark/metaengine.cpp:335
-#, fuzzy
-#| msgid "Skip video sequence or dialogue"
 msgid "Skip video sequence or dialog"
 msgstr "Παράκαμψη σκηνής βίντεο ή διαλόγου"
 
@@ -14775,60 +14733,44 @@ msgstr ""
 "ρημάτων από το πληκτρολόγιο"
 
 #: engines/supernova/metaengine.cpp:220
-#, fuzzy
-#| msgid "Index keymappings"
 msgid "Improved mode keymappings"
-msgstr "Πλήκτρα επιλογής"
+msgstr "Πλήκτρα βελτιωμένης λειτουργίας"
 
 #: engines/supernova/metaengine.cpp:221
-#, fuzzy
-#| msgid "Exit screen keymappings"
 msgid "Text reader keymappings"
-msgstr "Πλήκτρα για έξοδο από οθόνη"
+msgstr "Πλήκτρα για αναγνώστη κειμένου"
 
 #: engines/supernova/metaengine.cpp:222
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Computer keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα υπολογιστή"
 
 #: engines/supernova/metaengine.cpp:232
-#, fuzzy
-#| msgid "Look at"
 msgid "Perform default action"
-msgstr "Κοίτα προς"
+msgstr "Εκτέλεση προεπιλεγμένης ενέργειας"
 
 #: engines/supernova/metaengine.cpp:244
 msgid "Instructions"
 msgstr "Οδηγίες"
 
 #: engines/supernova/metaengine.cpp:250
-#, fuzzy
-#| msgid "General Information"
 msgid "Information"
-msgstr "Γενικές Πληροφορίες"
+msgstr "Πληροφορίες"
 
 #: engines/supernova/metaengine.cpp:256
-#, fuzzy
-#| msgid "Text speed - Fast"
 msgid "Text speed"
-msgstr "Ταχύτητα κειμένου - Γρήγορη"
+msgstr "Ταχύτητα κειμένου"
 
 #: engines/supernova/metaengine.cpp:321
-#, fuzzy
-#| msgid "Good"
 msgid "Go"
-msgstr "Καλή"
+msgstr "Πήγαινε"
 
 #: engines/supernova/metaengine.cpp:379
-#, fuzzy
-#| msgid "Open Files manager"
 msgid "Office manager"
-msgstr "Άνοιγμα διαχείρισης αρχείων"
+msgstr "Διευθυντής γραφείου"
 
 #: engines/supernova/metaengine.cpp:385
 msgid "Phone"
-msgstr ""
+msgstr "Τηλέφωνο"
 
 #: engines/supernova/metaengine.cpp:391
 msgid "ProText"
@@ -14836,7 +14778,7 @@ msgstr ""
 
 #: engines/supernova/metaengine.cpp:397
 msgid "Calculata"
-msgstr ""
+msgstr "Αριθμομηχανή"
 
 #: engines/sword1/animation.cpp:566 engines/sword2/animation.cpp:459
 msgid ""
@@ -14944,10 +14886,8 @@ msgid "Additional options:"
 msgstr "Πρόσθετες επιλογές:"
 
 #: engines/sword1/metaengine.cpp:301
-#, fuzzy
-#| msgid "Main Menu"
 msgid "Main menu"
-msgstr "Κυρίως Μενού"
+msgstr "Κυρίως μενού"
 
 #: engines/sword2/detection_tables.h:431
 msgid "Remastered edition is not supported. Please, use the classic version"
@@ -14976,19 +14916,15 @@ msgstr ""
 
 #: engines/sword25/metaengine.cpp:130
 msgid "Reveal all interactive hotspots (hold the key)"
-msgstr ""
+msgstr "Εμφάνιση όλων των διαδραστικών σημείων (με το πλήκτρο πατημένο)"
 
 #: engines/teenagent/metaengine.cpp:201
-#, fuzzy
-#| msgid "Inventory"
 msgid "Move / Examine"
-msgstr "Υπάρχοντα"
+msgstr "Μετακίνηση / Εξέταση"
 
 #: engines/teenagent/metaengine.cpp:221
-#, fuzzy
-#| msgid "Open/Close Inventory"
 msgid "Close inventory"
-msgstr "Άνοιγμα/Κλείσιμο Υπαρχόντων"
+msgstr "Κλείσιμο υπαρχόντων"
 
 #: engines/tetraedge/metaengine.cpp:32
 msgid "Correct movie aspect ratio"
@@ -15033,38 +14969,29 @@ msgid "Save/Load keymappings"
 msgstr "Πλήκτρα για Αποθήκευση/Φόρτωση"
 
 #: engines/tinsel/metaengine.cpp:341
-#, fuzzy
-#| msgid "Page Up in save/load menu"
 msgid "Page up in save / load menu"
-msgstr "Πάνω σελίδα στο μενού αποθήκευσης/φόρτωσης"
+msgstr "Προηγούμενη σελίδα στο μενού αποθήκευσης / φόρτωσης"
 
 #: engines/tinsel/metaengine.cpp:347
-#, fuzzy
-#| msgid "Page down in save/load menu"
 msgid "Page down in save / load menu"
-msgstr "Κάτω σελίδα στο μενού αποθήκευσης/φόρτωσης"
+msgstr "Επόμενη σελίδα στο μενού αποθήκευσης / φόρτωσης"
 
 #: engines/tinsel/metaengine.cpp:353
-#, fuzzy
-#| msgid "Go to start of save/load menu"
 msgid "Go to start of save / load menu"
-msgstr "Έναρξη του μενού αποθήκευσης/φόρτωσης"
+msgstr "Στην αρχή του μενού αποθήκευσης / φόρτωσης"
 
 #: engines/tinsel/metaengine.cpp:359
-#, fuzzy
-#| msgid "Go to end of save/load menu"
 msgid "Go to end of save / load menu"
-msgstr "Τέλος του μενού απόθήκευσης/φόρτωσης"
+msgstr "Στο τέλος του μενού αποθήκευσης / φόρτωσης"
 
-#: engines/tinsel/tinsel.cpp:1058
+#: engines/tinsel/tinsel.cpp:1061
 msgid "Discworld Noir needs ScummVM with TinyGL enabled"
 msgstr ""
+"Το Discworld Noir απαιτεί να είναι ενεργοποιημένο το TinyGL στο ScummVM"
 
 #: engines/titanic/metaengine.cpp:173
-#, fuzzy
-#| msgid "Escape keymappings"
 msgid "PET keymappings"
-msgstr "Πλήκτρα για Escape"
+msgstr "Πλήκτρα για PET"
 
 #: engines/titanic/metaengine.cpp:174
 #, fuzzy
@@ -15073,52 +15000,36 @@ msgid "Real Life keymappings"
 msgstr "Πλήκτρα παιχνιδιού"
 
 #: engines/titanic/metaengine.cpp:175
-#, fuzzy
-#| msgid "KIA only shortcuts"
 msgid "Inventory shortcut"
-msgstr "συντομεύσεις για το KIA"
+msgstr "Συντόμευση για υπάρχοντα"
 
 #: engines/titanic/metaengine.cpp:176
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Continue game dialogue keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα για διάλογο συνέχισης παιχνιδιού"
 
 #: engines/titanic/metaengine.cpp:177
-#, fuzzy
-#| msgid "Start menu keymappings"
 msgid "Star Map keymappings"
-msgstr "Πλήκτρα για μενού έναρξης"
+msgstr "Πλήκτρα για Χάρτη Αστέρων"
 
 #: engines/titanic/metaengine.cpp:178
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Movement keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα κίνησης"
 
 #: engines/titanic/metaengine.cpp:182
-#, fuzzy
-#| msgid "Interact Mode"
 msgid "Select / Interact / Move"
-msgstr "Σε Αλληλεπίδραση"
+msgstr "Επιλογή / Αλληλεπίδραση / Κίνηση"
 
 #: engines/titanic/metaengine.cpp:188
-#, fuzzy
-#| msgid "Go to next dialogue"
 msgid "Select / Interact / Quick move"
-msgstr "Πήγαινε στον επόμενο διάλογο"
+msgstr "Επιλογή / Αλληλεπίδραση / Γρήγορη κίνηση"
 
 #: engines/titanic/metaengine.cpp:194
-#, fuzzy
-#| msgid "Game menu"
 msgid "Cheat menu"
-msgstr "Μενού παιχνιδιού"
+msgstr "Μενού για κόλπα"
 
 #: engines/titanic/metaengine.cpp:239
-#, fuzzy
-#| msgid "Conversation log"
 msgid "Conversation"
-msgstr "Καταγραφή διαλόγων"
+msgstr "Συζήτηση"
 
 #: engines/titanic/metaengine.cpp:249
 #, fuzzy
@@ -15135,16 +15046,12 @@ msgid "Real life"
 msgstr ""
 
 #: engines/titanic/metaengine.cpp:278
-#, fuzzy
-#| msgid "Scroll list up"
 msgid "Scroll to top"
-msgstr "Κύλιση λίστας πάνω"
+msgstr "Κύλιση έως πάνω"
 
 #: engines/titanic/metaengine.cpp:284
-#, fuzzy
-#| msgid "Move to bottom"
 msgid "Scroll to bottom"
-msgstr "Κίνηση προς τον πάτο"
+msgstr "Κύλιση έως κάτω"
 
 #: engines/titanic/metaengine.cpp:291
 msgid "Translation"
@@ -15152,39 +15059,35 @@ msgstr "Μετάφραση"
 
 #: engines/titanic/metaengine.cpp:307
 msgid "Toggle between Star Map and photo of your home"
-msgstr ""
+msgstr "Εναλλαγή μεταξύ Χάρτη Αστέρων και μιας φωτογραφίας του σπιτιού σου"
 
 #: engines/titanic/metaengine.cpp:350
 msgid "Stop moving"
-msgstr ""
+msgstr "Παύση κίνησης"
 
 #: engines/titanic/metaengine.cpp:356
 msgid "Lock coordinate"
-msgstr ""
+msgstr "Κλείδωμα συντεταγμένης"
 
 #: engines/titanic/metaengine.cpp:362
 msgid "Unlock coordinate"
-msgstr ""
+msgstr "Ελευθέρωση συντεταγμένης"
 
 #: engines/titanic/metaengine.cpp:368
-#, fuzzy
-#| msgid "Exit conversation"
 msgid "View constellations"
-msgstr "Έξοδος από συζήτηση"
+msgstr "Προβολή αστερισμών"
 
 #: engines/titanic/metaengine.cpp:373
 msgid "View boundaries"
-msgstr ""
+msgstr "Προβολή ορίων"
 
 #: engines/toltecs/metaengine.cpp:216
-#, fuzzy
-#| msgid "Move left"
 msgid "Move / Select"
-msgstr "Κίνηση αριστερά"
+msgstr "Κίνηση / Επιλογή"
 
 #: engines/toltecs/metaengine.cpp:222
 msgid "Move / Perform default action"
-msgstr ""
+msgstr "Κίνηση / Εκτέλεση προεπιλεγμένης ενέργειας"
 
 #: engines/toltecs/metaengine.cpp:258
 #, fuzzy
@@ -15245,56 +15148,42 @@ msgid "Unable to locate the '%s' data file."
 msgstr "Αδυναμία εντοπισμού του αρχείου παιχνιδιού '%s'."
 
 #: engines/tot/metaengine.cpp:36
-#, fuzzy
-#| msgid "Enable copy protection"
 msgid "Copy protection"
-msgstr "Ενεργοποίηση προστασίας από αντίγραφα"
+msgstr "Προστασία από αντίγραφα"
 
 #: engines/tot/metaengine.cpp:47
-#, fuzzy
-#| msgid "Pixellated scene transitions"
 msgid "Disable scene transitions"
-msgstr "Πιξελιασμένες μεταβάσεις σκηνής"
+msgstr "Χωρίς μεταβάσεις μεταξύ σκηνών"
 
 #: engines/tot/metaengine.cpp:48
 msgid "Disable original transition effects between scenes"
 msgstr ""
+"Απενεργοποιεί τα εφέ μετάβασης μεταξύ σκηνών που είχε το πρωτότυπο παιχνίδι"
 
 #: engines/tot/metaengine.cpp:58
-#, fuzzy
-#| msgid "Save / Load dialog"
 msgid "Original save/load dialog"
-msgstr "Διάλογος Αποθήκευσης / Φόρτωσης"
+msgstr "Κλασσική οθόνη αποθήκευσης/φόρτωσης"
 
 #: engines/tot/metaengine.cpp:59
-#, fuzzy
-#| msgid "Use original save/load screens"
 msgid "Use original save and load dialogs"
-msgstr "Χρήση αρχικών οθονών αποθήκευσης/φόρτωσης"
+msgstr ""
+"Χρήση των οθονών αποθήκευσης και φόρτωσης που είχε το πρωτότυπο παιχνίδι"
 
 #: engines/tot/metaengine.cpp:118
-#, fuzzy
-#| msgid "Look at"
 msgid "Default action"
-msgstr "Κοίτα προς"
+msgstr "Προεπιλεγμένη ενέργεια"
 
 #: engines/tot/metaengine.cpp:154
-#, fuzzy
-#| msgid "Saved games"
 msgid "Save and load game"
-msgstr "Αποθηκευμένα παιχνίδια"
+msgstr "Αποθήκευση και φόρτωση παιχνιδιού"
 
 #: engines/tot/metaengine.cpp:164
-#, fuzzy
-#| msgid "Main Menu"
 msgid "Main menu / Exit"
-msgstr "Κυρίως Μενού"
+msgstr "Κυρίως μενού / Έξοδος"
 
 #: engines/touche/metaengine.cpp:135
-#, fuzzy
-#| msgid "Skip sequence/open quit dialogue"
 msgid "Skip sequence / open quit dialog"
-msgstr "Παράκαμψη σκηνής/άνοιγμα παραθύρου για έξοδο"
+msgstr "Παράκαμψη σκηνής / άνοιγμα οθόνης για έξοδο"
 
 #. I18N: The actor walking pace is increased
 #: engines/touche/metaengine.cpp:154
@@ -15307,10 +15196,8 @@ msgid "Disable fast walk"
 msgstr "Απενεργοποίηση γρήγορου βαδίσματος"
 
 #: engines/touche/metaengine.cpp:173
-#, fuzzy
-#| msgid "Toggle between voice/text/text and voice"
 msgid "Toggle between voice / text / text and voice"
-msgstr "Εναλλαγή μεταξύ φωνής/κειμένου/φωνής με κείμενο"
+msgstr "Εναλλαγή μεταξύ φωνής / κειμένου / φωνής με κείμενο"
 
 #: engines/touche/metaengine.cpp:182
 msgid "Press \"Yes\" Key"
@@ -15347,16 +15234,12 @@ msgid "Crawl South"
 msgstr "Σύρσου Νότια"
 
 #: engines/tsage/metaengine.cpp:278
-#, fuzzy
-#| msgid "Turn Left/Crawl West"
 msgid "Turn left / Crawl West"
-msgstr "Στρίψε Αριστερά/Σύρσου Δυτικά"
+msgstr "Στρίψε αριστερά / Σύρσου Δυτικά"
 
 #: engines/tsage/metaengine.cpp:285
-#, fuzzy
-#| msgid "Turn Right/Crawl East"
 msgid "Turn right / Crawl East"
-msgstr "Στρίψε Δεξιά/Σύρσου Ανατολικά"
+msgstr "Στρίψε δεξιά / Σύρσου Ανατολικά"
 
 #: engines/tsage/metaengine.cpp:292
 msgid "Increase speed"
@@ -15483,76 +15366,52 @@ msgid "Enable a higher resolution for the game"
 msgstr "Ενεργοποίηση υψηλής ανάλυσης για το παιχνίδι"
 
 #: engines/twine/metaengine.cpp:228
-#, fuzzy
-#| msgid "Debug Grid Camera Up"
 msgid "Debug grid camera up"
-msgstr "Αποσφαλμάτωση: Κάμερα Πλέγματος Πάνω"
+msgstr "Αποσφαλμάτωση: κάμερα πλέγματος πάνω"
 
 #: engines/twine/metaengine.cpp:233
-#, fuzzy
-#| msgid "Debug Grid Camera Down"
 msgid "Debug grid camera down"
-msgstr "Αποσφαλμάτωση: Κάμερα Πλέγματος Κάτω"
+msgstr "Αποσφαλμάτωση: κάμερα πλέγματος κάτω"
 
 #: engines/twine/metaengine.cpp:238
-#, fuzzy
-#| msgid "Debug Grid Camera Left"
 msgid "Debug grid camera left"
-msgstr "Αποσφαλμάτωση: Κάμερα Πλέγματος Αριστερά"
+msgstr "Αποσφαλμάτωση: κάμερα πλέγματος αριστερά"
 
 #: engines/twine/metaengine.cpp:244
-#, fuzzy
-#| msgid "Debug Grid Camera Right"
 msgid "Debug grid camera right"
-msgstr "Αποσφαλμάτωση: Κάμερα Πλέγματος Δεξιά"
+msgstr "Αποσφαλμάτωση: κάμερα πλέγματος δεξιά"
 
 #: engines/twine/metaengine.cpp:249 engines/twine/metaengine.cpp:269
-#, fuzzy
-#| msgid "Normal Behaviour"
 msgid "Normal behavior"
-msgstr "Κανονική Συμπεριφορά"
+msgstr "Κανονική συμπεριφορά"
 
 #: engines/twine/metaengine.cpp:254 engines/twine/metaengine.cpp:274
-#, fuzzy
-#| msgid "Athletic Behaviour"
 msgid "Athletic behavior"
-msgstr "Αθλητική Συμπεριφορά"
+msgstr "Αθλητική συμπεριφορά"
 
 #: engines/twine/metaengine.cpp:259 engines/twine/metaengine.cpp:279
-#, fuzzy
-#| msgid "Aggressive Behaviour"
 msgid "Aggressive behavior"
-msgstr "Επιθετική Συμπεριφορά"
+msgstr "Επιθετική συμπεριφορά"
 
 #: engines/twine/metaengine.cpp:264 engines/twine/metaengine.cpp:284
-#, fuzzy
-#| msgid "Discreet Behaviour"
 msgid "Discreet behavior"
-msgstr "Διακριτική Συμπεριφορά"
+msgstr "Διακριτική συμπεριφορά"
 
 #: engines/twine/metaengine.cpp:289
-#, fuzzy
-#| msgid "Behaviour Action"
 msgid "Behavior action"
-msgstr "Ενέργεια Συμπεριφοράς"
+msgstr "Ενέργεια συμπεριφοράς"
 
 #: engines/twine/metaengine.cpp:295
-#, fuzzy
-#| msgid "Change Behaviour"
 msgid "Change behavior"
-msgstr "Αλλαγή Συμπεριφοράς"
+msgstr "Αλλαγή συμπεριφοράς"
 
 #: engines/twine/metaengine.cpp:319
-#, fuzzy
-#| msgid "Use Selected Object"
 msgid "Use selected object"
-msgstr "Χρήση Επιλεγμένου Αντικειμένου"
+msgstr "Χρήση επιλεγμένου αντικειμένου"
 
 #: engines/twine/metaengine.cpp:325
-#, fuzzy
-#| msgid "Throw Magic Ball"
 msgid "Throw magic ball"
-msgstr "Πέτα Μαγική Σφαίρα"
+msgstr "Πέτα μαγική σφαίρα"
 
 #: engines/twine/metaengine.cpp:360
 msgid "Use Protopack"
@@ -15563,16 +15422,12 @@ msgid "Open Holomap"
 msgstr "Άνοιγμα ολογραφικού χάρτη"
 
 #: engines/twine/metaengine.cpp:378
-#, fuzzy
-#| msgid "Special Action"
 msgid "Special action"
-msgstr "Ειδική Ενέργεια"
+msgstr "Ειδική ενέργεια"
 
 #: engines/twine/metaengine.cpp:384
-#, fuzzy
-#| msgid "Scenery Zoom"
 msgid "Scenery zoom"
-msgstr "Ζουμ Εικόνας"
+msgstr "Ζουμ εικόνας"
 
 #: engines/twine/metaengine.cpp:527
 msgid "Previous location"
@@ -15659,106 +15514,72 @@ msgid "Go to next object"
 msgstr "Στο επόμενο αντικείμενο"
 
 #: engines/twp/metaengine.cpp:158
-#, fuzzy
-#| msgid "Select verb/item Left"
 msgid "Select verb / item left"
-msgstr "Επιλογή ενέργειας/αντικειμένου στα αριστερά"
+msgstr "Επιλογή ενέργειας / αντικειμένου στα αριστερά"
 
 #: engines/twp/metaengine.cpp:159
-#, fuzzy
-#| msgid "Select verb/item Right"
 msgid "Select verb / item right"
-msgstr "Επιλογή ενέργειας/αντικειμένου στα δεξιά"
+msgstr "Επιλογή ενέργειας / αντικειμένου στα δεξιά"
 
 #: engines/twp/metaengine.cpp:160
-#, fuzzy
-#| msgid "Select verb/item Up"
 msgid "Select verb / item up"
-msgstr "Επιλογή ενέργειας/αντικειμένου πάνω"
+msgstr "Επιλογή ενέργειας / αντικειμένου πάνω"
 
 #: engines/twp/metaengine.cpp:161
-#, fuzzy
-#| msgid "Select verb/item Down"
 msgid "Select verb / item down"
-msgstr "Επιλογή ενέργειας/αντικειμένου κάτω"
+msgstr "Επιλογή ενέργειας / αντικειμένου κάτω"
 
 #: engines/twp/metaengine.cpp:163
-#, fuzzy
-#| msgid "Select Actor 1"
 msgid "Select actor 1"
-msgstr "Επιλογή Ηθοποιού 1"
+msgstr "Επιλογή ηθοποιού 1"
 
 #: engines/twp/metaengine.cpp:164
-#, fuzzy
-#| msgid "Select Actor 2"
 msgid "Select actor 2"
-msgstr "Επιλογή Ηθοποιού 2"
+msgstr "Επιλογή ηθοποιού 2"
 
 #: engines/twp/metaengine.cpp:165
-#, fuzzy
-#| msgid "Select Actor 3"
 msgid "Select actor 3"
-msgstr "Επιλογή Ηθοποιού 3"
+msgstr "Επιλογή ηθοποιού 3"
 
 #: engines/twp/metaengine.cpp:166
-#, fuzzy
-#| msgid "Select Actor 4"
 msgid "Select actor 4"
-msgstr "Επιλογή Ηθοποιού 4"
+msgstr "Επιλογή ηθοποιού 4"
 
 #: engines/twp/metaengine.cpp:167
-#, fuzzy
-#| msgid "Select Actor 5"
 msgid "Select actor 5"
-msgstr "Επιλογή Ηθοποιού 5"
+msgstr "Επιλογή ηθοποιού 5"
 
 #: engines/twp/metaengine.cpp:168
-#, fuzzy
-#| msgid "Select Choice 1"
 msgid "Select choice 1"
 msgstr "Επιλογή 1"
 
 #: engines/twp/metaengine.cpp:169
-#, fuzzy
-#| msgid "Select Choice 2"
 msgid "Select choice 2"
 msgstr "Επιλογή 2"
 
 #: engines/twp/metaengine.cpp:170
-#, fuzzy
-#| msgid "Select Choice 3"
 msgid "Select choice 3"
 msgstr "Επιλογή 3"
 
 #: engines/twp/metaengine.cpp:171
-#, fuzzy
-#| msgid "Select Choice 4"
 msgid "Select choice 4"
 msgstr "Επιλογή 4"
 
 #: engines/twp/metaengine.cpp:172
-#, fuzzy
-#| msgid "Select Choice 5"
 msgid "Select choice 5"
 msgstr "Επιλογή 5"
 
 #: engines/twp/metaengine.cpp:173
-#, fuzzy
-#| msgid "Select Choice 6"
 msgid "Select choice 6"
 msgstr "Επιλογή 6"
 
 #: engines/twp/metaengine.cpp:174
-#, fuzzy
-#| msgid "Select Next Actor"
 msgid "Select next Actor"
-msgstr "Επόμενος Ηθοποιός"
+msgstr "Επόμενος ηθοποιός"
 
 #: engines/twp/metaengine.cpp:175
-#, fuzzy
-#| msgid "Select Previous Actor"
 msgid "Select previous actor"
-msgstr "Προηγούμενος Ηθοποιός"
+msgstr "Προηγούμενος ηθοποιός"
 
 #: engines/twp/metaengine.cpp:177
 msgid "Show hotspots"
@@ -15781,6 +15602,8 @@ msgid ""
 "This game requires OpenGL Framebuffer Objects, which are not supported on "
 "your system"
 msgstr ""
+"Αυτό το παιχνίδι απαιτεί υποστήριξη για OpenGL Framebuffer Objects, που δεν "
+"παρέχεται στο σύστημά σας"
 
 #: engines/ultima/metaengine.cpp:67
 msgid "Enable frame skipping"
@@ -15870,11 +15693,11 @@ msgstr ""
 
 #: engines/ultima/ultima0/metaengine.cpp:50
 msgid "Throw"
-msgstr ""
+msgstr "Πέτα"
 
 #: engines/ultima/ultima0/metaengine.cpp:51
 msgid "Food"
-msgstr ""
+msgstr "Φαγητό"
 
 #: engines/ultima/ultima0/metaengine.cpp:52
 msgid "Rapier"
@@ -15882,19 +15705,19 @@ msgstr ""
 
 #: engines/ultima/ultima0/metaengine.cpp:53
 msgid "Axe"
-msgstr ""
+msgstr "Τσεκούρι"
 
 #: engines/ultima/ultima0/metaengine.cpp:54
 msgid "Shield"
-msgstr ""
+msgstr "Ασπίδα"
 
 #: engines/ultima/ultima0/metaengine.cpp:55
 msgid "Bow & arrow"
-msgstr ""
+msgstr "Τόξο & βέλος"
 
 #: engines/ultima/ultima0/metaengine.cpp:56
 msgid "Magic amulet"
-msgstr ""
+msgstr "Μαγικό φυλακτό"
 
 #: engines/ultima/ultima0/metaengine.cpp:57
 #, fuzzy
@@ -15921,16 +15744,12 @@ msgid "Amulet option 4"
 msgstr "Επιλογή Ηθοποιού 4"
 
 #: engines/ultima/ultima0/metaengine.cpp:65
-#, fuzzy
-#| msgid "Crawl North"
 msgid "North"
-msgstr "Σύρσου Βόρεια"
+msgstr "Βόρεια"
 
 #: engines/ultima/ultima0/metaengine.cpp:66
-#, fuzzy
-#| msgid "Crawl South"
 msgid "South"
-msgstr "Σύρσου Νότια"
+msgstr "Νότια"
 
 #: engines/ultima/ultima0/metaengine.cpp:67
 msgid "West"
@@ -15942,24 +15761,18 @@ msgstr "Ανατολικά"
 
 #: engines/ultima/ultima0/metaengine.cpp:69
 #: engines/ultima/ultima0/metaengine.cpp:83
-#, fuzzy
-#| msgid "Enter Text"
 msgid "Enter / Exit"
-msgstr "Εισάγετε Κείμενο"
+msgstr "Είσοδος / Έξοδος"
 
 #: engines/ultima/ultima0/metaengine.cpp:72
 #: engines/ultima/ultima0/metaengine.cpp:86
-#, fuzzy
-#| msgid "Wait"
 msgid "Pass / Wait"
-msgstr "Περιμένετε"
+msgstr "Πάσο / Αναμονή"
 
 #: engines/ultima/ultima0/metaengine.cpp:73
 #: engines/ultima/ultima0/metaengine.cpp:87
-#, fuzzy
-#| msgid "Minimize"
 msgid "Minimap"
-msgstr "Ελαχιστοποίηση"
+msgstr "Μίνι-χάρτης"
 
 #: engines/ultima/ultima0/metaengine.cpp:79
 #, fuzzy
@@ -15972,17 +15785,13 @@ msgstr "Άναψε"
 #: engines/ultima/ultima0/metaengine.cpp:111
 #: engines/ultima/ultima0/metaengine.cpp:117
 #: engines/ultima/ultima0/metaengine.cpp:123
-#, fuzzy
-#| msgid "Bind Keys"
 msgid "Basic keys"
-msgstr "Δέσμευση Πλήκτρων"
+msgstr "Βασικά πλήκτρα"
 
 #: engines/ultima/ultima0/metaengine.cpp:99
 #: engines/ultima/ultima0/metaengine.cpp:112
-#, fuzzy
-#| msgid "Game Keys"
 msgid "Menu keys"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα μενού"
 
 #: engines/ultima/ultima0/metaengine.cpp:100
 #: engines/ultima/ultima0/metaengine.cpp:118
@@ -15994,27 +15803,23 @@ msgstr "Γενικά Πλήκτρα"
 #: engines/ultima/ultima0/metaengine.cpp:101
 #: engines/ultima/ultima0/metaengine.cpp:124
 msgid "Dungeon keys"
-msgstr ""
+msgstr "Πλήκτρα για μπουντρούμι"
 
 #: engines/ultima/ultima4/metaengine.cpp:43
 #: engines/ultima/ultima4/metaengine.cpp:133
 #: engines/ultima/ultima4/metaengine.cpp:138
 #: engines/ultima/ultima4/metaengine.cpp:148
-#, fuzzy
-#| msgid "Next action"
 msgid "Abort action"
-msgstr "Επόμενη ενέργεια"
+msgstr "Ακύρωση ενέργειας"
 
 #: engines/ultima/ultima4/metaengine.cpp:49
-#, fuzzy
-#| msgid "Keyboard"
 msgid "Board"
-msgstr "Πληκτρολόγιο"
+msgstr "Επιβίβαση"
 
 #: engines/ultima/ultima4/metaengine.cpp:52
 #: engines/ultima/ultima8/metaengine.cpp:107
 msgid "Descend"
-msgstr ""
+msgstr "Κατάβαση"
 
 #: engines/ultima/ultima4/metaengine.cpp:56
 #, fuzzy
@@ -16036,10 +15841,8 @@ msgid "Ignite"
 msgstr ""
 
 #: engines/ultima/ultima4/metaengine.cpp:61
-#, fuzzy
-#| msgid "Look at"
 msgid "Locate position"
-msgstr "Κοίτα προς"
+msgstr "Εντοπισμός θέσης"
 
 #: engines/ultima/ultima4/metaengine.cpp:62
 msgid "Mix reagents"
@@ -16052,10 +15855,8 @@ msgid "New order"
 msgstr "Νέο παιδί"
 
 #: engines/ultima/ultima4/metaengine.cpp:64
-#, fuzzy
-#| msgid "Open Holomap"
 msgid "Open door"
-msgstr "Άνοιγμα ολογραφικού χάρτη"
+msgstr "Άνοιγμα πόρτας"
 
 #. I18N: Going over something carefully
 #: engines/ultima/ultima4/metaengine.cpp:66
@@ -16068,10 +15869,8 @@ msgid "Peer"
 msgstr ""
 
 #: engines/ultima/ultima4/metaengine.cpp:69
-#, fuzzy
-#| msgid "Quick save"
 msgid "Quit and save"
-msgstr "Γρήγορη αποθήκευση"
+msgstr "Έξοδος και αποθήκευση"
 
 #: engines/ultima/ultima4/metaengine.cpp:70
 #, fuzzy
@@ -16096,82 +15895,60 @@ msgid "Speed up"
 msgstr "Επιτάχυνση"
 
 #: engines/ultima/ultima4/metaengine.cpp:83
-#, fuzzy
-#| msgid "Move down"
 msgid "Speed down"
-msgstr "Κίνηση κάτω"
+msgstr "Επιβράδυνση"
 
 #: engines/ultima/ultima4/metaengine.cpp:84
-#, fuzzy
-#| msgid "Speech Only"
 msgid "Speed normal"
-msgstr "Μόνο Ομιλία"
+msgstr "Κανονική ταχύτητα"
 
 #: engines/ultima/ultima4/metaengine.cpp:85
 msgid "Combat speed up"
-msgstr ""
+msgstr "Επιτάχυνση μάχης"
 
 #: engines/ultima/ultima4/metaengine.cpp:86
-#, fuzzy
-#| msgid "Rotate down"
 msgid "Combat speed down"
-msgstr "Περιστροφή προς τα κάτω"
+msgstr "Επιβράδυνση μάχης"
 
 #: engines/ultima/ultima4/metaengine.cpp:87
 msgid "Combat speed normal"
-msgstr ""
+msgstr "Κανονική ταχύτητα μάχης"
 
 #: engines/ultima/ultima4/metaengine.cpp:93
 msgid "Party - None"
-msgstr ""
+msgstr "Ομάδα - Κανένας"
 
 #: engines/ultima/ultima4/metaengine.cpp:94
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #1"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #1"
 
 #: engines/ultima/ultima4/metaengine.cpp:95
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #2"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #2"
 
 #: engines/ultima/ultima4/metaengine.cpp:96
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #3"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #3"
 
 #: engines/ultima/ultima4/metaengine.cpp:97
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #4"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #4"
 
 #: engines/ultima/ultima4/metaengine.cpp:98
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #5"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #5"
 
 #: engines/ultima/ultima4/metaengine.cpp:99
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #6"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #6"
 
 #: engines/ultima/ultima4/metaengine.cpp:100
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #7"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #7"
 
 #: engines/ultima/ultima4/metaengine.cpp:101
-#, fuzzy
-#| msgid "Transfer Character"
 msgid "Party - Character #8"
-msgstr "Μεταφορά Χαρακτήρα"
+msgstr "Ομάδα - Χαρακτήρας #8"
 
 #: engines/ultima/ultima4/metaengine.cpp:107
 msgid "Destroy all creatures"
@@ -16185,20 +15962,16 @@ msgid "Toggle collision handling"
 msgstr "Ενεργή σύγκρουση με τοίχους"
 
 #: engines/ultima/ultima4/metaengine.cpp:109
-#, fuzzy
-#| msgid "Next object"
 msgid "Destroy object"
-msgstr "Επόμενο αντικείμενο"
+msgstr "Καταστροφή αντικειμένου"
 
 #: engines/ultima/ultima4/metaengine.cpp:110
 msgid "Full equipment"
 msgstr ""
 
 #: engines/ultima/ultima4/metaengine.cpp:111
-#, fuzzy
-#| msgid "Toggle Combat"
 msgid "Flee combat"
-msgstr "Εναλλαγή Ετοιμότητας για Μάχη"
+msgstr "Άτακτη υποχώρηση από τη μάχη"
 
 #: engines/ultima/ultima4/metaengine.cpp:113
 msgid "Help - Teleport to Lord British"
@@ -16206,17 +15979,15 @@ msgstr ""
 
 #: engines/ultima/ultima4/metaengine.cpp:114
 msgid "Give items"
-msgstr ""
+msgstr "Δώσε αντικείμενα"
 
 #: engines/ultima/ultima4/metaengine.cpp:115
 msgid "List karma"
 msgstr ""
 
 #: engines/ultima/ultima4/metaengine.cpp:116
-#, fuzzy
-#| msgid "Next location"
 msgid "Leave location"
-msgstr "Επόμενο μέρος"
+msgstr "Φύγε από τοποθεσία"
 
 #: engines/ultima/ultima4/metaengine.cpp:117
 msgid "Give mixtures"
@@ -16283,44 +16054,36 @@ msgid "Original Save"
 msgstr "Αρχική Αποθήκευση"
 
 #: engines/ultima/nuvie/metaengine.cpp:59
-#, fuzzy
-#| msgid "Walk to"
 msgid "Walk west"
-msgstr "Περπάτησε σε"
+msgstr "Περπάτησε δυτικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:60
-#, fuzzy
-#| msgid "Walk to"
 msgid "Walk east"
-msgstr "Περπάτησε σε"
+msgstr "Περπάτησε ανατολικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:61
-#, fuzzy
-#| msgid "Walk to"
 msgid "Walk north"
-msgstr "Περπάτησε σε"
+msgstr "Περπάτησε βόρεια"
 
 #: engines/ultima/nuvie/metaengine.cpp:62
-#, fuzzy
-#| msgid "Walk to"
 msgid "Walk south"
-msgstr "Περπάτησε σε"
+msgstr "Περπάτησε νότια"
 
 #: engines/ultima/nuvie/metaengine.cpp:63
 msgid "Walk north-east"
-msgstr ""
+msgstr "Περπάτησε βόρειο-ανατολικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:64
 msgid "Walk south-east"
-msgstr ""
+msgstr "Περπάτησε νότιο-ανατολικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:65
 msgid "Walk north-west"
-msgstr ""
+msgstr "Περπάτησε βόρειο-δυτικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:66
 msgid "Walk south-west"
-msgstr ""
+msgstr "Περπάτησε νότιο-δυτικά"
 
 #: engines/ultima/nuvie/metaengine.cpp:75
 msgid "Multi-use"
@@ -16348,26 +16111,20 @@ msgid "Doll gump"
 msgstr "Κύλιση πάνω"
 
 #: engines/ultima/nuvie/metaengine.cpp:82
-#, fuzzy
-#| msgid "Previous page"
 msgid "Previous party member"
-msgstr "Προηγούμενη σελίδα"
+msgstr "Προηγούμενο μέλος ομάδας"
 
 #: engines/ultima/nuvie/metaengine.cpp:83
-#, fuzzy
-#| msgid "View Party Member 1"
 msgid "Next party member"
-msgstr "Δες το 1ο Μέλος Ομάδας"
+msgstr "Επόμενο μέλος ομάδας"
 
 #: engines/ultima/nuvie/metaengine.cpp:84
-#, fuzzy
-#| msgid "Boss key"
 msgid "Home key"
-msgstr "Πλήκτρο Διευθυντή"
+msgstr "Πλήκτρο Αρχής"
 
 #: engines/ultima/nuvie/metaengine.cpp:85
 msgid "End key"
-msgstr ""
+msgstr "Πλήκτρο Τέλους"
 
 #: engines/ultima/nuvie/metaengine.cpp:86
 #, fuzzy
@@ -16376,62 +16133,44 @@ msgid "Toggle between inventory and actor view"
 msgstr "Εναλλαγή μεταξύ φωνής/κειμένου/φωνής με κείμενο"
 
 #: engines/ultima/nuvie/metaengine.cpp:87
-#, fuzzy
-#| msgid "List view"
 msgid "Party view"
-msgstr "Προβολή ως λίστα"
+msgstr "Προβολή ομάδας"
 
 #: engines/ultima/nuvie/metaengine.cpp:88
-#, fuzzy
-#| msgid "Shorty mode"
 msgid "Party mode"
-msgstr "Λειτουργία κοντοπίθαρου"
+msgstr "Λειτουργία ομάδας"
 
 #: engines/ultima/nuvie/metaengine.cpp:89
-#, fuzzy
-#| msgid "Game menu"
 msgid "Save menu"
-msgstr "Μενού παιχνιδιού"
+msgstr "Μενού αποθήκευσης"
 
 #: engines/ultima/nuvie/metaengine.cpp:90
-#, fuzzy
-#| msgid "Unnamed autosave"
 msgid "Load latest save"
-msgstr "Ανώνυμη αυτόματη αποθήκευση"
+msgstr "Φόρτωση πρόσφατα αποθηκευμένου παιχνιδιού"
 
 #: engines/ultima/nuvie/metaengine.cpp:95
 msgid "Show game menu; Cancel action if in middle of action"
-msgstr ""
+msgstr "Προβολή μενού παιχνιδιού ή ακύρωση ενέργειας αν εκτελείται ενέργεια"
 
 #: engines/ultima/nuvie/metaengine.cpp:97
-#, fuzzy
-#| msgid "Toggle Clock"
 msgid "Toggle cursor"
-msgstr "Εναλλαγή Ρολογιού"
+msgstr "Εναλλαγή κέρσορα"
 
 #: engines/ultima/nuvie/metaengine.cpp:98
-#, fuzzy
-#| msgid "Toggle Combat"
 msgid "Toggle combat strategy"
-msgstr "Εναλλαγή Ετοιμότητας για Μάχη"
+msgstr "Εναλλαγή στρατηγικής μάχης"
 
 #: engines/ultima/nuvie/metaengine.cpp:99
-#, fuzzy
-#| msgid "Max frames per second limit"
 msgid "Toggle frames per second display"
-msgstr "Μέγιστο όριο καρέ ανά δευτερόλεπτο"
+msgstr "Εναλλαγή προβολής καρέ ανά δευτερόλεπτο"
 
 #: engines/ultima/nuvie/metaengine.cpp:100
-#, fuzzy
-#| msgid "Toggle Sound"
 msgid "Toggle audio"
 msgstr "Εναλλαγή ήχου"
 
 #: engines/ultima/nuvie/metaengine.cpp:102
-#, fuzzy
-#| msgid "Toggle sound"
 msgid "Toggle sfx"
-msgstr "Εναλλαγή ήχου"
+msgstr "Εναλλαγή ηχητικών εφέ"
 
 #. I18N: command bar is the bar of commands at the bottom of the screen
 #: engines/ultima/nuvie/metaengine.cpp:104
@@ -16439,16 +16178,12 @@ msgid "Toggle original style command bar"
 msgstr ""
 
 #: engines/ultima/nuvie/metaengine.cpp:105
-#, fuzzy
-#| msgid "Droid's action"
 msgid "Do action"
-msgstr "Ενέργεια του ρομπότ"
+msgstr "Εκτέλεση ενέργειας"
 
 #: engines/ultima/nuvie/metaengine.cpp:106
-#, fuzzy
-#| msgid "Change game options"
 msgid "Cancel action"
-msgstr "Αλλαγή επιλογών παιχνιδιού"
+msgstr "Ακύρωση ενέργειας"
 
 #: engines/ultima/nuvie/metaengine.cpp:107
 #, fuzzy
@@ -16537,10 +16272,8 @@ msgstr ""
 
 #. I18N: Eggs are in-game hatchable objects that are normally invisible
 #: engines/ultima/nuvie/metaengine.cpp:131
-#, fuzzy
-#| msgid "Show quotes"
 msgid "Show eggs"
-msgstr "Προβολή διαλόγων"
+msgstr "Προβολή αβγών"
 
 #: engines/ultima/nuvie/metaengine.cpp:132
 #, fuzzy
@@ -16587,7 +16320,7 @@ msgstr "Εναλλαγή γρήγορης λειτουργίας"
 
 #: engines/ultima/nuvie/metaengine.cpp:140
 msgid "Heal party"
-msgstr ""
+msgstr "Θεράπευσε την ομάδα"
 
 #: engines/ultima/nuvie/metaengine.cpp:141
 #, fuzzy
@@ -16800,20 +16533,16 @@ msgid "Move back"
 msgstr "Προχώρησε Πίσω"
 
 #: engines/ultima/ultima8/metaengine.cpp:57
-#, fuzzy
-#| msgid "Highlight next dialogue"
 msgid "Highlight items"
-msgstr "Επισήμανση επόμενου διαλόγου"
+msgstr "Επισήμανση αντικειμένων"
 
 #: engines/ultima/ultima8/metaengine.cpp:63
 msgid "Use bedroll"
 msgstr ""
 
 #: engines/ultima/ultima8/metaengine.cpp:64
-#, fuzzy
-#| msgid "Backspace"
 msgid "Open backpack"
-msgstr "Backspace"
+msgstr "Άνοιγμα σακιδίου"
 
 #: engines/ultima/ultima8/metaengine.cpp:65
 #, fuzzy
@@ -16822,10 +16551,8 @@ msgid "Use keyring"
 msgstr "Χρήση απόδοσης RGB"
 
 #: engines/ultima/ultima8/metaengine.cpp:66
-#, fuzzy
-#| msgid "Open map"
 msgid "Open minimap"
-msgstr "Άνοιγμα χάρτη"
+msgstr "Άνοιγμα μίνι-χάρτη"
 
 #: engines/ultima/ultima8/metaengine.cpp:67
 msgid "Use recall"
@@ -16851,54 +16578,40 @@ msgid "Careful step"
 msgstr "Προσεκτικό βήμα"
 
 #: engines/ultima/ultima8/metaengine.cpp:78
-#, fuzzy
-#| msgid "Cycle back through inventory cursor items"
 msgid "Cycle through weapon inventory"
-msgstr "Ανάποδο πέρασμα από όλα τα αντικείμενα υπαρχόντων στο δρομέα"
+msgstr "Κυκλικό πέρασμα από τα διαθέσιμα όπλα"
 
 #: engines/ultima/ultima8/metaengine.cpp:79
-#, fuzzy
-#| msgid "Cycle through stretch modes"
 msgid "Cycle through item inventory"
-msgstr "Κυκλική περιήγηση στις λειτουργίες εξάπλωσης εικόνας"
+msgstr "Κυκλικό πέρασμα από τα αντικείμενα στα υπάρχοντα"
 
 #: engines/ultima/ultima8/metaengine.cpp:80
-#, fuzzy
-#| msgid "Inventory"
 msgid "Use inventory item"
-msgstr "Υπάρχοντα"
+msgstr "Χρήση αντικειμένου από υπάρχοντα"
 
 #: engines/ultima/ultima8/metaengine.cpp:81
 msgid "Use medikit"
 msgstr "Χρήση κουτιού πρώτων βοηθειών"
 
 #: engines/ultima/ultima8/metaengine.cpp:82
-#, fuzzy
-#| msgid "Inventory"
 msgid "Use energy cube"
-msgstr "Υπάρχοντα"
+msgstr "Χρήση ενεργειακού κύβου"
 
 #: engines/ultima/ultima8/metaengine.cpp:83
 msgid "Detonate bomb"
 msgstr "Πυροδότηση βόμβας"
 
 #: engines/ultima/ultima8/metaengine.cpp:85
-#, fuzzy
-#| msgid "Drop page"
 msgid "Drop weapon"
-msgstr "Ρίξιμο σελίδας"
+msgstr "Απόρριψη όπλου"
 
 #: engines/ultima/ultima8/metaengine.cpp:86
-#, fuzzy
-#| msgid "Select a Theme"
 msgid "Search / Select item"
-msgstr "Επιλέξτε θέμα"
+msgstr "Ψάξιμο / Επιλογή αντικειμένου"
 
 #: engines/ultima/ultima8/metaengine.cpp:87
-#, fuzzy
-#| msgid "Next action"
 msgid "Use selection"
-msgstr "Επόμενη ενέργεια"
+msgstr "Χρήση επιλογής"
 
 #: engines/ultima/ultima8/metaengine.cpp:88
 msgid "Grab items"
@@ -16915,34 +16628,24 @@ msgid "Jump / Roll / Crouch"
 msgstr "Πήδημα / Κύλιση / Σκύψιμο"
 
 #: engines/ultima/ultima8/metaengine.cpp:92
-#, fuzzy
-#| msgid "Shorty mode"
 msgid "Short jump"
-msgstr "Λειτουργία κοντοπίθαρου"
+msgstr "Μικρό άλμα"
 
 #: engines/ultima/ultima8/metaengine.cpp:93
-#, fuzzy
-#| msgid "Slide Left"
 msgid "Sidestep left"
-msgstr "Ολίσθηση Αριστερά"
+msgstr "Πλάγιο βήμα αριστερά"
 
 #: engines/ultima/ultima8/metaengine.cpp:94
-#, fuzzy
-#| msgid "Slide Right"
 msgid "Sidestep right"
-msgstr "Ολίσθηση Δεξιά"
+msgstr "Πλάγιο βήμα δεξιά"
 
 #: engines/ultima/ultima8/metaengine.cpp:95
-#, fuzzy
-#| msgid "Face Forward"
 msgid "Step forward"
-msgstr "Μέτωπο μπροστά"
+msgstr "Βήμα μπροστά"
 
 #: engines/ultima/ultima8/metaengine.cpp:99
-#, fuzzy
-#| msgid "Toggle Clock"
 msgid "Toggle crouch"
-msgstr "Εναλλαγή Ρολογιού"
+msgstr "Εναλλαγή σκυψίματος"
 
 #: engines/ultima/ultima8/metaengine.cpp:100
 msgid "Side step / Advance / Retreat"
@@ -17176,22 +16879,16 @@ msgid "Require a lockout code to start the game."
 msgstr "Απαιτεί ένα κωδικό ασφαλείας για την έναρξη του παιχνιδιού."
 
 #: engines/voyeur/metaengine.cpp:186
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Room keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα δωματίου"
 
 #: engines/voyeur/metaengine.cpp:187
-#, fuzzy
-#| msgid "Game keymappings"
 msgid "Camera keymappings"
-msgstr "Πλήκτρα παιχνιδιού"
+msgstr "Πλήκτρα κάμερας"
 
 #: engines/voyeur/metaengine.cpp:204
-#, fuzzy
-#| msgid "Skip cutscene"
 msgid "Skip scene"
-msgstr "Παράλειψη ταινίας"
+msgstr "Παράλειψη σκηνής"
 
 #: engines/voyeur/metaengine.cpp:211
 msgid "View evidence"
@@ -17202,10 +16899,8 @@ msgid "Exit / Put away evidence"
 msgstr ""
 
 #: engines/voyeur/metaengine.cpp:223
-#, fuzzy
-#| msgid "Enter"
 msgid "Enter room"
-msgstr "Πλήκτρο Enter"
+msgstr "Μπες στο δωμάτιο"
 
 #: engines/wintermute/metaengine.cpp:42
 msgid "Show FPS-counter"
@@ -17235,10 +16930,8 @@ msgstr ""
 "(2D renderer) κατά την εκτέλεση παιχνιδιών 2D"
 
 #: engines/wintermute/metaengine.cpp:94
-#, fuzzy
-#| msgid "Use English speech"
 msgid "Use Italian speech pack"
-msgstr "Χρήση Αγγλικής ομιλίας"
+msgstr "Χρήση Ιταλικής ομιλίας"
 
 #: engines/wintermute/metaengine.cpp:95
 msgid "Use Italian dubbing instead of the default English one"
@@ -17635,26 +17328,18 @@ msgid "Chapayev's action"
 msgstr "Ενέργεια του Chapayev"
 
 #: engines/wintermute/keymapper_tables.h:1619
-#, fuzzy
-#| msgid "Dialogue answer 1"
 msgid "Dialog answer 1"
 msgstr "1η απάντηση διαλόγου"
 
 #: engines/wintermute/keymapper_tables.h:1624
-#, fuzzy
-#| msgid "Dialogue answer 2"
 msgid "Dialog answer 2"
 msgstr "2η απάντηση διαλόγου"
 
 #: engines/wintermute/keymapper_tables.h:1629
-#, fuzzy
-#| msgid "Dialogue answer 3"
 msgid "Dialog answer 3"
 msgstr "3η απάντηση διαλόγου"
 
 #: engines/wintermute/keymapper_tables.h:1634
-#, fuzzy
-#| msgid "Dialogue answer 4"
 msgid "Dialog answer 4"
 msgstr "4η απάντηση διαλόγου"
 
@@ -17785,10 +17470,8 @@ msgstr ""
 "Χρήση βίντεο MPEG από την έκδοση DVD αντί για το χαμηλότερης ανάλυσης AVI"
 
 #: engines/zvision/metaengine.cpp:102
-#, fuzzy
-#| msgid "Game id not supported"
 msgid "Enable widescreen support"
-msgstr "Το αναγνωριστικό παιχνιδιού δεν υποστηρίζεται"
+msgstr "Ενεργοποίηση υποστήριξης ευρείας οθόνης"
 
 #: engines/zvision/metaengine.cpp:103
 msgid ""

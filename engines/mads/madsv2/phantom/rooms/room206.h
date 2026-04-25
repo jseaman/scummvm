@@ -76,7 +76,7 @@ struct Room206Scratch {
 #define PANEL_X                 108
 #define PANEL_Y                 137
 
-#define BEHIND_PANEL_X          67
+#define BEHIND_PANEL_X          60
 #define BEHIND_PANEL_Y          127
 
 #define HIT_HEAD_X              168

@@ -737,7 +737,7 @@ bool GridWidget::calcVisibleEntries() {
 	bool needsReload = false;
 
 	int nFirstVisibleItem = 0, nLastVisibleItem = 0;
-	int temp = lastItemBeforeY(_sortedEntryList, _scrollPos);
+	int temp = lastItemBeforeY(_sortedEntryList, (int)_scrollPos);
 	nFirstVisibleItem = temp;
 	// We want the leftmost item from the topmost visible row, so we traverse backwards
 	while ((nFirstVisibleItem >= 0) &&
@@ -747,7 +747,7 @@ bool GridWidget::calcVisibleEntries() {
 	nFirstVisibleItem++;
 	nFirstVisibleItem = (nFirstVisibleItem < 0) ? 0 : nFirstVisibleItem;
 
-	nLastVisibleItem = lastItemBeforeY(_sortedEntryList, _scrollPos + _scrollWindowHeight);
+	nLastVisibleItem = lastItemBeforeY(_sortedEntryList, (int)_scrollPos + _scrollWindowHeight);
 	nLastVisibleItem = (nLastVisibleItem < 0) ? 0 : nLastVisibleItem;
 
 	if ((nFirstVisibleItem != _firstVisibleItem) || (nLastVisibleItem != _lastVisibleItem) || (_isGridInvalid)) {
@@ -886,10 +886,10 @@ void GridWidget::scrollToEntry(int id, bool forceToTop) {
 			if (forceToTop) {
 				newScrollPos = _sortedEntryList[i]->y + _scrollWindowPaddingY + _gridYSpacing;
 			} else {
-				if (_sortedEntryList[i]->y < _scrollPos) {
+				if (_sortedEntryList[i]->y < (int)_scrollPos) {
 					// Item is above the visible view
 					newScrollPos = _sortedEntryList[i]->y - _scrollWindowPaddingY - _gridYSpacing;
-				} else if (_sortedEntryList[i]->y > _scrollPos + _scrollWindowHeight - _gridItemHeight - _trayHeight) {
+				} else if (_sortedEntryList[i]->y > (int)_scrollPos + _scrollWindowHeight - _gridItemHeight - _trayHeight) {
 					// Item is below the visible view
 					newScrollPos = _sortedEntryList[i]->y - _scrollWindowHeight + _gridItemHeight + _trayHeight;
 				} else {
@@ -937,7 +937,7 @@ void GridWidget::assignEntriesToItems() {
 			item->setVisible(true);
 			GridItemInfo *entry = _visibleEntryList[k];
 			item->setActiveEntry(*entry);
-			item->setPos(entry->x, entry->y - _scrollPos);
+			item->setPos(entry->x, entry->y - (int)_scrollPos);
 			item->setSize(entry->w, entry->h);
 			item->update();
 		}
@@ -1093,8 +1093,8 @@ void GridWidget::handleCommand(CommandSender *sender, uint32 cmd, uint32 data) {
 	// Work in progress
 	switch (cmd) {
 	case kSetPositionCmd:
-		if (_scrollPos != (float)data) {
-			_scrollPos = (float)data;
+		if ((int)_scrollPos != (int)data) {
+			_scrollPos = data;
 			_fluidScroller->stopAnimation();
 			_scrollPos = _fluidScroller->setPosition(_scrollPos, false);
 
@@ -1272,7 +1272,7 @@ void GridWidget::reflowLayout() {
 
 void GridWidget::openTrayAtSelected() {
 	if (_selectedEntry) {
-		GridItemTray *tray = new GridItemTray(this, _x + _selectedEntry->x - _gridXSpacing / 3, _y + _selectedEntry->y + _selectedEntry->h - _scrollPos,
+		GridItemTray *tray = new GridItemTray(this, _x + _selectedEntry->x - _gridXSpacing / 3, _y + _selectedEntry->y + _selectedEntry->h - (int)_scrollPos,
 								_gridItemWidth + 2 * (_gridXSpacing / 3), _trayHeight, _selectedEntry->entryID, this);
 		tray->enableLoadButton(_selectedEntry->canLoadGame);
 
@@ -1304,7 +1304,7 @@ void GridWidget::setFilter(const Common::U32String &filter) {
 	_filter = filt;
 
 	// Reset the scrollbar and deselect everything if filter has changed
-	_scrollPos = 0;
+	_scrollPos = 0.f;
 	_selectedEntry = nullptr;
 
 	sortGroups();

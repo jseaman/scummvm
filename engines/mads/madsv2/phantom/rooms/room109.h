@@ -37,14 +37,14 @@ namespace Rooms {
 
 typedef struct {        /* Room local variables */
 
-	int sprite[15];         /* Sprite series handles */
-	int sequence[15];       /* Sequence handles      */
-	int animation[4];       /* Animation handles     */
-	int on_floor;           /* Which floor are we on? 3=top, 1=bottom */
-	int anim_0_running;
-	int anim_1_running;
-	int anim_2_running;
-	int anim_3_running;
+	int16 sprite[15];         /* Sprite series handles */
+	int16 sequence[15];       /* Sequence handles      */
+	int16 animation[4];       /* Animation handles     */
+	int16 on_floor;           /* Which floor are we on? 3=top, 1=bottom */
+	int16 anim_0_running;
+	int16 anim_1_running;
+	int16 anim_2_running;
+	int16 anim_3_running;
 
 } Scratch;
 

@@ -1232,12 +1232,12 @@ void room_205_parser() {
 	}
 
 	if ((player_said_1(enter)) || (player_said_1(open)) || player_said_1(unlock) || player_said_1(lock)) {
-		if (((player_said_1(box_five)) && ((global[doors_in_205] == BOTH_LOCKED) || (global[doors_in_205] == RIGHT_OPEN))
-		  || player_said_1(unlock) || player_said_1(lock))
-		                                         ||
-		 ((player_said_1(box_nine)) && ((global[doors_in_205] == BOTH_LOCKED) || (global[doors_in_205] == LEFT_OPEN)))
-		                                         ||
-		  (player_said_1(box_six)) || (player_said_1(box_seven)) || (player_said_1(box_eight))) {
+		if ((((player_said_1(box_five)) && ((global[doors_in_205] == BOTH_LOCKED) || (global[doors_in_205] == RIGHT_OPEN)))
+			|| player_said_1(unlock) || player_said_1(lock))
+			||
+			(((player_said_1(box_nine)) && ((global[doors_in_205] == BOTH_LOCKED) || (global[doors_in_205] == LEFT_OPEN)))
+				||
+				(player_said_1(box_six)) || (player_said_1(box_seven)) || (player_said_1(box_eight)))) {
 			switch (kernel.trigger) {
 			case 0:
 				player.commands_allowed = false;

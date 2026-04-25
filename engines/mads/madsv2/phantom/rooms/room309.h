@@ -44,7 +44,7 @@ typedef struct {        /* Room local variables */
 	int16 boat_frame;
 	int16 anim_0_running;
 
-	int chris_talk_count;
+	int16 chris_talk_count;
 
 } Scratch;
 

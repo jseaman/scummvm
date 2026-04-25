@@ -37,12 +37,19 @@
 namespace MADS {
 namespace MADSV2 {
 
-Player player = { 0 };
-Player2 player2 = { 0 };
+Player player;
+Player2 player2;
 
-byte player_facing_to_series[10] = { 0, 7, 4, 3, 6, 0, 2, 5, 0, 1 };
-byte player_clockwise[10] = { 9, 4, 1, 2, 7, 9, 3, 8, 9, 6 };
-byte player_counter_clockwise[10] = { 7, 2, 3, 6, 1, 7, 9, 4, 7, 8 };
+static const byte player_facing_to_series[10] = { 0, 7, 4, 3, 6, 0, 2, 5, 0, 1 };
+const byte player_clockwise[10] = { 9, 4, 1, 2, 7, 9, 3, 8, 9, 6 };
+static const byte player_counter_clockwise[10] = { 7, 2, 3, 6, 1, 7, 9, 4, 7, 8 };
+
+
+void init_player() {
+	memset(&player, 0, sizeof(Player));
+	memset(&player2, 0, sizeof(Player2));
+}
+
 
 void Player::synchronize(Common::Serializer &s) {
 	s.syncAsSint16LE(walking);
@@ -176,8 +183,13 @@ void player_new_stop_walker() {
 	int abs_stop;
 	WalkerInfoPtr walker;
 
+	// WORKAROUND: For ROTP opera and final chandelier fight cutscene
 	id = player.series_base + player.series;
+	if (!series_list[id])
+		return;
 	walker = series_list[id]->walker;
+	if (!walker)
+		return;
 
 	if (!walker->num_secondary) {
 		player.sprite = 1;
@@ -212,6 +224,7 @@ done:
 
 void player_select_series() {
 	int id;
+	WalkerInfoPtr walker;
 
 	player_clear_stop_walkers();
 
@@ -219,20 +232,31 @@ void player_select_series() {
 	player.series = player_facing_to_series[player.facing];
 
 	if (!player.available[player.series]) {
+		// WORKAROUND: During the ROTP opera cutscene, player.series can be 0.
+		// So we have guard against series becoming negative
+		if (player.series == 0 && player.series_base == 0)
+			return;
+
 		player.series -= 4;
 		player.mirror = MIRROR_MASK;
 	}
 
+	// WORKAROUND: For ROTP final confrontation on Chandelier
 	id = player.series_base + player.series;
+	if (!series_list[id])
+		return;
+	walker = series_list[id]->walker;
+	if (!walker)
+		return;
 
-	player.velocity = MAX<int>(series_list[id]->walker->velocity, 100);
+	player.velocity = MAX<int>(walker->velocity, 100);
 
 	player_set_base_frame_rate();
 
-	player.high_sprite = series_list[id]->walker->num_primary;
+	player.high_sprite = walker->num_primary;
 	if (player.high_sprite == 0) player.high_sprite = series_list[id]->num_sprites;
 
-	player.center_of_gravity = series_list[id]->walker->center_of_gravity;
+	player.center_of_gravity = walker->center_of_gravity;
 
 	if ((player.sprite <= 0) || (player.sprite > player.high_sprite)) {
 		player.sprite = 1;
@@ -321,8 +345,13 @@ void player_stationary_update() {
 		goto done;
 	}
 
+	// WORKAROUND: For ROTP Opera scene and final chandelier fight
 	id = player.series_base + player.series;
+	if (!series_list[id])
+		return;
 	walker = series_list[id]->walker;
+	if (!walker)
+		return;
 
 	if (walker->num_secondary > 0) {
 		abs_stop = ABS(player.stop_walker_sequence);
@@ -356,7 +385,7 @@ void player_set_facing() {
 	int mode;
 	int s1, s2;
 	int angle_factor;
-	word ddx, ddy, dddx;
+	word dddx;
 	word ssy;
 	word pixels;
 
@@ -375,9 +404,6 @@ void player_set_facing() {
 	dx = ABS(dx);
 	dy = ABS(dy);
 	ds = ABS(s2 - s1);
-
-	ddx = ((word)dx) * 100;
-	ddy = ((word)dy) * 100;
 
 	dddx = ((word)dx) * 33;
 
@@ -840,7 +866,14 @@ void player_new_command() {
 
 	// Be sure player moves immediately even if in the middle of a long
 	// stop-walker frame.
-	player.clock = MIN(player.clock, kernel.clock + series_list[player.series_base + player.series]->walker->frame_rate);
+	// WORKAROUND: For ROTP chandelier fight cutscene
+	if (!series_list[player.series_base + player.series])
+		return;
+	WalkerInfoPtr walker = series_list[player.series_base + player.series]->walker;
+	if (!walker)
+		return;
+
+	player.clock = MIN(player.clock, kernel.clock + walker->frame_rate);
 }
 
 void player_new_walk() {

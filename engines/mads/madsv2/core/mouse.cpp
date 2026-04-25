@@ -120,13 +120,8 @@ void mouse_end_cycle(int double_flag, int timing_flag) {
 
 void mouse_cursor_sprite(SeriesPtr series, int id) {
 	byte work_area[17][17];
-	Buffer load_buffer = { 17, 17 };
-	int hot_x, hot_y, count;
-
-	load_buffer.data = &work_area[0][0];
-
-	hot_x = 0;
-	hot_y = 0;
+	Buffer load_buffer = { 17, 17, &work_area[0][0] };
+	int hot_x = 0, hot_y = 0, count;
 
 	buffer_fill(load_buffer, 255);
 	sprite_draw(series, id, &load_buffer, 0, 0);

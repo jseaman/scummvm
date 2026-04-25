@@ -105,7 +105,7 @@ typedef Cycle *CyclePtr;
 /* List of color cycling ranges */
 
 struct CycleList {
-	int   num_cycles;
+	int16 num_cycles;
 	Cycle table[COLOR_MAX_CYCLES];
 
 	static constexpr int SIZE = 2 + (Cycle::SIZE * COLOR_MAX_CYCLES);

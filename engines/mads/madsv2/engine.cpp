@@ -31,6 +31,8 @@
 #include "mads/madsv2/core/kernel.h"
 #include "mads/madsv2/core/matte.h"
 #include "mads/madsv2/core/object.h"
+#include "mads/madsv2/core/player.h"
+#include "mads/madsv2/core/popup.h"
 #include "mads/madsv2/core/timer.h"
 #include "mads/madsv2/phantom/main.h"
 #include "mads/core/sound.h"
@@ -45,7 +47,7 @@ MADSV2Engine *g_engine;
 
 static const Common::KeyCode KEYBINDING_ACTIONS[kActionRestartAnimation + 1] = {
 	Common::KEYCODE_INVALID, Common::KEYCODE_ESCAPE, Common::KEYCODE_F1,
-	Common::KEYCODE_F5, Common::KEYCODE_7, Common::KEYCODE_PAGEUP,
+	Common::KEYCODE_F5, Common::KEYCODE_F7, Common::KEYCODE_PAGEUP,
 	Common::KEYCODE_PAGEDOWN, Common::KEYCODE_F1, Common::KEYCODE_F2,
 	Common::KEYCODE_F3, Common::KEYCODE_F4, Common::KEYCODE_F5,
 	Common::KEYCODE_INVALID
@@ -56,12 +58,19 @@ MADSV2Engine::MADSV2Engine(OSystem *syst, const MADSGameDescription *gameDesc) :
 	MADSEngine(syst, gameDesc) {
 	g_engine = this;
 	_speechFlag = true;
+
+	initGlobals();
 }
 
 MADSV2Engine::~MADSV2Engine() {
 	g_engine = nullptr;
 	delete _screen;
 	delete _soundManager;
+}
+
+void MADSV2Engine::initGlobals() {
+	init_player();
+	init_popup();
 }
 
 void MADSV2Engine::readConfigFile() {
@@ -224,7 +233,7 @@ int MADSV2Engine::getKey() {
 
 	if (!_keyEvents.empty()) {
 		Common::KeyState ks = _keyEvents.pop();
-		return (ks.ascii && !ks.flags) ? ks.ascii : (ks.flags << 16) | ks.keycode;
+		return ks.ascii ? ks.ascii : (ks.flags << 16) | ks.keycode;
 	}
 
 	return 0;
@@ -255,6 +264,10 @@ void MADSV2Engine::playSpeech(Audio::AudioStream *stream) {
 
 void MADSV2Engine::stopSpeech() {
 	_mixer->stopHandle(_speechHandle);
+}
+
+SaveStateList MADSV2Engine::listSaves() const {
+	return getMetaEngine()->listSaves(_targetName.c_str());
 }
 
 } // namespace MADSV2

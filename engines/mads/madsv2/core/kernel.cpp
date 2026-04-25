@@ -99,7 +99,7 @@ int kernel_screen_fade   = 0;
 
 Animation kernel_anim[KERNEL_MAX_ANIMATIONS];
 
-ShadowList kernel_shadow_main  = { 0 };
+ShadowList kernel_shadow_main = { 0, { 0 } };
 ShadowList kernel_shadow_inter = { 1, { 15 } };
 
 int kernel_ok_to_fail_load = false;
@@ -153,8 +153,6 @@ int random_message_duration;            /* Duration of messages       */
 
 char kernel_interface_loaded[40] = "";
 
-static char digital_name[12] = "digital.aga";
-
 
 static void kernel_seq_image(SequencePtr sequence, ImagePtr image, int sequence_id);
 static void kernel_reconstruct_screen(int anim_handle);
@@ -163,8 +161,7 @@ static void kernel_animation_get_sprite(int handle, int id);
 void KernelGame::synchronize(Common::Serializer &s) {
 	s.syncAsByte(going);
 	s.skip(1);
-	for (int i = 0; i < KERNEL_SCRATCH_SIZE; ++i)
-		s.syncAsSint16LE(scratch[i]);
+	s.syncMultipleLE(scratch);
 	s.syncAsByte(difficulty);
 	s.skip(1);
 	s.syncAsSint16LE(last_save);
@@ -515,6 +512,9 @@ int kernel_game_startup(int game_video_mode, int load_flag,
 		}
 	}
 
+	buffer_fill(scr_live, 0);
+	mcga_setpal(&master_palette);
+
 	error_flag = false;
 
 done:
@@ -604,10 +604,11 @@ int kernel_room_startup(int newRoom, int initial_variant, const char *interface,
 	pal_white(master_palette);
 
 	// Load up popup box frame
-	// if (popup_box_load()) {
-	// error_code = ERROR_KERNEL_NO_POPUP;
-	// goto done;
-	// }
+	if (g_engine->getGameID() == GType_Phantom && popup_box_load()) {
+		error_code = ERROR_KERNEL_NO_POPUP;
+		goto done;
+	}
+
 	// Initialize the matteing system
 	matte_init(false);
 
@@ -870,18 +871,6 @@ int kernel_seq_forward(int series_id, int mirror, word ticks, word interval_tick
 		start_ticks, expire));
 }
 
-int kernel_seq_forward_scroll(int series_id, int mirror, word ticks, word interval_ticks,
-		word start_ticks, int expire) {
-	int depth = 0;
-	SpritePtr sprite;
-
-	sprite = &series_list[series_id]->index[0];
-
-	return (kernel_seq_add(series_id, mirror, 1, 0, 0, AA_LINEAR, 1,
-		depth, 100, true, 0, 0, ticks, interval_ticks,
-		start_ticks, expire));
-}
-
 int kernel_seq_pingpong(int series_id, int mirror,
 	word ticks, word interval_ticks,
 	word start_ticks,
@@ -898,20 +887,6 @@ int kernel_seq_pingpong(int series_id, int mirror,
 	return (kernel_seq_add(series_id, mirror, 1, 0, 0, AA_PINGPONG, 1,
 		depth, 100, true, 0, 0, ticks, interval_ticks,
 		start_ticks, expire));
-}
-
-int kernel_seq_pingpong_scroll(int series_id, int mirror,
-	word ticks, word interval_ticks,
-	word start_ticks,
-	int expire) {
-	int depth = 0;
-	SpritePtr sprite;
-
-	sprite = &series_list[series_id]->index[0];
-
-	return kernel_seq_add(series_id, mirror, 1, 0, 0, AA_PINGPONG, 1,
-		depth, 100, true, 0, 0, ticks, interval_ticks,
-		start_ticks, expire);
 }
 
 int kernel_seq_backward(int series_id, int mirror, word ticks, word interval_ticks,
@@ -936,15 +911,13 @@ int kernel_seq_backward_scroll(int series_id, int mirror,
 	word start_ticks,
 	int expire) {
 	int depth = 0;
-	SpritePtr sprite;
-
-	sprite = &series_list[series_id]->index[0];
 
 	return (kernel_seq_add(series_id, mirror,
 		series_list[series_id]->num_sprites,
 		0, 0, AA_LINEAR, -1, depth, 100, true, 0, 0,
 		ticks, interval_ticks, start_ticks, expire));
 }
+
 void kernel_synch(int slave_type, int slave_id, int master_type, int master_id) {
 	long master_time;
 
@@ -1065,17 +1038,6 @@ int kernel_seq_stamp(int series_id, int mirror, int sprite) {
 	return (id);
 }
 
-int kernel_seq_stamp_scroll(int series_id, int mirror, int sprite) {
-	int id;
-
-	id = kernel_seq_forward_scroll(series_id, mirror, 32767, 0, 0, 0);
-	if (id >= 0) {
-		kernel_seq_range(id, sprite, sprite);
-		sequence_list[id].loop_direction = AA_STAMP;
-	}
-	return (id);
-}
-
 int kernel_seq_trigger(int sequence_id,
 	int trigger_type,
 	int trigger_sprite,
@@ -1187,16 +1149,22 @@ void kernel_seq_correction(long old_clock, long new_clock) {
 void kernel_draw_to_background(int series_id, int sprite_id,
 	int x, int y,
 	int depth, int scale) {
+
+	// WORKAROUND: In the ROTP mask puzzle room, the x/y are passed
+	// as KERNEL_HOME, but sprite_id == KERNEL_LAST, which is negative
+	int sprite_index = (sprite_id != KERNEL_LAST) ? sprite_id :
+		series_list[series_id]->num_sprites;
+
 	if (x == KERNEL_HOME) {
-		x = series_list[series_id]->index[sprite_id - 1].x;
+		x = series_list[series_id]->index[sprite_index - 1].x;
 	}
 
 	if (y == KERNEL_HOME) {
-		y = series_list[series_id]->index[sprite_id - 1].y;
+		y = series_list[series_id]->index[sprite_index - 1].y;
 	}
 
 	sprite_draw_3d_scaled_big(series_list[series_id],
-		sprite_id,
+		sprite_index,
 		&scr_orig, &scr_depth,
 		x - picture_map.pan_base_x,
 		y - picture_map.pan_base_y,
@@ -1440,7 +1408,6 @@ void kernel_animation_init() {
 }
 
 int kernel_run_animation(const char *name, int trigger_code) {
-	int result = -1;
 	int found = -1;
 	int error_flag = true;
 	int count;
@@ -1519,7 +1486,6 @@ int kernel_run_animation(const char *name, int trigger_code) {
 	}
 
 	error_flag = false;
-	result = found;
 
 	kernel_anim[found].last_frame = -1;
 
@@ -1639,9 +1605,11 @@ static void kernel_hot_check(int hot, int id, int seg_id) {
 		if (seg_id == (int)kernel_dynamic_hot[hot].auto_segment[count]) {
 
 			scale = image_list[id].scale;
+			int spriteIndex = (image_list[id].sprite_id & SPRITE_MASK) - 1;
+
 			if (scale == IMAGE_UNSCALED) {
-				xs = series_list[image_list[id].series_id]->index[image_list[id].sprite_id - 1].xs;
-				ys = series_list[image_list[id].series_id]->index[image_list[id].sprite_id - 1].ys;
+				xs = series_list[image_list[id].series_id]->index[spriteIndex].xs;
+				ys = series_list[image_list[id].series_id]->index[spriteIndex].ys;
 				x = image_list[id].x;
 				y = image_list[id].y;
 				x1 = x;
@@ -1649,8 +1617,8 @@ static void kernel_hot_check(int hot, int id, int seg_id) {
 				x2 = x + xs - 1;
 				y2 = y + ys - 1;
 			} else {
-				xs = (series_list[image_list[id].series_id]->index[image_list[id].sprite_id - 1].xs * image_list[id].scale) / 200;
-				ys = (series_list[image_list[id].series_id]->index[image_list[id].sprite_id - 1].ys * image_list[id].scale) / 100;
+				xs = (series_list[image_list[id].series_id]->index[spriteIndex].xs * image_list[id].scale) / 200;
+				ys = (series_list[image_list[id].series_id]->index[spriteIndex].ys * image_list[id].scale) / 100;
 				x = image_list[id].x;
 				y = image_list[id].y;
 				x1 = x - xs;
@@ -1812,7 +1780,7 @@ static void kernel_process_animation(int handle, int asynchronous) {
 	}
 
 	for (count = 0; count < kernel_anim[handle].anim->num_speech; count++) {
-		if ((int)(kernel_anim[handle].anim->speech[count].flags) >= 0) {
+		if ((int16)(kernel_anim[handle].anim->speech[count].flags) >= 0) {
 			if ((kernel_anim[handle].frame < kernel_anim[handle].anim->speech[count].first_frame) ||
 				(kernel_anim[handle].frame > kernel_anim[handle].anim->speech[count].last_frame)) {
 				kernel_message_delete(kernel_anim[handle].anim->speech[count].flags);
@@ -1956,7 +1924,7 @@ void kernel_abort_animation(int handle) {
 		}
 
 		for (count = 0; count < kernel_anim[handle].anim->num_speech; count++) {
-			if ((int)(kernel_anim[handle].anim->speech[count].flags) >= 0) {
+			if ((int16)(kernel_anim[handle].anim->speech[count].flags) >= 0) {
 				kernel_message_delete(kernel_anim[handle].anim->speech[count].flags);
 			}
 		}

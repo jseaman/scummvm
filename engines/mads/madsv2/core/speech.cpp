@@ -68,7 +68,7 @@ void speech_shutdown() {
 	speech_system_active = false;
 }
 
-Audio::AudioStream *speech_load(const char *resName, int id, bool useMainMemory) {
+Audio::AudioStream *speech_load(const char *resName, int id, bool) {
 	Common::MemoryReadStream *memStream;
 	Audio::AudioStream *audioStream = nullptr;
 	uint filePos;
@@ -76,9 +76,6 @@ Audio::AudioStream *speech_load(const char *resName, int id, bool useMainMemory)
 	SpeechDir speechDir;
 	byte *load_buf = nullptr;
 	int packing_flag;
-
-	// Always use main memory in ScummVM
-	useMainMemory = true;
 
 	// Open the sound resource for access
 	Common::SeekableReadStream *handle = env_open(resName);

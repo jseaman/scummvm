@@ -35,10 +35,10 @@ namespace Rooms {
 #define aa    local->animation
 
 typedef struct {        /* Room local variables */
-	int sprite[15];       /* Sprite series handles */
-	int sequence[15];     /* Sequence handles      */
-	int animation[4];     /* Animation handles     */
-	int anim_0_running;
+	int16 sprite[15];       /* Sprite series handles */
+	int16 sequence[15];     /* Sequence handles      */
+	int16 animation[4];     /* Animation handles     */
+	int16 anim_0_running;
 } Scratch;
 
 
