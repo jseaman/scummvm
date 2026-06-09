@@ -28,9 +28,10 @@
  * response to be more vivid and varied, then returns it for display.
  *
  * HTTP transport:
- *   - Plain HTTP (Ollama default): raw platform sockets, no extra deps.
- *   - HTTPS (OpenAI, Claude): libcurl, enabled when ScummVM is built with
- *     USE_CLOUD.  Without it a warning is logged and the original text shown.
+ *   - All requests (Ollama, OpenAI, Claude) go through ScummVM's portable
+ *     networking layer (Networking::SessionRequest), backed by libcurl on
+ *     desktop builds.  Requires ScummVM built with cloud/libcurl support
+ *     (USE_CLOUD); without it a warning is logged and the original text shown.
  *
  * Configuration keys in scummvm.ini (game section or [scummvm] default):
  *   llm_provider      = none | ollama | openai | claude
@@ -41,36 +42,15 @@
  *   llm_timeout_ms    = 10000        (optional, default 10 s)
  */
 
-// Windows socket headers must come before any ScummVM headers that pull in
-// <windows.h>, otherwise winsock.h (v1) conflicts with winsock2.h.
-#ifdef _WIN32
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <winsock2.h>
-#include <ws2tcpip.h>
-typedef SOCKET LlmSock;
-#define LLM_INVALID_SOCK  INVALID_SOCKET
-#define llm_close(s)      closesocket(s)
-#define llm_send(s,b,l)   send(s, b, l, 0)
-#define llm_recv(s,b,l)   recv(s, b, l, 0)
-#else
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <sys/select.h>
-typedef int LlmSock;
-#define LLM_INVALID_SOCK  (-1)
-#define llm_close(s)      ::close(s)
-#define llm_send(s,b,l)   ::send(s, b, l, 0)
-#define llm_recv(s,b,l)   ::recv(s, b, l, 0)
-#endif
-
-// HTTPS via libcurl (available when ScummVM is built with USE_CLOUD)
+// HTTP transport goes through ScummVM's portable networking layer
+// (Networking::SessionRequest), backed by libcurl on desktop and platform-native
+// HTTP elsewhere.  Routing through this backend keeps <winsock2.h>/<windows.h>
+// and libcurl headers out of engine code, so the engine compiles cleanly and
+// ports without any per-OS socket handling.
 #ifdef USE_CLOUD
-#include <curl/curl.h>
-#define LLM_HAS_CURL 1
+#include "backends/networking/http/sessionrequest.h"
+#include "backends/networking/http/request.h"
+#include "common/system.h"
 #endif
 
 #include "agi/llm.h"
@@ -87,322 +67,6 @@ typedef int LlmSock;
 #include <cctype>
 
 namespace Agi {
-
-// ---------------------------------------------------------------------------
-// URL parsing
-// ---------------------------------------------------------------------------
-
-struct LlmUrl {
-	bool           isHttps;
-	Common::String host;
-	int            port;
-	Common::String path;
-};
-
-static bool urlStartsWith(const char *url, const char *prefix) {
-	while (*prefix) {
-		if (tolower((unsigned char)*url) != (unsigned char)*prefix)
-			return false;
-		++url; ++prefix;
-	}
-	return true;
-}
-
-static bool parseUrl(const Common::String &urlStr, LlmUrl &out) {
-	const char *p = urlStr.c_str();
-	if (urlStartsWith(p, "https://")) {
-		out.isHttps = true;
-		p += 8;
-	} else if (urlStartsWith(p, "http://")) {
-		out.isHttps = false;
-		p += 7;
-	} else {
-		warning("LLM: URL must start with http:// or https:// (got: %s)", urlStr.c_str());
-		return false;
-	}
-
-	const char *slash = strchr(p, '/');
-	Common::String hostPort;
-	if (slash) {
-		hostPort  = Common::String(p, (uint32)(slash - p));
-		out.path  = Common::String(slash);
-	} else {
-		hostPort = p;
-		out.path = "/";
-	}
-
-	const char *colon = strchr(hostPort.c_str(), ':');
-	if (colon) {
-		out.host = Common::String(hostPort.c_str(), (uint32)(colon - hostPort.c_str()));
-		out.port = atoi(colon + 1);
-	} else {
-		out.host = hostPort;
-		out.port = out.isHttps ? 443 : 80;
-	}
-	return true;
-}
-
-// ---------------------------------------------------------------------------
-// Plain-socket HTTP (used for HTTP endpoints, e.g. local Ollama)
-// ---------------------------------------------------------------------------
-
-#ifdef _WIN32
-static bool g_wsaReady = false;
-static void ensureWsa() {
-	if (!g_wsaReady) {
-		WSADATA wd;
-		WSAStartup(MAKEWORD(2, 2), &wd);
-		g_wsaReady = true;
-	}
-}
-#endif
-
-static LlmSock tcpConnect(const Common::String &host, int port) {
-#ifdef _WIN32
-	ensureWsa();
-#endif
-	char portBuf[16];
-	snprintf(portBuf, sizeof(portBuf), "%d", port);
-
-	struct addrinfo hints;
-	memset(&hints, 0, sizeof(hints));
-	hints.ai_family   = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-
-	struct addrinfo *res = nullptr;
-	if (getaddrinfo(host.c_str(), portBuf, &hints, &res) != 0 || !res) {
-		warning("LLM: getaddrinfo failed for %s:%d", host.c_str(), port);
-		return LLM_INVALID_SOCK;
-	}
-
-	LlmSock sock = LLM_INVALID_SOCK;
-	for (struct addrinfo *ai = res; ai; ai = ai->ai_next) {
-		sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
-		if (sock == LLM_INVALID_SOCK) continue;
-		if (connect(sock, ai->ai_addr, (int)ai->ai_addrlen) == 0) break;
-		llm_close(sock);
-		sock = LLM_INVALID_SOCK;
-	}
-	freeaddrinfo(res);
-
-	if (sock == LLM_INVALID_SOCK)
-		warning("LLM: could not connect to %s:%d", host.c_str(), port);
-	return sock;
-}
-
-static void sockSetTimeout(LlmSock sock, int ms) {
-#ifdef _WIN32
-	DWORD t = (DWORD)ms;
-	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char *)&t, sizeof(t));
-	setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (const char *)&t, sizeof(t));
-#else
-	struct timeval tv;
-	tv.tv_sec  = ms / 1000;
-	tv.tv_usec = (ms % 1000) * 1000;
-	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-	setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
-#endif
-}
-
-static bool sockSendAll(LlmSock sock, const char *buf, int len) {
-	int sent = 0;
-	while (sent < len) {
-		int r = llm_send(sock, buf + sent, len - sent);
-		if (r <= 0) return false;
-		sent += r;
-	}
-	return true;
-}
-
-// Read HTTP response headers (up to and including the blank line).
-static Common::String readHeaders(LlmSock sock) {
-	Common::String hdr;
-	char c;
-	while (true) {
-		int r = llm_recv(sock, &c, 1);
-		if (r <= 0) break;
-		hdr += c;
-		if (hdr.size() >= 4 && hdr[hdr.size()-4] == '\r' && hdr[hdr.size()-3] == '\n'
-		                     && hdr[hdr.size()-2] == '\r' && hdr[hdr.size()-1] == '\n')
-			break;
-	}
-	return hdr;
-}
-
-static int parseContentLength(const Common::String &headers) {
-	Common::String lower = headers;
-	lower.toLowercase();
-	const char *p = strstr(lower.c_str(), "content-length:");
-	if (!p) return -1;
-	ptrdiff_t offset = p - lower.c_str();
-	p = headers.c_str() + offset + 15;
-	while (*p == ' ') ++p;
-	return atoi(p);
-}
-
-static bool isChunked(const Common::String &headers) {
-	Common::String lower = headers;
-	lower.toLowercase();
-	return strstr(lower.c_str(), "transfer-encoding: chunked") != nullptr;
-}
-
-static Common::String readChunkedBody(LlmSock sock) {
-	Common::String body;
-	char lineBuf[64];
-	int lineLen;
-	char c;
-	while (true) {
-		lineLen = 0;
-		while (lineLen < 63) {
-			if (llm_recv(sock, &c, 1) <= 0) return body;
-			if (c == '\n') break;
-			if (c != '\r') lineBuf[lineLen++] = c;
-		}
-		lineBuf[lineLen] = 0;
-		int chunkSz = (int)strtol(lineBuf, nullptr, 16);
-		if (chunkSz == 0) break;
-		char tmp[4096];
-		int rem = chunkSz;
-		while (rem > 0) {
-			int toRead = rem < 4096 ? rem : 4096;
-			int r = llm_recv(sock, tmp, toRead);
-			if (r <= 0) return body;
-			body += Common::String(tmp, r);
-			rem -= r;
-		}
-		llm_recv(sock, &c, 1); // \r
-		llm_recv(sock, &c, 1); // \n
-	}
-	return body;
-}
-
-static Common::String socketHttpPost(const LlmUrl &url,
-                                     const Common::String &body,
-                                     const Common::String &contentType,
-                                     const Common::String &extraHeaders,
-                                     int timeoutMs) {
-	LlmSock sock = tcpConnect(url.host, url.port);
-	if (sock == LLM_INVALID_SOCK) return "";
-	sockSetTimeout(sock, timeoutMs);
-
-	Common::String req;
-	req += "POST " + url.path + " HTTP/1.1\r\n";
-	req += "Host: " + url.host + "\r\n";
-	req += "Content-Type: " + contentType + "\r\n";
-	req += Common::String::format("Content-Length: %u\r\n", (unsigned)body.size());
-	if (!extraHeaders.empty())
-		req += extraHeaders + "\r\n";
-	req += "Connection: close\r\n\r\n";
-	req += body;
-
-	if (!sockSendAll(sock, req.c_str(), (int)req.size())) {
-		llm_close(sock);
-		warning("LLM: send failed");
-		return "";
-	}
-
-	Common::String headers = readHeaders(sock);
-	Common::String responseBody;
-
-	if (isChunked(headers)) {
-		responseBody = readChunkedBody(sock);
-	} else {
-		int clen = parseContentLength(headers);
-		if (clen > 0) {
-			char tmp[4096];
-			int rem = clen;
-			while (rem > 0) {
-				int toRead = rem < 4096 ? rem : 4096;
-				int r = llm_recv(sock, tmp, toRead);
-				if (r <= 0) break;
-				responseBody += Common::String(tmp, r);
-				rem -= r;
-			}
-		} else {
-			char tmp[4096];
-			while (true) {
-				int r = llm_recv(sock, tmp, 4096);
-				if (r <= 0) break;
-				responseBody += Common::String(tmp, r);
-			}
-		}
-	}
-
-	llm_close(sock);
-	return responseBody;
-}
-
-// ---------------------------------------------------------------------------
-// libcurl HTTPS (only when USE_CLOUD is defined)
-// ---------------------------------------------------------------------------
-
-#ifdef LLM_HAS_CURL
-struct CurlBuf {
-	Common::String data;
-};
-
-static size_t curlWrite(char *ptr, size_t size, size_t nmemb, void *ud) {
-	CurlBuf *b = (CurlBuf *)ud;
-	b->data += Common::String(ptr, (uint32)(size * nmemb));
-	return size * nmemb;
-}
-
-static Common::String curlPost(const LlmUrl &url,
-                                const Common::String &body,
-                                const Common::String &contentType,
-                                const Common::String &extraHeaders,
-                                int timeoutMs) {
-	CURL *curl = curl_easy_init();
-	if (!curl) return "";
-
-	// Build the full URL string
-	Common::String fullUrl = (url.isHttps ? "https://" : "http://") + url.host;
-	if ((url.isHttps && url.port != 443) || (!url.isHttps && url.port != 80))
-		fullUrl += Common::String::format(":%d", url.port);
-	fullUrl += url.path;
-
-	// Build curl header list
-	struct curl_slist *hdrs = nullptr;
-	hdrs = curl_slist_append(hdrs, ("Content-Type: " + contentType).c_str());
-
-	// extraHeaders is \r\n-separated; split and add each
-	if (!extraHeaders.empty()) {
-		Common::String remaining = extraHeaders;
-		while (!remaining.empty()) {
-			uint32 nl = remaining.find('\r');
-			if (nl == Common::String::npos) nl = remaining.size();
-			Common::String line(remaining.c_str(), nl);
-			if (!line.empty())
-				hdrs = curl_slist_append(hdrs, line.c_str());
-			if (nl + 2 <= remaining.size())
-				remaining = Common::String(remaining.c_str() + nl + 2);
-			else
-				break;
-		}
-	}
-
-	CurlBuf respBuf;
-	curl_easy_setopt(curl, CURLOPT_URL,           fullUrl.c_str());
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER,    hdrs);
-	curl_easy_setopt(curl, CURLOPT_POST,          1L);
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDS,    body.c_str());
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)body.size());
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrite);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA,     &respBuf);
-	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,    (long)timeoutMs);
-	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
-
-	CURLcode rc = curl_easy_perform(curl);
-	curl_slist_free_all(hdrs);
-	curl_easy_cleanup(curl);
-
-	if (rc != CURLE_OK) {
-		warning("LLM: curl error: %s", curl_easy_strerror(rc));
-		return "";
-	}
-	return respBuf.data;
-}
-#endif // LLM_HAS_CURL
 
 // ---------------------------------------------------------------------------
 // JSON helpers
@@ -599,19 +263,68 @@ Common::String LlmClient::httpPost(const Common::String &urlStr,
                                     const Common::String &body,
                                     const Common::String &contentType,
                                     const Common::String &extraHeaders) const {
-	LlmUrl url;
-	if (!parseUrl(urlStr, url)) return "";
+#ifdef USE_CLOUD
+	// SessionRequest registers itself with ConnMan on construction; we drive it
+	// synchronously with start() + a bounded wait, then hand it back to ConnMan
+	// for deletion via close() (we must NOT delete it ourselves).
+	Networking::SessionRequest *rq =
+		new Networking::SessionRequest(urlStr, Common::Path(), nullptr, nullptr, false);
 
-	if (url.isHttps) {
-#ifdef LLM_HAS_CURL
-		return curlPost(url, body, contentType, extraHeaders, _config.timeoutMs);
-#else
-		warning("LLM: HTTPS requires ScummVM built with USE_CLOUD (libcurl). "
-		        "Use an http:// endpoint or rebuild with cloud support enabled.");
-		return "";
-#endif
+	rq->addHeader("Content-Type: " + contentType);
+
+	// extraHeaders is a \r\n-separated block; add each line as its own header.
+	if (!extraHeaders.empty()) {
+		Common::String remaining = extraHeaders;
+		while (!remaining.empty()) {
+			uint32 nl = remaining.find('\r');
+			if (nl == Common::String::npos)
+				nl = remaining.size();
+			Common::String line(remaining.c_str(), nl);
+			if (!line.empty())
+				rq->addHeader(line);
+			if (nl + 2 <= remaining.size())
+				remaining = Common::String(remaining.c_str() + nl + 2);
+			else
+				break;
+		}
 	}
-	return socketHttpPost(url, body, contentType, extraHeaders, _config.timeoutMs);
+
+	// Providing a byte buffer makes SessionRequest issue a POST with this body.
+	// SessionRequest takes ownership of the buffer and frees it.
+	byte *buffer = new byte[body.size()];
+	memcpy(buffer, body.c_str(), body.size());
+	rq->setBuffer(buffer, body.size());
+
+	// Start the request and wait for it, but cap the wait at the configured
+	// timeout so a stalled endpoint can't hang the game. ConnMan's timer thread
+	// drives the transfer while we spin here.
+	rq->start();
+	uint32 deadline = g_system->getMillis() + (uint32)_config.timeoutMs;
+	while (rq->state() == Networking::PROCESSING && g_system->getMillis() < deadline)
+		g_system->delayMillis(5);
+
+	Common::String response;
+	if (rq->success()) {
+		const char *text = rq->text();
+		if (text)
+			response = text;
+	} else if (rq->state() == Networking::PROCESSING) {
+		warning("LLM: request to %s timed out after %d ms", urlStr.c_str(), _config.timeoutMs);
+	} else {
+		warning("LLM: request to %s failed", urlStr.c_str());
+	}
+
+	rq->close();
+	return response;
+#else
+	(void)urlStr;
+	(void)body;
+	(void)contentType;
+	(void)extraHeaders;
+	warning("LLM: network support requires ScummVM built with cloud/libcurl support "
+	        "(USE_CLOUD). Rebuild with cloud support enabled to use the LLM features.");
+	return "";
+#endif
 }
 
 Common::String LlmClient::queryOllama(const Common::String &prompt) const {
