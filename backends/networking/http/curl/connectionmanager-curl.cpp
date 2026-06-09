@@ -33,7 +33,12 @@
 namespace Common {
 
 template<>
-__declspec(noinline) Networking::ConnectionManager *Singleton<Networking::ConnectionManager>::makeInstance() {
+#if defined(_MSC_VER)
+__declspec(noinline)
+#elif defined(__GNUC__)
+__attribute__((noinline))
+#endif
+Networking::ConnectionManager *Singleton<Networking::ConnectionManager>::makeInstance() {
 	return new Networking::ConnectionManagerCurl();
 }
 

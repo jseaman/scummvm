@@ -43,17 +43,6 @@
  *   llm_timeout_ms        = 10000        (optional, default 10 s)
  */
 
-// HTTP transport goes through ScummVM's portable networking layer
-// (Networking::SessionRequest), backed by libcurl on desktop and platform-native
-// HTTP elsewhere.  Routing through this backend keeps <winsock2.h>/<windows.h>
-// and libcurl headers out of engine code, so the engine compiles cleanly and
-// ports without any per-OS socket handling.
-#ifdef USE_CLOUD
-#include "backends/networking/http/sessionrequest.h"
-#include "backends/networking/http/request.h"
-#include "common/system.h"
-#endif
-
 #include "sci/llm.h"
 
 #include "common/archive.h"
@@ -62,6 +51,19 @@
 #include "common/stream.h"
 #include "common/str.h"
 #include "common/textconsole.h"
+
+// HTTP transport goes through ScummVM's portable networking layer
+// (Networking::SessionRequest), backed by libcurl on desktop and platform-native
+// HTTP elsewhere.  Routing through this backend keeps <winsock2.h>/<windows.h>
+// and libcurl headers out of engine code, so the engine compiles cleanly and
+// ports without any per-OS socket handling.  This block must come after the
+// includes above so that config.h (pulled in via scummsys.h) has defined
+// USE_CLOUD before it is tested here.
+#ifdef USE_CLOUD
+#include "backends/networking/http/sessionrequest.h"
+#include "backends/networking/http/request.h"
+#include "common/system.h"
+#endif
 
 #include <cstdlib>
 #include <cstring>
