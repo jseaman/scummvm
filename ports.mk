@@ -518,6 +518,8 @@ ifneq (,$(wildcard $(STATICLIBPATH)/lib/libintl.a))
 OSX_STATIC_LIBS += $(STATICLIBPATH)/lib/libintl.a
 endif
 endif
+endif
+endif
 
 ifdef USE_TTS
 ifndef USE_NS_SPEECH_SYNTHESIZER
@@ -527,8 +529,6 @@ endif
 
 ifneq ($(BACKEND), ios7)
 OSX_STATIC_LIBS += -lreadline
-endif
-endif
 endif
 
 ifdef USE_MAD
