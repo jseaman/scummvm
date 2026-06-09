@@ -42,10 +42,13 @@
 #include "mads/madsv2/core/video.h"
 #include "mads/madsv2/core/matte.h"
 #include "mads/madsv2/core/game.h"
+#include "mads/madsv2/core/global.h"
 #include "mads/madsv2/core/imath.h"
 #include "mads/madsv2/core/env.h"
 #include "mads/madsv2/core/error.h"
-#include "mads/madsv2/core/extra.h"
+#include "mads/madsv2/forest/extra.h"
+#include "mads/madsv2/dragonsphere/mads/inventory.h"
+#include "mads/madsv2/dragonsphere/global.h"
 #include "mads/madsv2/engine.h"
 
 namespace MADS {
@@ -1850,7 +1853,8 @@ done:
 
 void inter_turn_off_object(void) {
 	if (inter_object_series >= 0) {
-		delete_sprite_in_interface(inter_object_series);
+		if (g_engine->getGameID() == GType_Forest)
+			Forest::delete_sprite_in_interface(inter_object_series);
 		matte_deallocate_series(inter_object_series, false);
 		inter_base_time = timer_read();
 		inter_object_series = -1;
@@ -1924,21 +1928,26 @@ void inter_spin_object(int object_id) {
 
 	// Update to live screen chunk of interface that selected object
 	// is on (it has been deleted in list by now)
-	if (kernel_mode == KERNEL_ACTIVE_CODE) {
-		video_update(&scr_inter, OUAF_OBJECT_X, 0,
-			OUAF_OBJECT_X, 156,
-			59, 44);
+	if (kernel_mode == KERNEL_ACTIVE_CODE && g_engine->getGameID() == GType_Forest) {
+		video_update(&scr_inter, OUAF_OBJECT_X, 0, OUAF_OBJECT_X, 156, 59, 44);
 	}
 
-	if (!inter_spinning_objects) goto done;
+	if (!inter_spinning_objects)
+		goto done;
 
-	if (inter_input_mode == INTER_BUILDING_SENTENCES ||
-		inter_input_mode == INTER_LIMITED_SENTENCES) inter_screen_update();
+	if (inter_input_mode == INTER_BUILDING_SENTENCES || inter_input_mode == INTER_LIMITED_SENTENCES)
+		inter_screen_update();
 
 	if (inter_object_routine == NULL) {
 		Common::strcpy_s(temp_buf, "*OB");
 
-		env_catint(temp_buf, object_id, 3);
+		// Special handling for the Polystone in Dragonsphere, which can mimic other items
+		int objectId = object_id;
+		if (g_engine->getGameID() == GType_Dragonsphere && object_id == Dragonsphere::polystone &&
+			global[Dragonsphere::object_imitated] != -1)
+			objectId = global[Dragonsphere::object_imitated];
+
+		env_catint(temp_buf, objectId, 3);
 
 		Common::strcat_s(temp_buf, "I");
 
@@ -1956,7 +1965,7 @@ void inter_spin_object(int object_id) {
 		SERIES_BONUS_OBJECT);
 
 	if (g_engine->getGameID() == GType_Forest) {
-		stamp_sprite_to_interface(OUAF_OBJECT_X, OUAF_OBJECT_Y, 1, inter_object_series);
+		Forest::stamp_sprite_to_interface(OUAF_OBJECT_X, OUAF_OBJECT_Y, 1, inter_object_series);
 		paul_object_showing = object_id;
 	}
 
@@ -2153,6 +2162,83 @@ done:
 	}
 	if (load_handle.open) loader_close(&load_handle);
 	return error_flag;
+}
+
+void init_inter() {
+	stroke_type = STROKE_NONE;
+	inter_auxiliary_click = 0;
+	inter_anim = NULL;
+	inter_mouse_x = 0;
+	inter_mouse_y = 0;
+	inter_mouse_type = 0;
+	inter_object_sprite = 1;
+	inter_object_series = -1;
+	inter_spinning_objects = true;
+	inter_animation_running = true;
+	inter_objects_block = NULL;
+	inter_objects_block_size = 0;
+	inter_input_mode = INTER_BUILDING_SENTENCES;
+	memset(inter_dialog_strings, 0, sizeof(inter_dialog_strings));
+	memset(inter_dialog_results, 0, sizeof(inter_dialog_results));
+	memset(inven, 0, sizeof(inven));
+	inven_num_objects = 0;
+	right_command = 0;
+	left_command = -1;
+	left_inven = -1;
+	left_action = -1;
+	right_action = -1;
+	active_inven = -1;
+	first_inven = 0;
+	scroll_base_time = 0;
+	scroll_active = false;
+	scroll_quickly = false;
+	first_inven_changed = false;
+	picked_word = 0;
+	memset(inter_sentence, 0, sizeof(inter_sentence));
+	inter_sentence_handle = -1;
+	inter_sentence_changed = false;
+	inter_look_around = 0;
+	inter_command = 0;
+	inter_main_object = 0;
+	inter_second_object = 0;
+	inter_prep = 0;
+	inter_main_syntax = 0;
+	inter_second_syntax = 0;
+	inter_verb_type = 0;
+	inter_prep_type = 0;
+	inter_command_source = 0;
+	inter_main_object_source = 0;
+	inter_second_object_source = 0;
+	memset(inter_words, 0, sizeof(inter_words));
+	inter_point_established = 0;
+	inter_point_x = 0;
+	inter_point_y = 0;
+	inter_recent_command = 0;
+	inter_recent_command_source = 0;
+	inter_sentence_ready = false;
+	inter_awaiting = AWAITING_COMMAND;
+	inter_report_hotspots = false;
+	inter_force_rescan = false;
+	inter_base_hotspots = 0;
+	inter_no_segments_active = true;
+	inter_some_segments_active = false;
+	inter_spot_class = 0;
+	inter_spot_index = 0;
+	inter_spot_id = 0;
+	inter_base_time = 0;
+	end_of_selection = false;
+	memset(spot_base, 0, sizeof(spot_base));
+	scrollbar_active = 0;
+	scrollbar_elevator = 0;
+	scrollbar_old_active = -1;
+	scrollbar_old_elevator = -1;
+	scrollbar_stroke_type = 0;
+	scrollbar_quickly = false;
+	scrollbar_base_timing = 0;
+	inter_object_id = 0;
+	memset(inter_object_buf, 0, sizeof(inter_object_buf));
+	inter_object_routine = NULL;
+	paul_object_showing = -1;
 }
 
 } // namespace MADSV2

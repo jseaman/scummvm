@@ -186,6 +186,16 @@ Widget *Widget::findWidgetInChain(Widget *w, uint32 type) {
 	return nullptr;
 }
 
+bool Widget::hasVisibleScrollBar() const {
+	Widget *w = _firstWidget;
+	while (w) {
+		if (w->getType() == kScrollBarWidget && w->isVisible())
+			return true;
+		w = w->_next;
+	}
+	return false;
+}
+
 bool Widget::containsWidgetInChain(Widget *w, Widget *search) {
 	while (w) {
 		if (w == search || w->containsWidget(search))
@@ -1109,6 +1119,12 @@ void OptionsContainerWidget::reflowLayout() {
 		w = w->next();
 	}
 	_h = maxY - minY;
+}
+
+Common::Rect OptionsContainerWidget::getClipRect() const {
+	// Use boss clipping rectangle to avoid drawing issues on checkboxes
+	// which stick out of their rectangle due to their bevel.
+	return _boss->getClipRect();
 }
 
 bool OptionsContainerWidget::containsWidget(Widget *widget) const {

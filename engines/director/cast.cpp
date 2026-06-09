@@ -303,7 +303,7 @@ bool Cast::eraseCastMember(int castId) {
 	return false;
 }
 
-void Cast::setArchive(Archive *archive) {
+void Cast::setArchive(Common::SharedPtr<Archive> archive) {
 	_castArchive = archive;
 
 	if (archive->hasResource(MKTAG('M', 'C', 'N', 'M'), 0)) {
@@ -314,14 +314,17 @@ void Cast::setArchive(Archive *archive) {
 }
 
 void Cast::loadArchive() {
-	loadConfig();
+	if (!loadConfig())
+		return;
 	loadCast();
 }
 
 void configLenSanityCheck(uint16 len, uint16 fileVersion) {
 	int tlen = -1;
 
-	if (fileVersion < kFileVer300) {
+	if (fileVersion < kFileVer200) {
+		tlen = 28;							// D1
+	} else if (fileVersion < kFileVer300) {
 		tlen = 30;							// D2
 	} else if (fileVersion < kFileVer400) {
 		tlen = 48;							// D3
@@ -353,6 +356,16 @@ bool Cast::loadConfig() {
 		stream = _castArchive->getMovieResourceIfPresent(MKTAG('V', 'W', 'C', 'F'));
 	}
 	if (!stream) {
+		if (g_director->getVersion() < 100) {
+			// D1 and below did not have a config chunk, use defaults
+			debugC(1, kDebugLoading, "Cast::loadConfig(): No config chunk found, using defaults for cast libID %d (%s)", _castLibID, _castName.c_str());
+			_version = g_director->getVersion() == 20 ? kFileVer020 : kFileVer010;
+			_frameRate = 15;
+			_movieRect = Common::Rect(512, 342);
+			_bitdepth = 1;
+			return true;
+		}
+
 		warning("Cast::loadConfig(): Wrong format. VWCF resource missing");
 		return false;
 	}
@@ -481,6 +494,16 @@ bool Cast::loadConfig() {
 
 		debugC(1, kDebugLoading, "Cast::loadConfig(): field17: %d, field18: %d, field19: %d, movieDepth: %d, field22: %d field23: %d",
 			_field17, _field18, _field19, _movieDepth, _field22, _field23);
+	} else {
+		// D2 and below
+
+		_field17 = 0;
+		_field18 = 0;
+		_field19 = 0;
+
+		_movieDepth = _bitdepth;
+		_field22 = 0;
+		_field23 = 0;
 	}
 
 	if (_version >= kFileVer400) {
@@ -506,7 +529,7 @@ bool Cast::loadConfig() {
 		uint32 check = computeChecksum();
 
 		if (check != _checksum)
-			warning("BUILDBOT: The checksum for this VWCF resource is incorrect. Got %04x, but expected %04x", check, _checksum);
+			warning("BUILDBOT: The checksum for this VWCF resource is incorrect. Got %08x, but expected %08x", check, _checksum);
 
 		if (_version >= kFileVer400 && _version < kFileVer500) {
 			_field30 = stream->readSint16();
@@ -672,7 +695,8 @@ void Cast::saveConfig(Common::SeekableWriteStream *writeStream, uint32 offset) {
 		writeStream->writeSint16BE(_windowDragRegionMaskId.member);
 	}
 
-	if (debugChannelSet(7, kDebugSaving)) {
+	// FIXME: can't dereference SeekableWriteStream
+	/*if (debugChannelSet(7, kDebugSaving)) {
 		// Adding +8 because the stream doesn't include the header and the entry for the size itself
 		byte *dumpData = (byte *)calloc(configSize + 8, sizeof(byte));
 
@@ -686,7 +710,7 @@ void Cast::saveConfig(Common::SeekableWriteStream *writeStream, uint32 offset) {
 		dumpFile("ConfigData", 0, MKTAG('V', 'W', 'C', 'F'), dumpData, configSize + 8);
 		free(dumpData);
 		delete dumpStream;
-	}
+	}*/
 
 }
 
@@ -928,7 +952,8 @@ void Cast::saveCastData(Common::SeekableWriteStream *writeStream, Resource *res)
 
 	debugC(5, kDebugSaving, "Cast::saveCastData()::Saving 'CASt' resource, id: %d, size: %d, type: %s", id, castSize, castType2str(type));
 
-	if (debugChannelSet(7, kDebugSaving)) {
+	// FIXME: can't dereference SeekableWriteStream
+	/*if (debugChannelSet(7, kDebugSaving)) {
 		byte *dumpData = (byte *)calloc(castSize + 8, sizeof(byte));
 		Common::SeekableMemoryWriteStream *dumpStream = new Common::SeekableMemoryWriteStream(dumpData, castSize + 8);
 
@@ -940,7 +965,7 @@ void Cast::saveCastData(Common::SeekableWriteStream *writeStream, Resource *res)
 		dumpFile(castType2str(type), res->index, MKTAG('C', 'A', 'S', 't'), dumpData, castSize + 8);
 		free(dumpData);
 		delete dumpStream;
-	}
+	}*/
 }
 
 void Cast::writeCastInfo(Common::SeekableWriteStream *writeStream, uint32 castId) {
@@ -1768,7 +1793,8 @@ void Cast::loadLingoContext(Common::SeekableReadStreamEndian &stream) {
 				debugC(1, kDebugCompile, "Cast::loadLingoContext: Script %d is used but empty", i);
 				continue;
 			}
-			_lingoArchive->addCodeV4(*(r = _castArchive->getResource(MKTAG('L', 's', 'c', 'r'), entry.index)), i, _macName, _version);
+			_lingoArchive->addCodeV4(*(r = _castArchive->getResource(MKTAG('L', 's', 'c', 'r'), entry.index)), i,
+					getArchive()->getPathName().toString(g_director->_dirSeparator), _version);
 			delete r;
 		}
 
@@ -1816,7 +1842,7 @@ void Cast::loadLingoContext(Common::SeekableReadStreamEndian &stream) {
 					scriptType = kCastScript;
 				}
 
-				Common::String filename = encodePathForDump(_macName);
+				Common::String filename = encodePathForDump(getArchive()->getPathName().toString(g_director->_dirSeparator));
 				Common::Path lingoPath(dumpScriptName(filename.c_str(), scriptType, _castsScriptIds[it->first], "lingo"));
 
 				if (out.open(lingoPath, true)) {

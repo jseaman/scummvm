@@ -499,8 +499,21 @@ enum ScummAction {
 	kScummActionInsaneAttack,
 	kScummActionInsaneSwitch,
 	kScummActionInsaneCheat,
+	kScummActionInsaneBack,
+	kScummActionInsaneSkip,
 
 	kScummActionCount
+};
+
+enum ScummBackendAction {
+	kScummBackendActionRebel1AxisUp = 11000,
+	kScummBackendActionRebel1AxisDown,
+	kScummBackendActionRebel1AxisLeft,
+	kScummBackendActionRebel1AxisRight,
+	kScummBackendActionRebel2AxisUp,
+	kScummBackendActionRebel2AxisDown,
+	kScummBackendActionRebel2AxisLeft,
+	kScummBackendActionRebel2AxisRight
 };
 
 extern const char *const insaneKeymapId;

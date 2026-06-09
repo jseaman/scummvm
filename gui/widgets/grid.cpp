@@ -195,6 +195,7 @@ void GridItemWidget::handleMouseWheel(int x, int y, int direction) {
 void GridItemWidget::handleMouseEntered(int button) {
 	if (!_isHighlighted) {
 		_isHighlighted = true;
+		_grid->_highlightedItem = this;
 		markAsDirty();
 	}
 }
@@ -202,6 +203,8 @@ void GridItemWidget::handleMouseEntered(int button) {
 void GridItemWidget::handleMouseLeft(int button) {
 	if (_isHighlighted) {
 		_isHighlighted = false;
+		if (_grid->_highlightedItem == this)
+			_grid->_highlightedItem = nullptr;
 		markAsDirty();
 	}
 }
@@ -312,7 +315,7 @@ void GridItemWidget::handleMouseUp(int x, int y, int button, int clickCount) {
 #pragma mark -
 
 GridItemTray::GridItemTray(GuiObject *boss, int x, int y, int w, int h, int entryID, GridWidget *grid)
-	: Dialog(x, y, w, h), CommandSender(boss) {
+	: Dialog(x, y, w, h), CommandSender(boss), _mouseOutside(false) {
 
 	_entryID = entryID;
 	_boss = boss;
@@ -388,12 +391,23 @@ void GridItemTray::handleMouseWheel(int x, int y, int direction) {
 	close();
 }
 
+void GridItemTray::receivedFocus(int x, int y) {
+	// Don't call our handleMouseMoved when receiving focus
+	// to avoid spurious closing if the cursor is outside of the tray
+	if (x >= 0 && y >= 0) {
+		Dialog::handleMouseMoved(x, y, 0);
+		_mouseOutside = ((x < 0 || x > _w) || (y > _h || y < -(_grid->_gridItemHeight)));
+	}
+}
+
 void GridItemTray::handleMouseMoved(int x, int y, int button) {
 	Dialog::handleMouseMoved(x, y, button);
-	if ((x < 0 || x > _w) || (y > _h || y < -(_grid->_gridItemHeight))) {
+	bool mouseOutside = (x < 0 || x > _w) || (y > _h || y < -(_grid->_gridItemHeight));
+	if (mouseOutside && !_mouseOutside) {
 		// Close on going outside
 		close();
 	}
+	_mouseOutside = mouseOutside;
 }
 
 #pragma mark -
@@ -1012,6 +1026,9 @@ void GridWidget::selectVisualRange(int startPos, int endPos) {
 }
 
 void GridWidget::handleMouseWheel(int x, int y, int direction) {
+	if (!_scrollBar->isVisible())
+		return;
+
 	_fluidScroller->handleMouseWheel(direction);
 }
 
@@ -1047,7 +1064,7 @@ void GridWidget::handleMouseUp(int x, int y, int button, int clickCount) {
 }
 
 void GridWidget::handleMouseMoved(int x, int y, int button) {
-	if (!_isMouseDown)
+	if (!_isMouseDown || !_scrollBar->isVisible())
 		return;
 
 	if (!_isDragging && ABS(y - _dragStartY) > kDragThreshold) {
@@ -1073,6 +1090,9 @@ void GridWidget::applyScrollPos() {
 
 	assignEntriesToItems();
 	scrollBarRecalc();	
+	markAsDirty();
+	if (_highlightedItem)
+		_highlightedItem->handleMouseLeft(0);
 	g_gui.scheduleTopDialogRedraw();
 }
 
@@ -1087,6 +1107,11 @@ bool GridWidget::handleKeyDown(Common::KeyState state) {
 
 bool GridWidget::handleKeyUp(Common::KeyState state) {
 	return false;
+}
+
+void GridWidget::lostFocusWidget() {
+	_isMouseDown = _isDragging = false;
+	_dragStartY = _dragLastY = 0;
 }
 
 void GridWidget::handleCommand(CommandSender *sender, uint32 cmd, uint32 data) {

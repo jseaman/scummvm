@@ -39,6 +39,7 @@
 #include "freescape/area.h"
 #include "freescape/font.h"
 #include "freescape/gfx.h"
+#include "freescape/language/8bitDetokeniser.h"
 #include "freescape/objects/entrance.h"
 #include "freescape/objects/geometricobject.h"
 #include "freescape/objects/sensor.h"
@@ -113,6 +114,7 @@ enum FreescapeAction {
 	kActionSelectPrincess,
 	kActionQuit,
 	kActionToggleFlashlight,
+	kActionToggleStereoscopic,
 
 	// Demo actions
 	kActionUnknownKey,
@@ -534,7 +536,7 @@ public:
 	Common::Array<byte> _soundsCPCEnvelopeTable;
 	Common::Array<byte> _soundsCPCSoundDefTable;
 
-	void loadSoundsAmigaDemo(Common::SeekableReadStream *file, int offset, int numSounds);
+	void loadSoundsAmigaDemo(Common::SeekableReadStream *file, int offset, int numSounds, int modOffset = 0x3D5A6);
 	void playSoundAmiga(int index, Audio::SoundHandle &handle);
 	Common::Array<AmigaSfxEntry> _amigaSfxTable;
 	Common::Array<AmigaDmaSample> _amigaDmaSamples;
@@ -569,6 +571,10 @@ public:
 	int _shootingFrames;
 	GeometricObject *_delayedShootObject;
 	void drawFrame();
+	void drawFrameStereo(int farClipPlane);
+
+	// Red/blue anaglyph 3D ("two eyes") effect, toggled with the 3 key.
+	bool _stereoMode;
 	void flashScreen(int backgroundColor);
 	uint8 _colorNumber;
 	Math::Vector3d _scaleVector;
@@ -638,7 +644,11 @@ public:
 	bool hasFeature(EngineFeature f) const override;
 	bool canLoadGameStateCurrently(Common::U32String *msg = nullptr) override { return true; }
 	bool canSaveAutosaveCurrently() override { return false; }
-	bool canSaveGameStateCurrently(Common::U32String *msg = nullptr) override { return _gameStateControl == kFreescapeGameStatePlaying && _currentArea; }
+	// Disallow saving while the game is not in the playing state, or while the
+	// player is dead/not controllable (fallen out of the world, crushed, or out
+	// of health/shield). Otherwise that transient state would be captured into
+	// the savegame.
+	bool canSaveGameStateCurrently(Common::U32String *msg = nullptr) override { return _gameStateControl == kFreescapeGameStatePlaying && _currentArea && !_hasFallen && !_playerWasCrushed && _gameStateVars.getValOrDefault(k8bitVariableShield) > 0; }
 	Common::Error loadGameStream(Common::SeekableReadStream *stream) override;
 	Common::Error saveGameStream(Common::WriteStream *stream, bool isAutosave = false) override;
 	virtual Common::Error saveGameStreamExtended(Common::WriteStream *stream, bool isAutosave = false);

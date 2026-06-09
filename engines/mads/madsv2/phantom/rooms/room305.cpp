@@ -44,6 +44,8 @@ namespace MADSV2 {
 namespace Phantom {
 namespace Rooms {
 
+static Scratch scratch;
+
 void room_305_init() {
 	local->unmask = false;
 	local->prevent = false;
@@ -163,6 +165,20 @@ void room_305_preload() {
 
 	section_3_walker();
 	section_3_interface();
+}
+
+
+void room_305_synchronize(Common::Serializer &s) {
+	s.syncMultipleLE(local->sprite);
+	s.syncMultipleLE(local->sequence);
+	s.syncMultipleLE(local->animation);
+	s.syncMultipleLE(
+		local->anim_0_running,
+		local->anim_1_running,
+		local->unmask_frame,
+		local->unmask_action,
+		local->unmask,
+		local->prevent);
 }
 
 } // namespace Rooms

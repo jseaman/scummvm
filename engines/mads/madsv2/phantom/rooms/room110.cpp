@@ -40,6 +40,8 @@ namespace MADSV2 {
 namespace Phantom {
 namespace Rooms {
 
+static Scratch scratch;
+
 void room_110_init() {
 	/* ==================== Load Sprite Series ====================== */
 
@@ -391,6 +393,13 @@ void room_110_preload() {
 
 	section_1_walker();
 	section_1_interface();
+}
+
+
+void room_110_synchronize(Common::Serializer &s) {
+	s.syncMultipleLE(local->sprite);
+	s.syncMultipleLE(local->sequence);
+	s.syncMultipleLE(local->animation);
 }
 
 } // namespace Rooms

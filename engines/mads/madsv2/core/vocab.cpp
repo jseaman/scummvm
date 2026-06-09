@@ -667,5 +667,15 @@ char *vocab_string(int vocab_id) {
 	return p;  // got_it
 }
 
+void init_vocab() {
+	vocab = NULL;
+	vocab_words = 0;
+	vocab_allocation = 0;
+	vocab_first_soft = 0;
+	vocab_longest = 0;
+	vocab_text = NULL;
+	vocab_size = 0;
+}
+
 } // namespace MADSV2
 } // namespace MADS

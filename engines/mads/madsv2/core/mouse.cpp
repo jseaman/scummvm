@@ -45,6 +45,7 @@ int mouse_old_x = 0;
 int mouse_old_y = 0;
 long mouse_clock = 0;
 byte mouse_showing = 0;
+byte mouse_hidden = true;
 int mouse_video_mode = 0;
 
 
@@ -56,10 +57,15 @@ int mouse_init(int driverflag, int videomode) {
 void mouse_show() {
 	if (!CursorMan.isVisible())
 		CursorMan.showMouse(true);
+
+	mouse_showing = true;
+	mouse_hidden = false;
 }
 
 void mouse_hide() {
 	CursorMan.showMouse(false);
+	mouse_showing = false;
+	mouse_hidden = true;
 }
 
 void mouse_force(int x, int y) {
@@ -238,6 +244,9 @@ void mouse_hard_cursor_mode(int mode, Palette *mypal) {
 
 const byte *mouse_get_stack() {
 	error("TODO: mouse_get_stack");
+}
+
+void mouse_hard_cursor_mode(int mode, Palette mypal) {
 }
 
 } // namespace MADSV2

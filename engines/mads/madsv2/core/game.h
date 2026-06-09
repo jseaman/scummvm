@@ -22,6 +22,7 @@
 #ifndef MADS_CORE_GAME_H
 #define MADS_CORE_GAME_H
 
+#include "common/serializer.h"
 #include "mads/madsv2/core/general.h"
 #include "mads/madsv2/core/global.h"
 #include "mads/madsv2/core/player.h"
@@ -158,6 +159,7 @@ enum {
 
 extern byte game_restore_flag;         /* Flag if restoring game */
 extern byte game_autosaved;            /* Flag if autosaved      */
+extern int savegame_slot;
 
 extern byte game_mouse_cursor_fix;     /* Mouse cursor fix       */
 
@@ -275,6 +277,8 @@ extern void flag_parse(const char **myscan);
 
 extern void show_logo();
 extern void show_version();
+
+extern void init_game();
 
 } // namespace MADSV2
 } // namespace MADS

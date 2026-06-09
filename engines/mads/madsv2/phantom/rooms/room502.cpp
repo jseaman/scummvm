@@ -44,6 +44,8 @@ namespace MADSV2 {
 namespace Phantom {
 namespace Rooms {
 
+static Scratch scratch;
+
 #define EXPECTED_TOTAL_COLORS 378
 
 static void room_502_initialize_panels() {
@@ -1271,6 +1273,40 @@ void room_502_preload() {
 
 	section_5_walker();
 	section_5_interface();
+}
+
+
+void room_502_synchronize(Common::Serializer &s) {
+	s.syncMultipleLE(local->puzzle_picture);
+	s.syncMultipleLE(local->puzzle_sprite);
+	s.syncMultipleLE(
+		local->fire_1_on,
+		local->fire_2_on,
+		local->fire_3_on,
+		local->fire_4_on,
+		local->panel_pushed,
+		local->turning_panel,
+		local->yippie,
+		local->message_stage,
+		local->room_getting_hotter,
+		local->interim_y,
+		local->interim_x);
+	s.syncMultipleLE(local->sprite);
+	s.syncMultipleLE(local->sequence);
+	s.syncMultipleLE(local->animation);
+	s.syncMultipleLE(local->puzzle_sequence);
+	for (int i = 0; i < num_cycle_stages; ++i)
+		local->cycle_list[i].synchronize(s);
+
+	s.skip(4 * num_cycle_stages);	// cycle_color[9] (pointer array)
+	s.skip(4);						// cycle_pointer (pointer)
+
+	s.syncMultipleLE(
+		local->cycle_bookkeep,
+		local->cycle_stage,
+		local->hot_clock,
+		local->hot_timer,
+		local->death_timer);
 }
 
 } // namespace Rooms

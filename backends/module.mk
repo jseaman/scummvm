@@ -170,8 +170,10 @@ endif
 ifdef USE_ELF_LOADER
 MODULE_OBJS += \
 	plugins/elf/arm-loader.o \
+	plugins/elf/cxa-atexit.o \
 	plugins/elf/elf-loader.o \
 	plugins/elf/elf-provider.o \
+	plugins/elf/m68k-loader.o \
 	plugins/elf/memory-manager.o \
 	plugins/elf/mips-loader.o \
 	plugins/elf/ppc-loader.o \
@@ -236,7 +238,13 @@ endif
 
 ifndef RISCOS
 ifndef KOLIBRIOS
+ifdef USE_ATARI_PLUGIN_PROVIDER
+MODULE_OBJS += plugins/atari/atari-provider.o
+else ifdef USE_FIREBEE_PLUGIN_PROVIDER
+MODULE_OBJS += plugins/firebee/firebee-provider.o
+else
 MODULE_OBJS += plugins/sdl/sdl-provider.o
+endif
 endif
 endif
 
@@ -415,6 +423,7 @@ endif
 
 ifeq ($(BACKEND),atari)
 MODULE_OBJS += \
+	audiocd/atari/atari-audiocd.o \
 	events/atari/atari-events.o \
 	fs/atari/atari-fs.o \
 	fs/atari/atari-fs-factory.o \
@@ -427,6 +436,10 @@ MODULE_OBJS += \
 	graphics/atari/atari-supervidel.o \
 	graphics/atari/atari-surface.o \
 	mixer/atari/atari-mixer.o
+ifdef USE_ELF_LOADER
+MODULE_OBJS += \
+	plugins/atari/atari-provider.o
+endif
 endif
 
 ifeq ($(BACKEND),ds)

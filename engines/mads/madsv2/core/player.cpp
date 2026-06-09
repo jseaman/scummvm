@@ -33,12 +33,14 @@
 #include "mads/madsv2/core/pal.h"
 #include "mads/madsv2/core/himem.h"
 #include "mads/madsv2/core/object.h"
+#include "mads/madsv2/engine.h"
 
 namespace MADS {
 namespace MADSV2 {
 
 Player player;
 Player2 player2;
+static Player saved_player;
 
 static const byte player_facing_to_series[10] = { 0, 7, 4, 3, 6, 0, 2, 5, 0, 1 };
 const byte player_clockwise[10] = { 9, 4, 1, 2, 7, 9, 3, 8, 9, 6 };
@@ -81,7 +83,7 @@ void Player::synchronize(Common::Serializer &s) {
 	s.syncAsSint16LE(walker_visible);
 	s.syncAsSint16LE(walker_previously_visible);
 	s.syncAsSint16LE(series_base);
-	s.syncAsSint16LE(available[8]);
+	s.syncMultipleLE(available);
 	s.syncAsSint16LE(facing);
 	s.syncAsSint16LE(turn_to_facing);
 	s.syncAsSint16LE(series);
@@ -183,9 +185,9 @@ void player_new_stop_walker() {
 	int abs_stop;
 	WalkerInfoPtr walker;
 
-	// WORKAROUND: For ROTP opera and final chandelier fight cutscene
+	// WORKAROUND: For ROTP opera and final chandelier fight cutscene, Dragonsphere globe cutscenes
 	id = player.series_base + player.series;
-	if (!series_list[id])
+	if (id < 0 || !series_list[id])
 		return;
 	walker = series_list[id]->walker;
 	if (!walker)
@@ -241,9 +243,9 @@ void player_select_series() {
 		player.mirror = MIRROR_MASK;
 	}
 
-	// WORKAROUND: For ROTP final confrontation on Chandelier
+	// WORKAROUND: For ROTP final confrontation on Chandelier, Dragonsphere globe cutscenes
 	id = player.series_base + player.series;
-	if (!series_list[id])
+	if (id < 0 || !series_list[id])
 		return;
 	walker = series_list[id]->walker;
 	if (!walker)
@@ -265,7 +267,7 @@ void player_select_series() {
 	player.sprite_changed = true;
 }
 
-static void player_activate_trigger() {
+void player_activate_trigger() {
 	int count;
 
 	player.commands_allowed |= player.enable_at_target;
@@ -283,12 +285,7 @@ static void player_activate_trigger() {
 	}
 }
 
-/**
- * When the player needs to turn to face a different direction
- * than his current facing, this routine rotates him one place
- * in the right direction.
- */
-static void player_keep_turning() {
+void player_keep_turning() {
 	int clockwise_count = 0;
 	int clockwise_sum = 0;
 	int counter_clockwise_count = 0;
@@ -345,9 +342,9 @@ void player_stationary_update() {
 		goto done;
 	}
 
-	// WORKAROUND: For ROTP Opera scene and final chandelier fight
+	// WORKAROUND: For ROTP Opera scene and final chandelier fight, and Dragonsphere globe cutscenes
 	id = player.series_base + player.series;
-	if (!series_list[id])
+	if (id < 0 || !series_list[id])
 		return;
 	walker = series_list[id]->walker;
 	if (!walker)
@@ -478,105 +475,7 @@ void player_set_sprite() {
 }
 
 void player_keep_walking() {
-	int at_x, at_y;
-	int walk_code;
-	int id;
-	int new_facing = false;
-	int temp_velocity;
-	int angle_scale;
-	int angle_range;
-
-	while (player.walking && !player.walk_off_edge && (player.x == player.target_x) && (player.y == player.target_y)) {
-		if (rail_solution_stack_pointer == 0) {
-			if (player.walk_off_edge_to_room) {
-				player.walk_off_edge = player.walk_off_edge_to_room;
-				player.walk_anywhere = true;
-				player.walk_off_edge_to_room = 0;
-				player.commands_allowed = false;
-				new_facing = false;
-			} else {
-				player.walking = false;
-				player_set_final_facing();
-				new_facing = true;
-			}
-		} else {
-			id = rail_solution_stack[--rail_solution_stack_pointer];
-			player.target_x = room->rail[id].x;
-			player.target_y = room->rail[id].y;
-			new_facing = true;
-		}
-	}
-
-	if (new_facing) {
-		if (player.walking) player_set_facing();
-	}
-
-	if (player.facing != player.turn_to_facing) {
-		player_keep_turning();
-	} else {
-		if (!player.walking) {
-			player_new_stop_walker();
-			player_activate_trigger();
-		}
-	}
-
-	temp_velocity = player.velocity;
-
-	if (player.scaling_velocity && (player.total_distance > 0)) {
-		angle_range = 100 - player.scale;
-		angle_scale = player.scale + ((angle_range * (player.x_count - 1)) / player.total_distance);
-		temp_velocity = (int)(((long)temp_velocity * ((long)player.scale * (long)angle_scale)) / 10000L);
-		temp_velocity = MAX(temp_velocity, 1);
-	}
-
-	if (player.walking && (player.facing == player.turn_to_facing)) {
-		at_x = player.x;
-		at_y = player.y;
-		walk_code = false;
-		player.special_code = 0;
-
-		if (player.dist_accum < temp_velocity) {
-
-			do {
-				if (player.pixel_accum < player.x_count) {
-					player.pixel_accum += player.y_count;
-				}
-				if (player.pixel_accum >= player.x_count) {
-					if ((player.y_counter > 0) || player.walk_off_edge) at_y += player.sign_y;
-					player.y_counter--;
-					player.pixel_accum -= player.x_count;
-				}
-				if (player.pixel_accum < player.x_count) {
-					if ((player.x_counter > 0) || player.walk_off_edge) at_x += player.sign_x;
-					player.x_counter--;
-				}
-
-				if (!player.walk_anywhere && !(player.walk_off_edge || player.walk_off_edge_to_room)) {
-					walk_code |= attr_walk(&scr_walk, at_x, at_y);
-					if (!player.special_code) {
-						player.special_code = attr_special(&scr_special, at_x, at_y);
-					}
-				}
-
-				player.dist_accum += player.delta_distance;
-			} while ((player.dist_accum < temp_velocity) && (!walk_code) &&
-				((player.x_counter > 0) || (player.y_counter > 0) || (player.walk_off_edge)));
-
-		}
-
-		player.dist_accum -= temp_velocity;
-
-		if (walk_code) {
-			player_cancel_command();
-		} else {
-			if (!player.walk_off_edge) {
-				if (player.x_counter <= 0) at_x = player.target_x;
-				if (player.y_counter <= 0) at_y = player.target_y;
-			}
-			player.x = at_x;
-			player.y = at_y;
-		}
-	}
+	g_engine->player_keep_walking();
 }
 
 int player_search_image() {
@@ -797,6 +696,7 @@ static void player_walk_directly(int walk_form) {
 void player_new_command() {
 	int count;
 	int walk_spot;
+	int id;
 
 	player_cancel_command();
 
@@ -866,10 +766,11 @@ void player_new_command() {
 
 	// Be sure player moves immediately even if in the middle of a long
 	// stop-walker frame.
-	// WORKAROUND: For ROTP chandelier fight cutscene
-	if (!series_list[player.series_base + player.series])
+	// WORKAROUND: For ROTP chandelier fight cutscene and Dragonsphere cutscenes
+	id = player.series_base + player.series;
+	if (id < 0 || !series_list[id])
 		return;
-	WalkerInfoPtr walker = series_list[player.series_base + player.series]->walker;
+	WalkerInfoPtr walker = series_list[id]->walker;
 	if (!walker)
 		return;
 
@@ -1129,6 +1030,56 @@ void player_walk_trigger(int trigger) {
 	for (count = 0; count < 3; count++) {
 		player.walk_trigger_words[count] = player2.words[count];
 	}
+}
+
+void save_player() {
+	saved_player.x                  = player.x;
+	saved_player.y                  = player.y;
+	saved_player.facing             = player.facing;
+	saved_player.center_of_gravity  = player.center_of_gravity;
+	saved_player.walking            = player.walking;
+	saved_player.need_to_walk       = player.need_to_walk;
+	saved_player.sprite_changed     = player.sprite_changed;
+	saved_player.frame_delay        = player.frame_delay;
+	saved_player.commands_allowed   = player.commands_allowed;
+	saved_player.walker_visible     = player.walker_visible;
+	saved_player.walk_freedom       = player.walk_freedom;
+	saved_player.series_base        = player.series_base;
+	saved_player.command_ready      = player.command_ready;
+	saved_player.num_rooms_been_in  = player.num_rooms_been_in;
+	saved_player.special_code       = player.special_code;
+	saved_player.next_special_code  = player.next_special_code;
+	saved_player.scaling_velocity   = player.scaling_velocity;
+	saved_player.walker_is_loaded   = player.walker_is_loaded;
+	saved_player.walker_must_reload = player.walker_must_reload;
+	saved_player.walker_loads_first = player.walker_loads_first;
+	saved_player.walk_trigger       = player.walk_trigger;
+	saved_player.enable_at_target   = player.enable_at_target;
+}
+
+void restore_player() {
+	player.x                  = saved_player.x;
+	player.y                  = saved_player.y;
+	player.facing             = saved_player.facing;
+	player.center_of_gravity  = saved_player.center_of_gravity;
+	player.walking            = saved_player.walking;
+	player.need_to_walk       = saved_player.need_to_walk;
+	player.sprite_changed     = saved_player.sprite_changed;
+	player.frame_delay        = saved_player.frame_delay;
+	player.commands_allowed   = saved_player.commands_allowed;
+	player.walker_visible     = saved_player.walker_visible;
+	player.walk_freedom       = saved_player.walk_freedom;
+	player.series_base        = saved_player.series_base;
+	player.command_ready      = saved_player.command_ready;
+	player.num_rooms_been_in  = saved_player.num_rooms_been_in;
+	player.special_code       = saved_player.special_code;
+	player.next_special_code  = saved_player.next_special_code;
+	player.scaling_velocity   = saved_player.scaling_velocity;
+	player.walker_is_loaded   = saved_player.walker_is_loaded;
+	player.walker_must_reload = saved_player.walker_must_reload;
+	player.walker_loads_first = saved_player.walker_loads_first;
+	player.walk_trigger       = saved_player.walk_trigger;
+	player.enable_at_target   = saved_player.enable_at_target;
 }
 
 } // namespace MADSV2

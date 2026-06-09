@@ -191,6 +191,7 @@ FreescapeEngine::FreescapeEngine(OSystem *syst, const ADGameDescription *gd)
 	_strafeRight = false;
 	_moveUp = false;
 	_moveDown = false;
+	_stereoMode = false;
 	_playerWasCrushed = false;
 	_forceEndGame = false;
 	_syncSound = false;
@@ -503,14 +504,151 @@ void FreescapeEngine::drawBackground() {
 	_gfx->drawBackground(_currentArea->_skyColor);
 }
 
+static bool rayAabbDistance(const Math::Vector3d &origin, const Math::Vector3d &direction, const Math::AABB &aabb, float &distance) {
+	const float originValues[3] = { origin.x(), origin.y(), origin.z() };
+	const float directionValues[3] = { direction.x(), direction.y(), direction.z() };
+	const float minValues[3] = { aabb.getMin().x(), aabb.getMin().y(), aabb.getMin().z() };
+	const float maxValues[3] = { aabb.getMax().x(), aabb.getMax().y(), aabb.getMax().z() };
+	float tMin = 0.0f;
+	float tMax = FLT_MAX;
+
+	for (int i = 0; i < 3; i++) {
+		if (ABS(directionValues[i]) < 0.0001f) {
+			if (originValues[i] < minValues[i] || originValues[i] > maxValues[i])
+				return false;
+			continue;
+		}
+
+		float t1 = (minValues[i] - originValues[i]) / directionValues[i];
+		float t2 = (maxValues[i] - originValues[i]) / directionValues[i];
+		if (t1 > t2)
+			SWAP(t1, t2);
+
+		tMin = MAX(tMin, t1);
+		tMax = MIN(tMax, t2);
+		if (tMin > tMax)
+			return false;
+	}
+
+	if (tMax < 0.0f)
+		return false;
+
+	distance = tMin > 0.0f ? tMin : tMax;
+	return true;
+}
+
+static float getStereoAreaSize(FreescapeEngine *engine) {
+	if (!engine->_currentArea)
+		return engine->_farClipPlane;
+
+	Math::AABB areaBounds;
+	ObjectMap *objectsByID = engine->_currentArea->getObjectsByID();
+	for (auto &it : *objectsByID) {
+		Object *obj = it._value;
+		if (!obj || obj->isDestroyed() || obj->isInvisible() || !obj->isGeometric() || !obj->_boundingBox.isValid())
+			continue;
+
+		areaBounds.expand(obj->_boundingBox.getMin());
+		areaBounds.expand(obj->_boundingBox.getMax());
+	}
+
+	const int areaScale = MAX<int>(engine->_currentArea->getScale(), 1);
+	if (!areaBounds.isValid())
+		return 800.0f / areaScale;
+
+	Math::Vector3d size = areaBounds.getSize();
+	float horizontalSize = MAX(size.x(), size.z());
+	return MAX(horizontalSize, size.length() * 0.5f);
+}
+
+static float getStereoConvergence(FreescapeEngine *engine) {
+	const int areaScale = MAX<int>(engine->_currentArea ? engine->_currentArea->getScale() : 1, 1);
+	float areaSize = getStereoAreaSize(engine);
+
+	return CLIP(areaSize * 0.55f, 120.0f / areaScale, 1200.0f / areaScale);
+}
+
+static float getStereoMaxSeparation(FreescapeEngine *engine, float convergence) {
+	const int areaScale = MAX<int>(engine->_currentArea ? engine->_currentArea->getScale() : 1, 1);
+	float maxSeparation = CLIP(2.0f / areaScale, 0.08f, 1.5f);
+
+	return MIN(maxSeparation, convergence * 0.02f);
+}
+
+static float getStereoForegroundDistance(FreescapeEngine *engine, float convergence) {
+	const int areaScale = MAX<int>(engine->_currentArea ? engine->_currentArea->getScale() : 1, 1);
+	float areaSize = getStereoAreaSize(engine);
+	float foregroundDistance = MIN(convergence * 0.7f, areaSize * 0.25f);
+
+	return CLIP(foregroundDistance, 60.0f / areaScale, 500.0f / areaScale);
+}
+
+static float getStereoViewDistance(FreescapeEngine *engine, float fov, float aspectRatio) {
+	if (!engine->_currentArea)
+		return engine->_farClipPlane;
+
+	float nearest = engine->_farClipPlane;
+	Math::Vector3d front = engine->_cameraFront.getNormalized();
+	Math::Vector3d up = engine->_upVector.getNormalized();
+	Math::Vector3d right = Math::Vector3d::crossProduct(front, up).getNormalized();
+	const float horizontalScale = tan(Math::deg2rad(fov) / 2);
+	const float verticalScale = horizontalScale / aspectRatio;
+	const float samples[][2] = {
+		{ 0.0f, 0.0f },
+		{ -0.75f, 0.0f },
+		{ 0.75f, 0.0f },
+		{ 0.0f, -0.65f },
+		{ 0.0f, 0.65f },
+		{ -0.55f, -0.45f },
+		{ 0.55f, -0.45f },
+		{ -0.55f, 0.45f },
+		{ 0.55f, 0.45f }
+	};
+	ObjectMap *objectsByID = engine->_currentArea->getObjectsByID();
+	for (auto &it : *objectsByID) {
+		Object *obj = it._value;
+		if (!obj || obj->isDestroyed() || obj->isInvisible() || !obj->isGeometric() || !obj->_boundingBox.isValid())
+			continue;
+
+		for (uint i = 0; i < ARRAYSIZE(samples); i++) {
+			Math::Vector3d direction = (front + right * (samples[i][0] * horizontalScale) + up * (samples[i][1] * verticalScale)).getNormalized();
+			float distance = 0.0f;
+			if (rayAabbDistance(engine->_position, direction, obj->_boundingBox, distance))
+				nearest = MIN(nearest, distance);
+		}
+	}
+
+	return MAX(nearest, engine->_nearClipPlane);
+}
+
+static float getStereoSeparation(FreescapeEngine *engine, float fov, float aspectRatio, float convergence, float maxSeparation) {
+	const float maxDisparity = 6.0f;
+	float nearest = getStereoViewDistance(engine, fov, aspectRatio);
+	if (nearest >= convergence)
+		return maxSeparation;
+
+	float focalLength = (engine->_viewArea.width() * 0.5f) / tan(Math::deg2rad(fov) / 2);
+	float denominator = 2.0f * focalLength * (1.0f / nearest - 1.0f / convergence);
+	if (denominator <= 0.0f)
+		return maxSeparation;
+
+	return MIN(maxSeparation, maxDisparity / denominator);
+}
+
 void FreescapeEngine::drawFrame() {
 	_gfx->updateColorCycling();
 	int farClipPlane = _farClipPlane;
 	if (_currentArea->isOutside())
 		farClipPlane *= 100;
 
+	if (_stereoMode) {
+		drawFrameStereo(farClipPlane);
+		return;
+	}
+
+	const float fov = 75.0f;
 	float aspectRatio = isCastle() ? 1.6 : 2.18;
-	_gfx->updateProjectionMatrix(75.0, aspectRatio, _nearClipPlane, farClipPlane);
+	_gfx->updateProjectionMatrix(fov, aspectRatio, _nearClipPlane, farClipPlane);
 	_gfx->positionCamera(_position, _position + _cameraFront, _roll);
 
 	if (_underFireFrames > 0) {
@@ -531,7 +669,7 @@ void FreescapeEngine::drawFrame() {
 
 	drawBackground();
 	if (_avoidRenderingFrames == 0) { // Avoid rendering inside objects
-		_currentArea->draw(_gfx, _ticks / 10, _position, _cameraFront, false);
+		_currentArea->draw(_gfx, _ticks / 10, _position, _cameraFront, false, fov, aspectRatio, _nearClipPlane, farClipPlane);
 		if (_gameStateControl == kFreescapeGameStatePlaying &&
 		    _currentArea->hasActiveGroups() && _ticks % 50 == 0) {
 			executeMovementConditions();
@@ -565,6 +703,94 @@ void FreescapeEngine::drawFrame() {
 		_gfx->setViewport(_viewArea);
 		_shootingFrames--;
 	}
+
+	drawBorder();
+	drawUI();
+}
+
+void FreescapeEngine::drawFrameStereo(int farClipPlane) {
+	const float fov = 75.0f;
+	float aspectRatio = isCastle() ? 1.6 : 2.18;
+	const float stereoConvergence = getStereoConvergence(this);
+	const float stereoMaxSeparation = getStereoMaxSeparation(this, stereoConvergence);
+	const float stereoForegroundDistance = getStereoForegroundDistance(this, stereoConvergence);
+	_gfx->setStereoParameters(getStereoSeparation(this, fov, aspectRatio, stereoConvergence, stereoMaxSeparation), stereoConvergence);
+
+	if (_underFireFrames > 0) {
+		int underFireColor = _currentArea->_underFireBackgroundColor;
+
+		if (isDriller() && (isDOS() || isAmiga() || isAtariST()))
+			underFireColor = 1;
+		else if (isDark() && (isDOS() || isAmiga() || isAtariST())) {
+			if (_renderMode == Common::kRenderCGA)
+				underFireColor = 3;
+			else
+				underFireColor = 4;
+		}
+
+		_currentArea->remapColor(_currentArea->_usualBackgroundColor, underFireColor);
+		_currentArea->remapColor(_currentArea->_skyColor, underFireColor);
+	}
+
+	_gfx->setStereoEye(Renderer::kStereoEyeNone);
+	_gfx->clear(0, 0, 0, true);
+	_gfx->setStereoEye(Renderer::kStereoEyeFlatAnaglyph);
+	_gfx->updateProjectionMatrix(fov, aspectRatio, _nearClipPlane, farClipPlane);
+	_gfx->positionCamera(_position, _position + _cameraFront, _roll);
+
+	drawBackground();
+	if (_avoidRenderingFrames == 0)
+		_currentArea->drawDepthLayer(_gfx, _ticks / 10, _position, _cameraFront, false, Area::kRenderDepthBackground, stereoForegroundDistance, fov, aspectRatio, _nearClipPlane, farClipPlane);
+
+	for (int pass = 0; pass < 2; pass++) {
+		_gfx->setStereoEye(pass == 0 ? Renderer::kStereoEyeLeft : Renderer::kStereoEyeRight);
+		_gfx->updateProjectionMatrix(fov, aspectRatio, _nearClipPlane, farClipPlane);
+		_gfx->positionCamera(_position, _position + _cameraFront, _roll);
+
+		_gfx->clearDepthBuffer();
+
+		if (_avoidRenderingFrames == 0) // Avoid rendering inside objects
+			_currentArea->drawDepthLayer(_gfx, _ticks / 10, _position, _cameraFront, false, Area::kRenderDepthForeground, stereoForegroundDistance, fov, aspectRatio, _nearClipPlane, farClipPlane);
+
+		if (_underFireFrames > 0) {
+			for (auto &it : _sensors) {
+				Sensor *sensor = (Sensor *)it;
+				if (it->isDestroyed() || it->isInvisible())
+					continue;
+				if (isCastle() || sensor->isShooting())
+					drawSensorShoot(sensor);
+			}
+		}
+
+		if (_shootingFrames > 0) {
+			_gfx->setViewport(_fullscreenViewArea);
+			if (isDriller() || isDark())
+				_gfx->renderPlayerShootRay(0, _crossairPosition, _viewArea);
+			else
+				_gfx->renderPlayerShootBall(0, _crossairPosition, _shootingFrames, _viewArea);
+
+			_gfx->setViewport(_viewArea);
+		}
+	}
+	_gfx->setStereoEye(Renderer::kStereoEyeNone);
+
+	if (_avoidRenderingFrames == 0) {
+		if (_gameStateControl == kFreescapeGameStatePlaying &&
+		    _currentArea->hasActiveGroups() && _ticks % 50 == 0)
+			executeMovementConditions();
+	} else
+		_avoidRenderingFrames--;
+
+	if (_underFireFrames > 0) {
+		_underFireFrames--;
+		if (_underFireFrames == 0) {
+			_currentArea->unremapColor(_currentArea->_usualBackgroundColor);
+			_currentArea->unremapColor(_currentArea->_skyColor);
+		}
+	}
+
+	if (_shootingFrames > 0)
+		_shootingFrames--;
 
 	drawBorder();
 	drawUI();
@@ -669,6 +895,14 @@ void FreescapeEngine::processInput() {
 			case kActionToggleClipMode:
 				_noClipMode = !_noClipMode;
 				_flyMode = _noClipMode;
+				break;
+			case kActionToggleStereoscopic:
+				// Limit this to the ZX Spectrum games for now; their restricted
+				// palette survives red/blue channel separation cleanly.
+				if (isSpectrum()) {
+					_stereoMode = !_stereoMode;
+					insertTemporaryMessage(_stereoMode ? "3D ON" : "3D OFF", _countdown - 2);
+				}
 				break;
 			case kActionEscape:
 				drawFrame();
@@ -869,7 +1103,7 @@ Common::Error FreescapeEngine::run() {
 	loadAssets();
 	loadColorPalette();
 
-	g_system->showMouse(false);
+	CursorMan.showMouse(false);
 	g_system->lockMouse(true);
 
 	// Simple main event loop
@@ -886,7 +1120,7 @@ Common::Error FreescapeEngine::run() {
 		loadGameState(saveSlot);
 	}
 
-	g_system->showMouse(false);
+	CursorMan.showMouse(false);
 	g_system->lockMouse(true);
 	resetInput();
 
@@ -938,7 +1172,7 @@ Common::Error FreescapeEngine::run() {
 	}
 
 	_eventManager->clearExitEvents();
-	g_system->showMouse(true);
+	CursorMan.showMouse(true);
 	g_system->lockMouse(false);
 	return Common::kNoError;
 }
@@ -1088,6 +1322,7 @@ void FreescapeEngine::initGameState() {
 
 	_flyMode = false;
 	_noClipMode = false;
+	_hasFallen = false;
 	_playerWasCrushed = false;
 	_shootingFrames = 0;
 	_delayedShootObject = nullptr;
@@ -1199,12 +1434,27 @@ Common::Error FreescapeEngine::loadGameStream(Common::SeekableReadStream *stream
 
 	_flyMode = stream->readByte();
 	_noClipMode = false;
+	// Reset transient "player has fallen" state. Otherwise, having fallen out
+	// of the world before saving (or loading in-game right after a fall)
+	// persists and immediately ends the loaded game. Falling also tilts the
+	// camera (_roll) in some games and that value is not stored in the save,
+	// so reset it as well.
+	_hasFallen = false;
+	_roll = 0;
+	_avoidRenderingFrames = 0;
 	_playerHeightNumber = stream->readSint32LE();
 	_playerStepIndex = stream->readUint32LE();
 	_countdown = stream->readUint32LE();
 	_ticks = 0;
 	if (!_currentArea || _currentArea->getAreaID() != areaID)
 		gotoArea(areaID, -1); // Do not change position nor rotation
+
+	// Refresh the engine-level sensor (turret) cache from the loaded area.
+	// gotoArea() is called here with entranceID -1, which does not run
+	// traverseEntrance() and therefore does not repopulate _sensors, so the
+	// previously visited area's sensors would otherwise leak into the loaded
+	// area at the same room coordinates.
+	_sensors = _currentArea->getSensors();
 
 	if (isDriller() && _playerHeightNumber == -1) {
 		_playerHeight = 2;
@@ -1428,6 +1678,15 @@ void FreescapeEngine::pauseEngineIntern(bool pause) {
 	if (!_shootMode) {
 		_system->lockMouse(!pause);
 	}
+
+	// Drop any stuck key state on resume. A modal dialog (GMM, info menu,
+	// etc.) can swallow the KEYUP for a key that was held when it opened
+	// (typically a modifier like Ctrl on Ctrl+F5). If that happens, the
+	// EventManagerWrapper keeps synthesizing KEYDOWN repeats for the
+	// leaked key, which starves CUSTOM_ENGINE_ACTION_START repeats and
+	// makes movement go single-step until the wrapper state is cleared.
+	if (!pause && _eventManager)
+		_eventManager->purgeKeyboardEvents();
 
 	// We don't know when savedScreen will be used, so we do not deallocate it here
 }

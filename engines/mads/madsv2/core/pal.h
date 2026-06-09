@@ -164,6 +164,14 @@ extern int pal_get_color(RGBcolor color, int color_handle,
 	int override_reserved, int *color_number);
 extern void pal_change_color(int color, int r, int g, int b);
 
+extern void init_pal();
+
+/**
+ * Given a slot and an RGB triple, it either finds an existing palette entry
+ * for that color and claims it for the slot, or allocates a fresh one
+ */
+extern int pal_alloc_color(int slot, int allow_shared, int *out_index, const RGBcolor *color);
+
 } // namespace MADSV2
 } // namespace MADS
 

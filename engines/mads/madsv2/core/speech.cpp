@@ -178,5 +178,17 @@ void global_speech_go(int id) {
 	}
 }
 
+void init_speech() {
+	speech_system_active = false;
+	speech_on = false;
+	Common::strlcpy(global_speech_resource, "*PHAN009.DSR", sizeof(global_speech_resource));
+	global_speech_ready = -1;
+	speech_stream = nullptr;
+}
+
+int speech_status() {
+	return g_engine->isSpeechPlaying() ? 1 : 0;
+}
+
 } // namespace MADSV2
 } // namespace MADS
