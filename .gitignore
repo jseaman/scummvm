@@ -254,6 +254,8 @@ ScummVM.cxxflags
 #Ignore MS Visual C++ temporary files/subdirectories (except create_project.bat)
 dists/msvc/**
 !dists/msvc/create_project.bat
+!dists/msvc/Directory.Build.props
+!dists/msvc/Directory.Build.targets
 
 #Ignore bison debug output
 *.output
